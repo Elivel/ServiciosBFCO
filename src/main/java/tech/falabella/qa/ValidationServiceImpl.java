@@ -1,24 +1,40 @@
 package tech.falabella.qa;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tech.falabella.qa.tuple.Tuple;
+import lombok.Setter;
 
 import java.util.Collection;
-import java.util.List;
 
+@Getter
+@Setter
 @NoArgsConstructor(staticName = "newInstance")
 public class ValidationServiceImpl implements ValidationService {
 
     private ReportPort reportInput;
     private ReportPort reportPersistence;
 
+
     @Override
-    public <T extends Tuple> Collection<T> getInputData() {
-        return reportInput.getData();
+    public void setInputData(ReportPort reportPort) {
+        this.reportInput = reportPort;
     }
 
     @Override
-    public <T extends Tuple> Collection<T> getPersistenceData() {
-        return List.of();
+    public void setPersistenceData(ReportPort reportPort) {
+        this.reportPersistence = reportPort;
+    }
+
+    @Override
+    public Collection processElements() {
+        reportInput.generate();
+        reportPersistence.generate();
+
+        var persistenceData = reportPersistence.getData();
+        var inputData = reportInput.getData();
+
+        return persistenceData.parallelStream()
+                .filter(it -> !inputData.contains(it))
+                .toList();
     }
 }

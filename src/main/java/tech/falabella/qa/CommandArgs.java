@@ -27,8 +27,8 @@ public class CommandArgs {
     @Option(names = {"-U", "--username"}, description = "User name", defaultValue = "sa", fallbackValue = "sa")
     String username;
 
-    @Option(names = {"-P", "--password"}, description = "Passphrase", interactive = true)
-    char[] password;
+    @Option(names = {"-P", "--password"}, description = "Passphrase") // , interactive = true
+    String password;
 
     // others
     @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "false" )

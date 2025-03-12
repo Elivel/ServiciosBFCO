@@ -4,34 +4,11 @@ import tech.falabella.qa.tuple.Tuple;
 
 import java.util.Collection;
 
-public interface ValidationService {
+public interface ValidationService<T extends Tuple> {
 
-    /**
-     * Recupera los datos de entrada (por un CVS o exportando desde SSRS)
-     *
-     * @return Datos tratados y sanitizados
-     */
-    <T extends Tuple> Collection<T> getInputData();
+    void setInputData(ReportPort reportPort);
 
-    /**
-     * Recupera los datos almacenados en la fuente de confianza (por un CSV o consulta a BBDD)
-     *
-     * @return Datos tratados y sanitizados
-     */
-    <T extends Tuple> Collection<T> getPersistenceData();
+    void setPersistenceData(ReportPort reportPort);
 
-    /**
-     * Compara los datos suministrados
-     *
-     * @param inputData
-     * @param persistenceData
-     * @param <T>
-     * @return lista de registros inconsistentes
-     */
-    default <T extends Tuple> Collection<T> processElements(Collection<T> inputData,
-                                                            Collection<T> persistenceData) {
-        return persistenceData.parallelStream()
-                .filter(it -> !inputData.contains(it))
-                .toList();
-    }
+    Collection<T> processElements();
 }
