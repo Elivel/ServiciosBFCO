@@ -32,7 +32,7 @@ public class Application extends CommandArgs implements Callable<Integer> {
                         @FechaTrx = ?
                         
                         -- SELECT 'Return Value' = @return_value
-                        """, Map.of(1, "", 2, "N399300", 3, "", 4, ""),
+                        """, Map.of(1, "", 2, "399300", 3, "", 4, ""),
                 ConsultaCLAITuple.sqlMap);
 
         var reportValidation = ValidationServiceImpl.newInstance();
