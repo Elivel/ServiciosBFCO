@@ -5,7 +5,6 @@ import picocli.CommandLine.Option;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Optional;
 
 @Command(name = "ssrs-validator", mixinStandardHelpOptions = true, version = {
         "ssrs-validator 0.1.0-SNAPSHOT",
@@ -14,30 +13,50 @@ import java.util.Optional;
         description = "valida la generación de reportes en SSRS")
 public class CommandArgs {
 
-    @Option(names = "-D", mapFallbackValue = Option.NULL_VALUE)
-    Map<String, Optional<String>> params;
+    @Option(names = {"-e", "--execute-export-report"}, negatable = true, defaultValue = "false", fallbackValue = "true", description = "Indicates that the report generation process should be run from the reporting service")
+    boolean executeExportReport;
 
-    @Option(names = {"-f", "--file"}, paramLabel = "ARCHIVE", description = "the archive file")
-    File archive;
+    @Option(names = "-D", mapFallbackValue = Option.NULL_VALUE, hideParamSyntax = true, description = "Dynamic parameters for report generation")
+    Map<String, String> params;
+
+    // file
+    @Option(names = {"-f", "--file"}, description = "The archive file")
+    File csvInput;
+
+    @Option(names = {"-s", "--separator"}, description = "The char separator data in CSV file. Default (',')", defaultValue = ",")
+    char separator;
+
+    @Option(names = {"--skip-header"}, description = "Skip first line in CSV file. Default (FALSE)", negatable = true, defaultValue = "false", fallbackValue = "true")
+    boolean skipHeader;
 
     // Database connection
-    @Option(names = {"-u", "--url"}, description = "URL to access database")
+    @Option(names = {"-m", "--mssql-url"}, required = true, description = "URL to access database")
     String mssqlUrl;
 
-    @Option(names = {"-U", "--username"}, description = "User name", defaultValue = "sa", fallbackValue = "sa")
+    @Option(names = {"-U", "--username"}, required = true, description = "User name for database", fallbackValue = "sa")
     String username;
 
-    @Option(names = {"-P", "--password"}, description = "Passphrase") // , interactive = true
+    @Option(names = {"-P", "--password"}, required = true, description = "Passphrase for database")
     String password;
 
+    // Reporting service
+    @Option(names = {"-r", "--ssrs-url"}, description = "URL to access reporting service")
+    String ssrsUrl;
+
+    @Option(names = {"-n", "--report-name"}, required = true, description = "Report name")
+    Report report;
+
     // others
-    @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "false" )
+    @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "true")
     boolean print;
+
+    @Option(names = {"-o", "--output"}, description = "path output")
+    String output;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
     boolean helpRequested = false;
 
-    @Option(names = {"-V", "--version"}, versionHelp = true,
+    @Option(names = {"-v", "--version"}, versionHelp = true,
             description = "print version information")
     boolean versionRequested;
 

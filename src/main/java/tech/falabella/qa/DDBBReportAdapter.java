@@ -1,6 +1,5 @@
 package tech.falabella.qa;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +14,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.function.Function;
 
-
-/**
- * required: java.sql.Connection,java.lang.String,java.util.Map<java.lang.Integer,java.lang.String>,java.util.function.Function<java.sql.ResultSet,T>
- *   found:  java.util.Collection<T>,java.sql.Connection,java.lang.String,java.util.Map<java.lang.Integer,java.lang.String>,java.util.function.Function<java.sql.ResultSet,T>
- *
- * @param <T>
- */
 @Slf4j
 @Getter
 @RequiredArgsConstructor

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 import tech.falabella.qa.tuple.ConsultaCLAITuple;
 
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 @Slf4j
@@ -13,26 +12,24 @@ import java.util.concurrent.Callable;
 public class Application extends CommandArgs implements Callable<Integer> {
 
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new Application()).execute(args);
+        var commandLine = new CommandLine(new Application());
+        commandLine.setCaseInsensitiveEnumValuesAllowed(Boolean.TRUE);
+
+        //var defaultsFile = new File("/Volumes/Datos/workspace/freelance/falabella/sql-server-reporting-automation/src/main/resources/.ssrs-validator.properties");
+        //commandLine.setDefaultValueProvider(new CommandLine.PropertiesDefaultProvider(defaultsFile));
+
+        int exitCode = commandLine.execute(args);
         System.exit(exitCode);
     }
 
     @Override
     public Integer call() throws Exception {
-        final var input = new FileReportAdapter<>(this.archive, ",", ConsultaCLAITuple.csvMap);
-        final var persistence = new DDBBReportAdapter(DDBBReportAdapter.createConnection(this.mssqlUrl, this.username, this.password),
-                """
-                        USE [CONCILIACION]
-                        DECLARE @return_value int
-                        
-                        EXEC @return_value = [dbo].[SP_CONSULTA_CLAI]
-                        @Tarjeta = ?,
-                        @NroAutorizacion = ?,
-                        @NroAutorOriginal = ?,
-                        @FechaTrx = ?
-                        
-                        -- SELECT 'Return Value' = @return_value
-                        """, Map.of(1, "", 2, "399300", 3, "", 4, ""),
+        final var input = (executeExportReport)
+                ? new SSRSReportAdapter<>(this.ssrsUrl, this.report.getRealName(), this.report.getTmpFile(), this.params, ConsultaCLAITuple.csvMap)
+                : new FileReportAdapter<>(this.csvInput, this.separator, this.skipHeader, ConsultaCLAITuple.csvMap);
+
+        final var persistence = new DDBBReportAdapter<>(DDBBReportAdapter.createConnection(this.mssqlUrl, this.username, this.password),
+                this.report.getQuery(), this.report.validateAndGet(this.params),
                 ConsultaCLAITuple.sqlMap);
 
         var reportValidation = ValidationServiceImpl.newInstance();
@@ -42,9 +39,7 @@ public class Application extends CommandArgs implements Callable<Integer> {
         final var result = reportValidation.processElements();
 
         if (print) {
-            result.forEach(e -> {
-                System.out.println(e);
-            });
+            result.forEach(e -> log.info(e.toString()));
         }
 
         return 0;

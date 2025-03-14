@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <picocli.version>4.7.6</picocli.version>
+        <opencsv.version>5.10</opencsv.version>
 
         <jakarta.persistence-api.version>3.2.0</jakarta.persistence-api.version>
         <mssql-jdbc.version>12.8.1.jre11</mssql-jdbc.version>
@@ -24,10 +25,6 @@
 
         <junit.version>5.12.0</junit.version>
         <cucumber.version>7.21.1</cucumber.version>
-        <!--
-        <opencsv.version>5.10</opencsv.version>
-        <flink-core.version>1.20.1</flink-core.version>
-        -->
     </properties>
 
     <dependencies>
@@ -37,20 +34,13 @@
             <artifactId>picocli</artifactId>
             <version>${picocli.version}</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-core</artifactId>
-            <version>${flink-core.version}</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>${opencsv.version}</version>
         </dependency>
--->
+
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
