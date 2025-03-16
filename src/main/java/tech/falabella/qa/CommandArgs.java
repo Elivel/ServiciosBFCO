@@ -13,8 +13,8 @@ import java.util.Map;
         description = "valida la generación de reportes en SSRS")
 public class CommandArgs {
 
-    @Option(names = {"-e", "--execute-export-report"}, negatable = true, defaultValue = "false", fallbackValue = "true", description = "Indicates that the report generation process should be run from the reporting service")
-    boolean executeExportReport;
+    @Option(names = {"-n", "--report-name"}, required = true, description = "Report name")
+    Report report;
 
     @Option(names = "-D", mapFallbackValue = Option.NULL_VALUE, hideParamSyntax = true, description = "Dynamic parameters for report generation")
     Map<String, String> params;
@@ -24,7 +24,7 @@ public class CommandArgs {
     File csvInput;
 
     @Option(names = {"-s", "--separator"}, description = "The char separator data in CSV file. Default (',')", defaultValue = ",")
-    char separator;
+    Separator separator;
 
     @Option(names = {"--skip-header"}, description = "Skip first line in CSV file. Default (FALSE)", negatable = true, defaultValue = "false", fallbackValue = "true")
     boolean skipHeader;
@@ -43,14 +43,17 @@ public class CommandArgs {
     @Option(names = {"-r", "--ssrs-url"}, description = "URL to access reporting service")
     String ssrsUrl;
 
-    @Option(names = {"-n", "--report-name"}, required = true, description = "Report name")
-    Report report;
+    @Option(names = {"-e", "--execute-export-report"}, negatable = true, defaultValue = "false", fallbackValue = "true", description = "Indicates that the report generation process should be run from the reporting service")
+    boolean executeExportReport;
+
+    @Option(names = {"-x", "--out-path-export"}, description = "Path export file")
+    String outPath;
 
     // others
     @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "true")
     boolean print;
 
-    @Option(names = {"-o", "--output"}, description = "path output")
+    @Option(names = {"-o", "--output"}, description = "path output result")
     String output;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")

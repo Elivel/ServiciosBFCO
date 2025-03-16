@@ -24,8 +24,8 @@ public class SSRSReportAdapter<T extends Tuple> implements ReportPort {
 
     private Collection<T> data;
 
-    private final char separator = ',';
-    private final boolean skipHeader = true;
+    private final char separator;
+    private final boolean skipHeader;
 
     private final String ssrsUrl;
     private final String reportName;
@@ -43,7 +43,10 @@ public class SSRSReportAdapter<T extends Tuple> implements ReportPort {
 
         // generate CSV
         try {
-            Runtime.getRuntime().exec(new String[]{"Invoke-WebRequest", "-Uri", uri, "-UseDefaultCredentials", "-UseBasicParsing"});
+            var processBuilder = new ProcessBuilder();
+            processBuilder.command("sh", "Invoke-WebRequest", "-Uri", uri, "-UseDefaultCredentials", "-UseBasicParsing");
+            var process = processBuilder.start();
+            log.info("Generate CSV status: {}",process.waitFor());
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
         }

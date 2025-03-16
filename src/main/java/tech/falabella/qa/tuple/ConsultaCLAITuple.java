@@ -1,5 +1,9 @@
 package tech.falabella.qa.tuple;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import lombok.*;
 
 import java.sql.ResultSet;
@@ -93,4 +97,11 @@ public class ConsultaCLAITuple extends Tuple {
                     .comercio(result[21])
                     .build();
 
+
+    @Override
+    protected JsonObject getId() {
+        var ids = new JsonObject();
+        ids.add("numero-autorizacion", new JsonPrimitive(numeroAutorizacion));
+        return ids;
+    }
 }

@@ -41,7 +41,7 @@ public enum Report {
                 """;
     }
 
-    public String getTmpFile() {
-        return "/tmp"+this.name()+".csv";
+    public String getTmpFile(String outPath) {
+        return outPath+"consultaCLAI.csv";
     }
 }

@@ -3,6 +3,7 @@ package tech.falabella.qa;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tech.falabella.qa.tuple.Tuple;
 
 import java.util.Collection;
 
@@ -26,7 +27,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public Collection processElements() {
+    public Collection<? extends Tuple> processElements() {
         reportInput.generate();
         reportPersistence.generate();
 

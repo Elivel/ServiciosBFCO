@@ -14,14 +14,25 @@ class ApplicationTest {
     }
 
     @Test
-    void printAndComparativeTuple() {
+    void printAsJsonAndComparativeTuple() {
         Tuple tuple0 = ConsultaCLAITuple.builder().validacion("CORRECTO").numeroAutorizacion("123456").build();
-        Tuple tuple1 = ConsultaCLAITuple.builder().numeroAutorizacion("123456").validacion("INCORRECTO").build();
+        Tuple tuple1 = ConsultaCLAITuple.builder().numeroAutorizacion("123456").validacion("CORRECTO").build();
+
         System.out.println(tuple0);
         System.out.println(tuple1);
         System.out.println(tuple0.equals(tuple1));
 
         assertEquals(tuple0, tuple1);
+    }
+
+    @Test
+    void printDiffTwoTuples() {
+        Tuple tuple0 = ConsultaCLAITuple.builder().validacion("CORRECTO").numeroAutorizacion("123456").build();
+        Tuple tuple1 = ConsultaCLAITuple.builder().numeroAutorizacion("123456").validacion("INCORRECTO").build();
+
+        var diff = tuple0.diff(tuple1);
+
+        assertEquals("{\"id\":{\"numero-autorizacion\":\"123456\"},\"expected\":\"{\\\"validacion\\\":\\\"CORRECTO\\\",\\\"numeroAutorizacion\\\":\\\"123456\\\"}\",\"actual\":\"{\\\"validacion\\\":\\\"INCORRECTO\\\",\\\"numeroAutorizacion\\\":\\\"123456\\\"}\"}", diff);
     }
 
 }
