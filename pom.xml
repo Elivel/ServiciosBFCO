@@ -28,6 +28,9 @@
         <opencsv.version>5.10</opencsv.version>
         <flink-core.version>1.20.1</flink-core.version>
         -->
+        <!-- Define las versiones de JUnit y Cucumber -->
+        <junit.version>5.12.0</junit.version>
+        <cucumber.version>7.21.1</cucumber.version>
     </properties>
 
     <dependencies>
@@ -111,7 +114,28 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>6.10.4</version>
+            <scope>test</scope>
+        </dependency>
 
+        <!-- Cucumber JUnit Dependency -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>${cucumber.version}}</version>
+            <scope>test</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- Selenium WebDriver Dependency -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.4.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
