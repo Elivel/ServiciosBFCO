@@ -1,4 +1,4 @@
-package tech.falabella.qa;
+package tech.falabella.qa.adapter;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -7,7 +7,7 @@ import com.opencsv.CSVReaderBuilder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import tech.falabella.qa.tuple.Tuple;
+import tech.falabella.qa.report.Tuple;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -22,16 +22,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SSRSReportAdapter<T extends Tuple> implements ReportPort {
 
-    private Collection<T> data;
-
     private final char separator;
     private final boolean skipHeader;
-
     private final String ssrsUrl;
     private final String reportName;
     private final String outPath;
     private final Map<String, String> parameters;
     private final Function<String[], T> aMapFun;
+    private Collection<T> data;
 
     @Override
     public void generate() {
@@ -44,9 +42,9 @@ public class SSRSReportAdapter<T extends Tuple> implements ReportPort {
         // generate CSV
         try {
             var processBuilder = new ProcessBuilder();
-            processBuilder.command("sh", "Invoke-WebRequest", "-Uri", uri, "-UseDefaultCredentials", "-UseBasicParsing");
+            processBuilder.command("sh", "Invoke-WebRequest", "-Uri", uri, "-OutFile", outPath, "-UseDefaultCredentials", "-UseBasicParsing");
             var process = processBuilder.start();
-            log.info("Generate CSV status: {}",process.waitFor());
+            log.info("Generate CSV status: {}", process.waitFor());
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
         }

@@ -2,6 +2,8 @@ package tech.falabella.qa;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import tech.falabella.qa.dto.Report;
+import tech.falabella.qa.dto.Separator;
 
 import java.io.File;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class CommandArgs {
     @Option(names = {"-f", "--file"}, description = "The archive file")
     File csvInput;
 
-    @Option(names = {"-s", "--separator"}, description = "The char separator data in CSV file. Default (',')", defaultValue = ",")
+    @Option(names = {"-s", "--separator"}, description = "The char separator data in CSV file. Default (',')", defaultValue = "comma")
     Separator separator;
 
     @Option(names = {"--skip-header"}, description = "Skip first line in CSV file. Default (FALSE)", negatable = true, defaultValue = "false", fallbackValue = "true")
@@ -46,7 +48,7 @@ public class CommandArgs {
     @Option(names = {"-e", "--execute-export-report"}, negatable = true, defaultValue = "false", fallbackValue = "true", description = "Indicates that the report generation process should be run from the reporting service")
     boolean executeExportReport;
 
-    @Option(names = {"-x", "--out-path-export"}, description = "Path export file")
+    @Option(names = {"-x", "--out-file-export"}, description = "output export file")
     String outPath;
 
     // others

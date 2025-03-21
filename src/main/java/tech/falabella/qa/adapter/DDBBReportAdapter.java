@@ -1,9 +1,9 @@
-package tech.falabella.qa;
+package tech.falabella.qa.adapter;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import tech.falabella.qa.tuple.Tuple;
+import tech.falabella.qa.report.Tuple;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,12 +19,17 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class DDBBReportAdapter<T extends Tuple> implements ReportPort {
 
-    private transient Collection<T> data;
-
     private final Connection connection;
     private final String query;
     private final Map<Integer, String> parameters;
     private final Function<ResultSet, T> aMapFun;
+    private transient Collection<T> data;
+
+    public static Connection createConnection(String url, String username, String password) throws ClassNotFoundException, SQLException {
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+        return DriverManager.getConnection(url, username, password);
+    }
 
     @Override
     public void generate() {
@@ -45,11 +50,5 @@ public class DDBBReportAdapter<T extends Tuple> implements ReportPort {
         } catch (SQLException exception) {
             log.error(exception.getMessage(), exception);
         }
-    }
-
-    public static Connection createConnection(String url, String username, String password) throws ClassNotFoundException, SQLException {
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-        return DriverManager.getConnection(url, username, password);
     }
 }

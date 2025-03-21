@@ -3,22 +3,25 @@ package tech.falabella.qa;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
-import tech.falabella.qa.tuple.ConsultaCLAITuple;
-import tech.falabella.qa.tuple.Tuple;
+import tech.falabella.qa.adapter.DDBBReportAdapter;
+import tech.falabella.qa.adapter.FileReportAdapter;
+import tech.falabella.qa.adapter.SSRSReportAdapter;
+import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.service.ValidationServiceImpl;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 @Slf4j
 @NoArgsConstructor
 public class Application extends CommandArgs implements Callable<Integer> {
 
     public static void main(String[] args) {
+
         var commandLine = new CommandLine(new Application());
         commandLine.setCaseInsensitiveEnumValuesAllowed(Boolean.TRUE);
-
-        //var defaultsFile = new File("/Volumes/Datos/workspace/freelance/falabella/sql-server-reporting-automation/src/main/resources/.ssrs-validator.properties");
-        //commandLine.setDefaultValueProvider(new CommandLine.PropertiesDefaultProvider(defaultsFile));
 
         int exitCode = commandLine.execute(args);
         System.exit(exitCode);
@@ -26,13 +29,15 @@ public class Application extends CommandArgs implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        var reportConfig = this.report.config.get();
+
         final var input = (executeExportReport)
-                ? new SSRSReportAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, this.report.getRealName(), this.report.getTmpFile(this.outPath), this.params, ConsultaCLAITuple.csvMap)
-                : new FileReportAdapter<>(this.csvInput, this.separator.value, this.skipHeader, ConsultaCLAITuple.csvMap);
+                ? new SSRSReportAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, reportConfig.getRoute(), this.outPath, this.params, reportConfig::csvMap)
+                : new FileReportAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig::csvMap);
 
         final var persistence = new DDBBReportAdapter<>(DDBBReportAdapter.createConnection(this.mssqlUrl, this.username, this.password),
-                this.report.getQuery(), this.report.validateAndGet(this.params),
-                ConsultaCLAITuple.sqlMap);
+                reportConfig.getQuery(), reportConfig.validateAndGet(this.params),
+                reportConfig::sqlMap);
 
         var reportValidation = ValidationServiceImpl.newInstance();
         reportValidation.setInputData(input);
@@ -49,20 +54,32 @@ public class Application extends CommandArgs implements Callable<Integer> {
 
     private <T extends Tuple> void printResultInConsole(Collection<T> result) {
         var header = """
-                Área:                   BFCO Cluster Proyectos Corporativos - Quality Assurance
-                Nombre del Analista:    Johan Stid Melgarejo Gómez
-                Caso de Prueba:         BFCOGP-4144 - [CP006]-[BFCOGP-3696] - Carpeta: Conciliacion Liquidacion - Validación del reporte CONSULTA_CLAI
-                Certificación:          HU: [BFCOGP-3696] - Migración reportes de Conciliación
-                Datos De Prueba:        NroAutorizacion: 399300
-                Fecha de Ejecución:     07/11/2024
-                Ciclo de Pruebas:       01
-                Plataforma:
-                    SQL Server Reporting Services: http://f8sc00008/Reports/browse/
-                    Local file:         /Desktop/consultaCLAI2.csv
-                Precondición:           Tablas pobladas
-                Estado de la Prueba:    Exitoso
-        """;
-        log.info("\n"+header);
+                        Área:                   BFCO Cluster Proyectos Corporativos - Quality Assurance
+                        Nombre del Analista:    %s
+                        Caso de Prueba:         %s
+                        Certificación:          Migración reportes de Conciliación
+                        Datos De Prueba:        %s
+                        Fecha de Ejecución:     %td/%<tm/%<tY
+                        Ciclo de Pruebas:       01
+                        Plataforma:
+                            %s
+                        Precondición:           Tablas pobladas
+                        Estado de la Prueba:    %s
+                """.formatted(
+                System.getProperty("user.name"),
+                this.report.name(),
+                this.params.entrySet().stream()
+                        .filter(it -> !it.getValue().isBlank())
+                        .map(it -> it.getKey().concat(": ").concat(it.getValue()))
+                        .collect(Collectors.joining(", ")),
+                LocalDate.now(),
+                this.executeExportReport
+                        ? "SQL Server Reporting Services: ".concat(this.ssrsUrl)
+                        : "Local file: ".concat(this.csvInput.getPath()),
+                result.isEmpty() ? "Exitoso" : "Fallido"
+        );
+
+        log.info("\n".concat(header));
         result.forEach(e -> log.info(e.toString()));
     }
 

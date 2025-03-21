@@ -1,4 +1,4 @@
-package tech.falabella.qa;
+package tech.falabella.qa.adapter;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -7,7 +7,7 @@ import com.opencsv.CSVReaderBuilder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import tech.falabella.qa.tuple.Tuple;
+import tech.falabella.qa.report.Tuple;
 
 import java.io.File;
 import java.io.Reader;
@@ -20,18 +20,18 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class FileReportAdapter<T extends Tuple> implements ReportPort {
 
-    private Collection<T> data;
-
     private final File path;
     private final char separator;
     private final boolean skipHeader;
     private final Function<String[], T> aMapFun;
+    private Collection<T> data;
 
     @Override
     public void generate() {
         CSVParser parser = new CSVParserBuilder()
                 .withSeparator(separator)
-                .withIgnoreQuotations(true)
+                .withIgnoreQuotations(false)
+                .withQuoteChar('"')
                 .build();
 
         try (Reader reader = Files.newBufferedReader(path.toPath());

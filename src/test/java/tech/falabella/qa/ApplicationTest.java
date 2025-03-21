@@ -1,8 +1,8 @@
 package tech.falabella.qa;
 
 import org.junit.jupiter.api.Test;
-import tech.falabella.qa.tuple.ConsultaCLAITuple;
-import tech.falabella.qa.tuple.Tuple;
+import tech.falabella.qa.report.consulta_clai.ConsultaCLAITuple;
+import tech.falabella.qa.report.Tuple;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,8 +27,8 @@ class ApplicationTest {
 
     @Test
     void printDiffTwoTuples() {
-        Tuple tuple0 = ConsultaCLAITuple.builder().validacion("CORRECTO").numeroAutorizacion("123456").build();
-        Tuple tuple1 = ConsultaCLAITuple.builder().numeroAutorizacion("123456").validacion("INCORRECTO").build();
+        Tuple tuple0 = ConsultaCLAITuple.builder().validacion("CORRECTO").numeroAutorizacion("123456").tarjeta("1234").cuenta("*1234").build();
+        Tuple tuple1 = ConsultaCLAITuple.builder().validacion("INCORRECTO").numeroAutorizacion("123456").tarjeta("1234").cuenta("*1234").build();
 
         var diff = tuple0.diff(tuple1);
 

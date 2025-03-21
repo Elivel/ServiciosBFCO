@@ -1,6 +1,7 @@
-package tech.falabella.qa;
+package tech.falabella.qa.service;
 
-import tech.falabella.qa.tuple.Tuple;
+import tech.falabella.qa.adapter.ReportPort;
+import tech.falabella.qa.report.Tuple;
 
 import java.util.Collection;
 

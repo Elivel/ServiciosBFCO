@@ -1,4 +1,4 @@
-package tech.falabella.qa;
+package tech.falabella.qa.dto;
 
 import lombok.AllArgsConstructor;
 
@@ -6,5 +6,5 @@ import lombok.AllArgsConstructor;
 public enum Separator {
     COMMA(','), SEMICOLON(';'), TABULATOR('\t');
 
-    public char value;
+    public final char value;
 }
