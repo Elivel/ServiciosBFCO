@@ -17,7 +17,7 @@ public class ConsultaClaiSteps {
     // Inicializar WebDriver antes de cada escenario
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:Users/elvelasquezl/Downloads/chrome-win64/chrome.exe");  // Ruta correcta del chromedriver
+        System.setProperty("webdriver.chrome.driver", "C:\\Automatización\\ServiciosBFCO\\ServiciosBFCO\\src\\test\\resources\\drivers\\chrome.exe");  // Ruta correcta del chromedriver
         driver = new ChromeDriver();  // Inicializar el driver
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
