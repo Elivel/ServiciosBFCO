@@ -10,10 +10,11 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public enum Report {
-    CONSULTA_CLAI(ConsultaCLAIConfig::newInstance),
-    DETALLADO_EVENTO_MCCA(DetalladoEventoMCCAConfig::newInstance),
-    CLEARING_PMD(ClearingPMDConfig::newInstance);
+    CONSULTA_CLAI(ConsultaCLAIConfig::newInstance, Boolean.TRUE),
+    DETALLADO_EVENTO_MCCA(DetalladoEventoMCCAConfig::newInstance, Boolean.TRUE),
+    CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.FALSE);
 
     public final Supplier<? extends ReportConfig> config;
+    public final boolean enabled;
 
 }

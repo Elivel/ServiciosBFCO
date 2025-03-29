@@ -1,0 +1,48 @@
+{
+  "config": {
+    "execute-export-report": false,
+    "output-path-result": "/out/",
+    "input-path-data": "/input/",
+    "mssql": {
+      "url": "jdbc:sqlserver://localhost;encrypt=false;database=master;integratedSecurity=false;",
+      "username": "sa",
+      "password": "yourStrong#Password"
+    },
+    "ssrs": {
+      "url": "localhost",
+      "out-path-export": "/input/"
+    },
+    "file": {
+      "separator": "comma",
+      "skip-header": true
+    }
+  },
+  "reports": [
+    {
+      "name": "CONSULTA_CLAI",
+      "parameters": {
+        "Tarjeta": "",
+        "NroAutorizacion": "",
+        "NroAutorOriginal": "",
+        "FechaTrx": ""
+      },
+      "file": "input.CONSULTA_CLAI.cvs"
+    },
+    {
+      "name": "DETALLADO_EVENTO_MCCA",
+      "parameters": {
+        "fecha": "",
+        "type": ""
+      },
+      "file": "input.DETALLADO_EVENTO_MCCA.cvs"
+    },
+    {
+      "name": "CLEARING_PMD",
+      "parameters": {
+        "fecha": ""
+      },
+      "file": "input.CLEARING_PMD.cvs"
+    }
+
+  ]
+}

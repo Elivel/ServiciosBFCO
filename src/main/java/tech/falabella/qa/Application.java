@@ -6,6 +6,7 @@ import picocli.CommandLine;
 import tech.falabella.qa.adapter.DDBBReportAdapter;
 import tech.falabella.qa.adapter.FileReportAdapter;
 import tech.falabella.qa.adapter.SSRSReportAdapter;
+import tech.falabella.qa.exception.DisabledReportException;
 import tech.falabella.qa.report.Tuple;
 import tech.falabella.qa.service.ValidationServiceImpl;
 
@@ -29,6 +30,9 @@ public class Application extends CommandArgs implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        if (!this.report.enabled)
+            throw new DisabledReportException(this.report.name());
+
         var reportConfig = this.report.config.get();
 
         final var input = (executeExportReport)
