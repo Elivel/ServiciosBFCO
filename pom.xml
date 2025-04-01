@@ -40,20 +40,20 @@
             <artifactId>picocli</artifactId>
             <version>${picocli.version}</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-core</artifactId>
-            <version>${flink-core.version}</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--
+                <dependency>
+                    <groupId>org.apache.flink</groupId>
+                    <artifactId>flink-core</artifactId>
+                    <version>${flink-core.version}</version>
+                    <scope>provided</scope>
+                </dependency>
 
-        <dependency>
-            <groupId>com.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>${opencsv.version}</version>
-        </dependency>
--->
+                <dependency>
+                    <groupId>com.opencsv</groupId>
+                    <artifactId>opencsv</artifactId>
+                    <version>${opencsv.version}</version>
+                </dependency>
+        -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
@@ -101,12 +101,32 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
+                <dependency>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-junit</artifactId>
+                    <version>${cucumber.version}</version>
+                </dependency>
+        <!-- Cucumber JUnit Dependency -->
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
+            <artifactId>cucumber-spring</artifactId>
             <version>${cucumber.version}</version>
+            <scope>test</scope>
+            <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>7.0.0-M3</version> <!-- Usa la versión que necesites -->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>6.2.5</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
@@ -116,7 +136,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>6.10.4</version>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
 

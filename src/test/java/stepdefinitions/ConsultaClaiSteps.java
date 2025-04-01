@@ -1,8 +1,13 @@
 package stepdefinitions;
+import io.cucumber.java.After;
 import io.cucumber.java.en.*;
+import io.cucumber.java.Before;
 import org.openqa.selenium.*;
 import java.io.File;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,20 +15,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.junit.Assert.assertTrue;
 
 public class ConsultaClaiSteps {
-
-    WebDriver driver;
-
+   WebDriver driver;
+    @Before
+    public void setUp() {
+      //  System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);// or any other browser driver you're using
+    }
     // Paso 1: El usuario accede a la página de login
     @Given("the user accesses the login page")
-    public void the_user_accesses_the_login_page() {
-            driver.get("http://f8sc00008/Reports/");  // URL de la página de login
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);  // Espera implícita para cargar los elementos
+    public void the_user_accesses_the_login_page() throws InterruptedException {
+        driver.get("http://f8sc00008/Reports");
+        Thread.sleep(5000);
         }
-
-     //   driver.get("http://f8sc00008/Reports/");  // URL de la página de login
-   //     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);  // Espera implícita para cargar los elementos
-
 
     // Paso 2: El usuario ingresa el nombre de usuario y la contraseña
     @And("enters the username {string} and the password {string}")
@@ -84,7 +89,13 @@ public class ConsultaClaiSteps {
         //assert downloadedFile.exists();  // Asegúrate de que el archivo se haya descargado
         assertTrue(downloadedFile.exists());  // Asegúrate de que el archivo haya sido descargado
     }
-
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();  // Close the browser window
+        }
     }
+}
+
 
 
