@@ -23,8 +23,11 @@ public class PageFeatures {
     }
 
     public static void pagesetParameter(String parameterName, String parameterValue) {
-        WebElement propetiers = driver.findElement(By.cssSelector("data-parametername"));
-        log.info("pageSetParameter: {}", propetiers.toString());
+        WebElement container = driver.findElement(By.cssSelector("[data-parametername='"+parameterName+"']"));
+        log.info("pageSetParameter: {}", container.toString());
+        WebElement input = container.findElement(By.tagName("input"));
+        input.clear();
+        input.sendKeys(parameterValue);
     }
 
     public static void pageReportDesktop() {
