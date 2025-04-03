@@ -1,19 +1,19 @@
 package stepdefinitions;
 
 import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.BeforeAll;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
+import java.time.Instant;
 
 public class PageTest {
     private static WebDriver driver;
@@ -32,7 +32,7 @@ public class PageTest {
     }
     @BeforeAll
     public static void pageReportes()throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://f8sc00008/Reports");
         Thread.sleep(10000);
@@ -53,20 +53,48 @@ public class PageTest {
         WebElement reportconsultacali = driver.findElement(By.xpath("//*[@id=\"main\"]/div/div/section[2]/tiles-view/section/div/div/div/ul/li[25]/report-tile/rs-tile/a[1]")); //reporte
         reportconsultacali.click();
         Thread.sleep(5000);
-        WebElement inputNroAutorizacion = driver.findElement(By.name("ReportViewerControl$ctl04$ctl05$txtValue"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement nroAutorizacionInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nroAutorizacion")));
+        nroAutorizacionInput.click();
+        nroAutorizacionInput.clear();
+        nroAutorizacionInput.sendKeys("399300");
+        nroAutorizacionInput.submit();
 
-        if (inputNroAutorizacion.isEnabled()) {
-            inputNroAutorizacion.click();
-            inputNroAutorizacion.sendKeys("399300");
-        } else {
-            System.out.println("El campo de entrada está deshabilitado.");
-        }
 
     }
+    @AfterAll
     public static void mastercardReport() throws InterruptedException {
         WebElement mastercard = driver.findElement(By.linkText("Mastercard")); //primera carpeta
         mastercard.click();
         Thread.sleep(3000);
+
+    }
+    @AfterAll
+    public static void clearingReport() throws InterruptedException {
+        WebElement detalladoEvento = driver.findElement(By.linkText("Daily operation"));
+        detalladoEvento.click();
+        Thread.sleep(2000);
+        WebElement reportClearingPMD = driver.findElement(By.linkText("CLEARING (PMD)"));
+        reportClearingPMD.click();
+        //no encuentra el elemento
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement fecha = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label/span[text()='Fecha Proceso']")));
+       // WebElement fecha = driver.findElement(By.xpath("//label/span[text()='Fecha Proceso']"));
+        fecha.click();
+        fecha.clear();
+
+    }
+    @AfterAll
+    public static void detalladoMCCAReport() throws InterruptedException {
+        WebElement  Billing = driver.findElement(By.linkText("Billing")); //primera carpeta
+        Billing.click();
+        Thread.sleep(5000);
+        WebElement detalladoEvento = driver.findElement(By.linkText("DETALLADO POR EVENTO MCCA")); //primera carpeta
+        detalladoEvento.click();
+        Thread.sleep(3000);
+        WebElement selectElement = driver.findElement(By.id("ReportViewerControl_ctl04_ctl05_ddValue"));
+        Select select = new Select(selectElement);
+        select.selectByIndex(6);
 
     }
 }
