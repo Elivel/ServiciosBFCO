@@ -2,42 +2,32 @@ package stepdefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
+import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
-import org.junit.jupiter.api.*;
-import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.time.Duration;
-import java.time.Instant;
 
-public class PageTest {
+import static org.junit.Assert.assertTrue;
+
+public class PageFeatures {
     private static WebDriver driver;
 
-    public static void google () throws InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.bing.com/");
-        Thread.sleep(5000);
-        PageTest.google();
-        WebElement searchBox = driver.findElement(By.name("q"));
-        searchBox.sendKeys("ChromeDriver");
-        searchBox.submit();
-        Thread.sleep(5000);  // Let the user actually see something!
-        driver.quit();
-
-    }
-    @BeforeAll
+    @Before
     public static void pageReportes()throws InterruptedException {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://f8sc00008/Reports");
-        Thread.sleep(10000);
+        //Thread.sleep(1000);
     }
-    @After
     public static void pageConsultaClai()throws InterruptedException{
         WebElement carpconciliacion = driver.findElement(By.linkText("Conciliacion_Liquidacion")); //primera carpeta
         carpconciliacion.click();
@@ -53,7 +43,7 @@ public class PageTest {
         WebElement reportconsultacali = driver.findElement(By.xpath("//*[@id=\"main\"]/div/div/section[2]/tiles-view/section/div/div/div/ul/li[25]/report-tile/rs-tile/a[1]")); //reporte
         reportconsultacali.click();
         Thread.sleep(5000);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement nroAutorizacionInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.id("ReportViewerControl_ctl04_ctl05_txtValue")));
         //WebElement nroAutorizacionInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nroAutorizacion")));
@@ -64,14 +54,30 @@ public class PageTest {
 
 
     }
-    @AfterAll
-    public static void mastercardReport() throws InterruptedException {
-        WebElement mastercard = driver.findElement(By.linkText("Mastercard")); //primera carpeta
-        mastercard.click();
+    public static void pagesetParameter(String parameterName, String parameterValue){
+    WebElement propetiers = driver.findElement(By.cssSelector("data-parametername"));
+        System.out.printf(propetiers.toString());
+    }
+    public static void pageDescargaReport(){
+        WebElement btnGuardar = driver.findElement (By.id("ReportViewerControl_ctl05_ctl04_ctl00_ButtonImg"));
+        btnGuardar.click();
+        WebElement menuDesplegable = driver.findElement(By.className("MenuBarBkGnd"));
+        Select select = new Select (menuDesplegable);
+        select.selectByVisibleText("CSV (delimitado por comas)");
+    }
+    public static void pageReportDesktop (){
+        // Validación de la descarga (esto puede variar según la configuración de tu navegador)
+        File downloadedFile = new File("C:/Downloads/CONSULTA_CLAI.csv");  // Verifica la carpeta de descargas
+        //assert downloadedFile.exists();  // Asegúrate de que el archivo se haya descargado
+        assertTrue(downloadedFile.exists());  // Asegúrate de que el archivo haya sido descargado
+    }
+
+    public static void pagedirectoris(String directoryName) throws InterruptedException {
+        WebElement pagedirectoris = driver.findElement(By.linkText(directoryName)); //primera carpeta
+        pagedirectoris.click();
         Thread.sleep(3000);
 
     }
-    @AfterAll
     public static void clearingReport() throws InterruptedException {
         WebElement detalladoEvento = driver.findElement(By.linkText("Daily operation"));
         detalladoEvento.click();
@@ -84,9 +90,7 @@ public class PageTest {
        // WebElement fecha = driver.findElement(By.xpath("//label/span[text()='Fecha Proceso']"));
         fecha.click();
         fecha.clear();
-
     }
-    @AfterAll
     public static void detalladoMCCAReport() throws InterruptedException {
         WebElement  Billing = driver.findElement(By.linkText("Billing")); //primera carpeta
         Billing.click();
@@ -105,7 +109,6 @@ public class PageTest {
         //WebElement loginPopup = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Nombre de usuario')]"))); // Esperamos hasta que el texto "Nombre de usuario" esté visible
         WebElement usernameField = driver.findElement(By.xpath("//label[contains(text(),'Nombre de usuario')]/following-sibling::input"));
         WebElement passwordField = driver.findElement(By.xpath("//label[contains(text(),'Contraseña')]/following-sibling::input"));
-
         usernameField.sendKeys("elvelasquezl@bancofalabella.com.co");
         passwordField.sendKeys("Colombia2024@2025.");
         WebElement loginButton = driver.findElement(By.xpath("//button[contains(text(),'Acceder')]"));
