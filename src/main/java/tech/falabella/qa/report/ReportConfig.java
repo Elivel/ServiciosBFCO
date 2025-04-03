@@ -3,10 +3,11 @@ package tech.falabella.qa.report;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public interface ReportConfig<T extends Tuple> {
 
-    Map<String, Integer> getParameters();
+    Parameters getParameters();
 
     String getRoute();
 
@@ -19,8 +20,14 @@ public interface ReportConfig<T extends Tuple> {
     default Map<Integer, String> validateAndGet(Map<String, String> dValues) {
         var result = new HashMap<Integer, String>();
 
-        getParameters().forEach((paramName, paramIndex) ->
-                result.put(paramIndex, dValues.get(paramName)));
+        getParameters().forEach((name, value) -> {
+            var aValueByParamName = Optional
+                    .ofNullable(dValues.get(name))
+                    .map(it -> value.action.apply(it))
+                    .orElse(value.defaultValue);
+
+            result.put(value.position, aValueByParamName);
+        });
 
         return result;
     }

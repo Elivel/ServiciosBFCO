@@ -3,6 +3,7 @@ package tech.falabella.qa.report.clearing_pmd;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
+import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
 
 import java.sql.ResultSet;
@@ -13,7 +14,9 @@ import java.util.Map;
 @NoArgsConstructor(staticName = "newInstance")
 public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
 
-    private final Map<String, Integer> parameters = Map.of("Fecha", 1);
+    private final Parameters parameters = Parameters.of(Map.of(
+            "Fecha", Parameters.Value.of(1)
+    ));
 
     private final String route = "Mastercard/Daily%20operation/CLEARING%20(PMD)";
 

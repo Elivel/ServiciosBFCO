@@ -3,6 +3,7 @@ package tech.falabella.qa.adapter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import tech.falabella.qa.port.IngestionPort;
 import tech.falabella.qa.report.Tuple;
 
 import java.sql.Connection;
@@ -17,7 +18,7 @@ import java.util.function.Function;
 @Slf4j
 @Getter
 @RequiredArgsConstructor
-public class DDBBReportAdapter<T extends Tuple> implements ReportPort {
+public class DDBBIngestionAdapter<T extends Tuple> implements IngestionPort {
 
     private final Connection connection;
     private final String query;
@@ -27,7 +28,6 @@ public class DDBBReportAdapter<T extends Tuple> implements ReportPort {
 
     public static Connection createConnection(String url, String username, String password) throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
         return DriverManager.getConnection(url, username, password);
     }
 

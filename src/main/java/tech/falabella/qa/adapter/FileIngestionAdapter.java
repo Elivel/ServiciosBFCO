@@ -7,6 +7,7 @@ import com.opencsv.CSVReaderBuilder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import tech.falabella.qa.port.IngestionPort;
 import tech.falabella.qa.report.Tuple;
 
 import java.io.File;
@@ -18,7 +19,7 @@ import java.util.function.Function;
 @Slf4j
 @Getter
 @RequiredArgsConstructor
-public class FileReportAdapter<T extends Tuple> implements ReportPort {
+public class FileIngestionAdapter<T extends Tuple> implements IngestionPort {
 
     private final File path;
     private final char separator;

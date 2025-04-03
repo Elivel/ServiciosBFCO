@@ -1,6 +1,5 @@
 {
   "config": {
-    "execute-export-report": false,
     "output-path-result": "/out/",
     "input-path-data": "/input/",
     "mssql": {
@@ -10,6 +9,8 @@
     },
     "ssrs": {
       "url": "localhost",
+      "username": "sa",
+      "password": "ssrsYourStrong#Password",
       "out-path-export": "/input/"
     },
     "file": {
@@ -26,6 +27,7 @@
         "NroAutorOriginal": "",
         "FechaTrx": ""
       },
+      "execute-export-report": true,
       "file": "input.CONSULTA_CLAI.cvs"
     },
     {
@@ -34,6 +36,7 @@
         "fecha": "",
         "type": ""
       },
+      "execute-export-report": false,
       "file": "input.DETALLADO_EVENTO_MCCA.cvs"
     },
     {
@@ -41,6 +44,7 @@
       "parameters": {
         "fecha": ""
       },
+      "execute-export-report": false,
       "file": "input.CLEARING_PMD.cvs"
     }
 

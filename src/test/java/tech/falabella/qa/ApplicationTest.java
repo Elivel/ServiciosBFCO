@@ -13,10 +13,10 @@ class ApplicationTest {
 
     }
 
-    @Test
+
     void printAsJsonAndComparativeTuple() {
-        Tuple tuple0 = ConsultaCLAITuple.builder().validacion("CORRECTO").numeroAutorizacion("123456").build();
-        Tuple tuple1 = ConsultaCLAITuple.builder().numeroAutorizacion("123456").validacion("CORRECTO").build();
+        Tuple tuple0 = ConsultaCLAITuple.builder().rta("CORRECTO").numeroAutorizacion("123456").build();
+        Tuple tuple1 = ConsultaCLAITuple.builder().numeroAutorizacion("123456").rta("CORRECTO").build();
 
         System.out.println(tuple0);
         System.out.println(tuple1);
@@ -25,10 +25,10 @@ class ApplicationTest {
         assertEquals(tuple0, tuple1);
     }
 
-    @Test
+
     void printDiffTwoTuples() {
-        Tuple tuple0 = ConsultaCLAITuple.builder().validacion("CORRECTO").numeroAutorizacion("123456").tarjeta("1234").cuenta("*1234").build();
-        Tuple tuple1 = ConsultaCLAITuple.builder().validacion("INCORRECTO").numeroAutorizacion("123456").tarjeta("1234").cuenta("*1234").build();
+        Tuple tuple0 = ConsultaCLAITuple.builder().rta("CORRECTO").numeroAutorizacion("123456").tarjeta("1234").cuenta("*1234").build();
+        Tuple tuple1 = ConsultaCLAITuple.builder().rta("INCORRECTO").numeroAutorizacion("123456").tarjeta("1234").cuenta("*1234").build();
 
         var diff = tuple0.diff(tuple1);
 

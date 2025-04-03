@@ -1,19 +1,31 @@
 package tech.falabella.qa;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import tech.falabella.qa.adapter.DDBBIngestionAdapter;
+import tech.falabella.qa.adapter.FileIngestionAdapter;
+import tech.falabella.qa.adapter.SSRSIngestionAdapter;
 import tech.falabella.qa.dto.Report;
 import tech.falabella.qa.dto.Separator;
+import tech.falabella.qa.exception.DisabledReportException;
+import tech.falabella.qa.port.IngestionPort;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
+@Getter
+@NoArgsConstructor(staticName = "newInstance")
 @Command(name = "ssrs-validator", mixinStandardHelpOptions = true, version = {
         "ssrs-validator 0.1.0-SNAPSHOT",
         "JVM: ${java.version} (${java.vendor} ${java.vm.name} ${java.vm.version})",
         "OS: ${os.name} ${os.version} ${os.arch}"},
         description = "valida la generación de reportes en SSRS")
-public class CommandArgs {
+public class CommandArgs implements Callable<Integer> {
 
     @Option(names = {"-n", "--report-name"}, required = true, description = "Report name")
     Report report;
@@ -64,5 +76,33 @@ public class CommandArgs {
     @Option(names = {"-v", "--version"}, versionHelp = true,
             description = "print version information")
     boolean versionRequested;
+
+    public IngestionPort generateInput() {
+        var reportConfig = this.report.config.get();
+
+        return (executeExportReport)
+                ? new SSRSIngestionAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, reportConfig.getRoute(), this.outPath, this.params, reportConfig::csvMap)
+                : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig::csvMap);
+    }
+
+    public IngestionPort generatePersistence() throws SQLException, ClassNotFoundException {
+        return generatePersistence(DDBBIngestionAdapter.createConnection(this.mssqlUrl, this.username, this.password));
+    }
+
+    public IngestionPort generatePersistence(Connection connection) {
+        var reportConfig = this.report.config.get();
+
+        return new DDBBIngestionAdapter<>(connection,
+                reportConfig.getQuery(), reportConfig.validateAndGet(this.params),
+                reportConfig::sqlMap);
+    }
+
+    @Override
+    public Integer call() throws Exception {
+        if (!this.report.enabled)
+            throw new DisabledReportException(this.report.name());
+
+        return 0;
+    }
 
 }

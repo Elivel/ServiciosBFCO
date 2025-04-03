@@ -7,6 +7,7 @@ import com.opencsv.CSVReaderBuilder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import tech.falabella.qa.port.IngestionPort;
 import tech.falabella.qa.report.Tuple;
 
 import java.io.Reader;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Getter
 @RequiredArgsConstructor
-public class SSRSReportAdapter<T extends Tuple> implements ReportPort {
+public class SSRSIngestionAdapter<T extends Tuple> implements IngestionPort {
 
     private final char separator;
     private final boolean skipHeader;
@@ -33,7 +34,6 @@ public class SSRSReportAdapter<T extends Tuple> implements ReportPort {
 
     @Override
     public void generate() {
-        //"http://localhost/ReportServer?/score_report&StudentID=$($student_id)&rs:Format=PDF";
         String paramsAsQuery = parameters.entrySet().stream()
                 .map(it -> it.getKey() + "=" + it.getValue())
                 .collect(Collectors.joining("&"));

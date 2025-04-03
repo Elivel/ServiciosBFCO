@@ -3,6 +3,7 @@ package tech.falabella.qa.report.consulta_clai;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
+import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
 
 import java.sql.ResultSet;
@@ -13,10 +14,12 @@ import java.util.Map;
 @NoArgsConstructor(staticName = "newInstance")
 public class ConsultaCLAIConfig implements ReportConfig<ConsultaCLAITuple> {
 
-    private final Map<String, Integer> parameters = Map.of("Tarjeta", 1,
-            "NroAutorizacion", 2,
-            "NroAutorOriginal", 3,
-            "FechaTrx", 4);
+    private final Parameters parameters = Parameters.of(Map.of(
+            "Tarjeta", Parameters.Value.of(1),
+            "NroAutorizacion", Parameters.Value.of(2),
+            "NroAutorOriginal", Parameters.Value.of(3),
+            "FechaTrx", Parameters.Value.of(4)
+    ));
 
     private final String route = "Conciliacion_Liquidacion/CONSULTA_CLAI";
 
