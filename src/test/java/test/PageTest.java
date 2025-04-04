@@ -3,6 +3,7 @@ package test;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.BeforeAll;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,7 +13,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
+@Slf4j
 public class PageTest {
     private static WebDriver driver;
 
@@ -73,16 +74,21 @@ public class PageTest {
     public static void clearingReport() throws InterruptedException {
         WebElement detalladoEvento = driver.findElement(By.linkText("Daily operation"));
         detalladoEvento.click();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         WebElement reportClearingPMD = driver.findElement(By.linkText("CLEARING (PMD)"));
         reportClearingPMD.click();
-        //no encuentra el elemento
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement fecha = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label/span[text()='Fecha Proceso']")));
-       // WebElement fecha = driver.findElement(By.xpath("//label/span[text()='Fecha Proceso']"));
-        fecha.click();
-        fecha.clear();
+        log.info(driver.findElement(By.tagName("Body")).toString());
+        data("FechaProceso", "19/7/2023");
 
+    }
+    public static void data (String parameterName, String parameterValue){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement container = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-parametername=\"" + parameterName + "\"] input")));
+        if (container != null) {
+            container.clear();
+            container.sendKeys(parameterValue);
+
+        }
     }
 
     public static void detalladoMCCAReport() throws InterruptedException {

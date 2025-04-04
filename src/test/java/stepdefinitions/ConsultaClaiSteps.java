@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 @Slf4j
@@ -27,6 +28,7 @@ public class ConsultaClaiSteps {
     // Paso 5: El usuario aplica los parámetros necesarios
     @When("applies the necessary parameters")
     public void applies_the_necessary_parameters() throws InterruptedException {
+       PageFeatures.js();
         // PageFeatures.pageDescargaReport();
     }
 
@@ -48,13 +50,6 @@ public class ConsultaClaiSteps {
         PageFeatures.pagesetParameter(parameterName, parameterValue);
 
     }
-
-    //@After
-    //public void tearDown() {
-      //  if (driver != null) {
-        //    driver.quit();  // Close the browser window
-        //}
-    //}
 }
 
 

@@ -6,7 +6,6 @@ Feature: Login and Download Report
     Given queries the directory "Conciliacion_Liquidacion"
     And queries the report "CONSULTA_CLAI"
     When applies the necessary parameters
-    And "Tarjeta" = ""
     And "NroAutorizacion" = "33909"
     And "NroAutorOriginal" = ""
     And "FechaTrx" = ""
@@ -17,7 +16,7 @@ Feature: Login and Download Report
     And queries the directory "Daily operation"
     And queries the report "CLEARING"
     When applies the necessary parameters
-    And "Fecha" = ""
+    And "FechaProceso" = "27/10/2024"
     Then the report should be downloaded successfully
 
   Scenario: download a report Detallado por evento MCCA
@@ -25,7 +24,7 @@ Feature: Login and Download Report
     And queries the directory "Billing"
     And queries the report "Detallado por evento MCCA"
     When applies the necessary parameters
-    And "Fecha" = ""
-    And "Evento" = ""
+    And "Fecha" = "19/7/2023"
+    And "Evento" = "Authorization Issuer Fee Micro Tier"
     Then the report should be downloaded successfully
 

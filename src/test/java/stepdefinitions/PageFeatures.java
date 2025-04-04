@@ -4,9 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -32,22 +30,33 @@ public class PageFeatures {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.titleContains("Inicio - SQL Server 2019 Reporting Services"));
     }
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();  // Cierra el navegador después de cada escenario
+   // @After
+   // public void tearDown() {
+      //  if (driver != null) {
+       //     driver.quit();  // Cierra el navegador después de cada escenario
+        //}
+    //}
+    public static void js() throws InterruptedException {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        boolean isLoading = false;
+        while(!isLoading) {
+            Thread.sleep(1000);
+            isLoading = js.executeScript("return document.readyState").equals("complete");
         }
     }
 
     public static void pagesetParameter(String parameterName, String parameterValue) {
-        WebElement container = driver.findElement(By.cssSelector("[data-parametername='"+parameterName+"']"));
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-       // WebElement directoryLink = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(parameterName)));
-        //directoryLink.click();
+        log.info("titulo: {}{}", driver.getTitle(), driver.getCurrentUrl());
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement container = (WebElement) js.executeScript("return document.querySelector('[data-parametername=\"" + parameterName + "\"] input');");
+        if (container == null) {
+            throw new NoSuchElementException("Element not found for parameter: " + parameterName);
+        }
+
         log.info("pageSetParameter: {}", container.toString());
-        WebElement input = container.findElement(By.tagName("input"));
-        input.clear();
-        input.sendKeys(parameterValue);
+        container.clear();
+        container.sendKeys(parameterValue);
     }
 
     public static void pageReportDesktop() {

@@ -1,0 +1,356 @@
+<html id="portal" ng-controller="MainController as main" lang="es" ng-class="{'flex':main.needsCssFlex}" ng-strict-di="" resizer="" class="ng-scope flex" style=""><head><style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style><style type="text/css">.uib-time input{width:50px;}</style><style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style><style type="text/css">.uib-datepicker-popup.dropdown-menu{display:block;float:none;margin:0;}.uib-button-bar{padding:10px 9px 2px;}</style><style type="text/css">.uib-position-measure{display:block !important;visibility:hidden !important;position:absolute !important;top:-9999px !important;left:-9999px !important;}.uib-position-scrollbar-measure{position:absolute !important;top:-9999px !important;width:50px !important;height:50px !important;overflow:scroll !important;}.uib-position-body-scrollbar-measure{overflow:scroll !important;}</style><style type="text/css">.uib-datepicker .uib-title{width:100%;}.uib-day button,.uib-month button,.uib-year button{min-width:100%;}.uib-left,.uib-right{width:100%}</style><style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style><style>@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,user-scalable=yes">
+
+    <title ng-bind="main.documentTitle" class="ng-binding">CONSULTA_CLAI - SQL Server 2019 Reporting Services</title>
+    <base href="/Reports/">
+
+    <script type="text/javascript">
+        // Fix for IE10 not supporting location.origin
+        //
+        // IE 10
+        // 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
+        if (navigator.userAgent.indexOf('MSIE ') > 0 && !window.location.origin) {
+            window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+        }
+    </script>
+
+    <!--Favicon Related elements-->
+    <link rel="shortcut icon" href="assets/img/fi/ssrs/favicon.ico" class="favicon_href">
+    <link rel="icon" href="assets/img/fi/ssrs/favicon.ico" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/img/fi/ssrs/apple-icon-57x57.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/img/fi/ssrs/apple-icon-114x114.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/img/fi/ssrs/apple-icon-72x72.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/img/fi/ssrs/apple-icon-144x144.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/img/fi/ssrs/apple-icon-60x60.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/img/fi/ssrs/apple-icon-120x120.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/fi/ssrs/apple-icon-76x76.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/img/fi/ssrs/apple-icon-152x152.png" class="favicon_href">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/fi/ssrs/apple-icon-180x180.png" class="favicon_href">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/fi/ssrs/android-icon-192x192.png" class="favicon_href">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/fi/ssrs/favicon-32x32.png" class="favicon_href">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/fi/ssrs/favicon-96x96.png" class="favicon_href">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/fi/ssrs/favicon-16x16.png" class="favicon_href">
+    <link rel="manifest" href="assets/img/fi/ssrs/manifest.json" class="favicon_href">
+    <meta name="msapplication-TileColor" content="#eaeaea">
+    <meta name="msapplication-TileImage" content="assets/img/fi/ssrs/ms-icon-144x144.png" class="favicon_content">
+    <meta name="msapplication-config" content="assets/img/fi/ssrs/browserconfig.xml" class="favicon_content">
+    <!--End of Favicon Related elements-->
+    <!-- css and scripts are injected at build time by gulpfile.js -->
+    <script type="text/javascript">
+        // inject:css
+        document.write("<link rel='stylesheet' href='assets/css/lib-a86e28ba-6b60-44cf-98a7-196966ec91f9.css'>");
+        document.write("<link rel='stylesheet' href='assets/css/app-a86e28ba-6b60-44cf-98a7-196966ec91f9.css'>");
+        document.write("<link rel='stylesheet' href='assets/css/brand.css'>");
+        // endinject:css
+    </script><link rel="stylesheet" href="assets/css/lib-a86e28ba-6b60-44cf-98a7-196966ec91f9.css"><link rel="stylesheet" href="assets/css/app-a86e28ba-6b60-44cf-98a7-196966ec91f9.css"><link rel="stylesheet" href="assets/css/brand.css">
+</head>
+
+<body class="report" ng-class="{'branded':isBranded, 'nonwindows':!main.isWindows}" translate-cloak="" style="">
+    <div id="page">
+        <!-- ngIf: showChrome --><header class="main navbar-fixed-top ng-scope" ng-if="showChrome">
+            <navbar><nav class="navbar navbar-default ng-scope" ng-controller="NavbarController" role="menubar" aria-label="Navegación">
+    <div class="container-fluid">
+        <div class="navbar-header" role="menuitem">
+            <a href="javascript:void(0);" tabindex="1" class="navbar-skip-content" aria-labelledby="skip-to-content-label" ng-click="skipToSiteContent()">
+                <span id="skip-to-content-label" ng-bind="'NAVBAR.SKIP' | translate" class="ng-binding">Ir al contenido</span>
+            </a>
+
+            <!-- ngIf: enableNavigation --><a href="javascript:void(0);" class="mobilenav-toggle ng-scope" data-target=".mobilenav-main-menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-if="enableNavigation">
+                <span class="glyphui glyphui-threebars"></span>
+                <span class="sr-only ng-binding" ng-bind="'NAVBAR.TOGGLE_NAVIGATION' | translate">Alternar navegación</span>
+            </a><!-- end ngIf: enableNavigation -->
+            <!-- ngIf: showBrand --><div class="hidden-xs ng-scope ssrs-brand" ng-if="showBrand" ng-class="{'pbi-brand': brand === 'pbirs', 'ssrs-brand': brand === 'ssrs'}">
+                <a ng-href="browse/" href="browse/">
+                    <img ng-src="assets/img/ssrs_icon.svg" alt="SQL Server 2019 Reporting Services" src="assets/img/ssrs_icon.svg">
+                </a>
+            </div><!-- end ngIf: showBrand -->
+            <div class="brand-wrapper" ng-class="{'no-brand': !showBrand}">
+                <a class="navbar-brand" ng-href="browse/" href="browse/">
+                    <span class="text light ng-binding">SQL Server Reporting Services</span>
+                    <span class="logo"><img ng-src="api/v2.0/SafeGetSystemResourceContent(type='UniversalBrand',key='logo')" src="api/v2.0/SafeGetSystemResourceContent(type='UniversalBrand',key='logo')"></span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ## full nav ## -->
+        <!-- ngIf: enableNavigation --><div id="fullnav" class="fullnav hidden-xs ng-scope" ng-if="enableNavigation" role="menuitem">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-settings dropdown" role="menu" uib-dropdown="">
+                    <a href="javascript:void(0);" class="nav-icon dropdown-toggle" role="menuitem" aria-labelledby="navbar-settings-label" title="Configuración" uib-dropdown-toggle="" tooltip="Configuración" tooltip-placement="bottom" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphui glyphui-gear" id="navbar-settings-label" aria-label="Configuración"></span>
+                    </a>
+
+                    <ul uib-dropdown-menu="" aria-haspopup="true" role="list" class="dropdown-menu">
+                        <li class="dropdown-header"><span ng-bind="'NAVBAR.SETTINGS' | translate" role="heading" aria-level="1" class="ng-binding">Configuración</span></li>
+                        <!-- ngIf: isMySettingsEnabled -->
+                        <!-- ngIf: isMySubscriptionsAllowed --><li ng-if="isMySubscriptionsAllowed" class="ng-scope"><a href="manage/subscriptions/browse" role="menuitem"><span ng-bind="'NAVBAR.MY_SUBSCRIPTIONS' | translate" class="ng-binding">Mis suscripciones</span></a></li><!-- end ngIf: isMySubscriptionsAllowed -->
+                        <!-- ngIf: systemPermissions.canViewSiteSettings || systemPermissions.canViewSharedSchedules || systemPermissions.canViewSystemSecurity -->
+                    </ul>
+                </li>
+
+                <li class="nav-download dropdown" role="menu" uib-dropdown="" ng-show="showDownloadMenu" style="">
+                    <a href="javascript:void(0);" class="nav-icon dropdown-toggle" role="menuitem" aria-labelledby="navbar-download-label" title="Descargar" uib-dropdown-toggle="" tooltip="Descargar" tooltip-placement="bottom" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphui glyphui-download" id="navbar-download-label" aria-label="Descargar"></span>
+                    </a>
+
+                    <!-- ngIf: isPbirs -->
+
+                    <!-- ngIf: !isPbirs --><ul uib-dropdown-menu="" aria-haspopup="true" ng-if="!isPbirs" role="list" class="ng-scope dropdown-menu">
+                        <li class="dropdown-header"><span ng-bind="'ACTIONS.DOWNLOAD' | translate" role="heading" aria-level="1" class="ng-binding">Descargar</span></li>
+                        <li><a ng-href="https://go.microsoft.com/fwlink/?linkid=2094943" target="_blank" role="menuitem" href="https://go.microsoft.com/fwlink/?linkid=2094943"><span ng-bind="'BRANDS.MOBILE_REPORT_PUBLISHER' | translate" class="ng-binding">Mobile Report Publisher</span></a></li>
+                        <li><a ng-href="https://go.microsoft.com/fwlink/?LinkId=2095051" target="_blank" role="menuitem" href="https://go.microsoft.com/fwlink/?LinkId=2095051"><span ng-bind="'BRANDS.REPORT_BUILDER' | translate" class="ng-binding">Report Builder</span></a></li>
+                        <li><a ng-href="https://go.microsoft.com/fwlink/?LinkId=717195" target="_blank" role="menuitem" href="https://go.microsoft.com/fwlink/?LinkId=717195"><span ng-bind="'BRANDS.MOBILE_POWER_BI' | translate" class="ng-binding">Power BI Mobile</span></a></li>
+                    </ul><!-- end ngIf: !isPbirs -->
+                </li>
+
+                <li class="nav-notification dropdown ng-hide" role="menu" uib-dropdown="" ng-show="notificationCount > 0">
+                    <a href="javascript:void(0);" class="nav-icon dropdown-toggle" role="menuitem" aria-labelledby="navbar-notification-label" title="Notificaciones" uib-dropdown-toggle="" tooltip="Notificaciones" tooltip-placement="bottom" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphui glyphui-warning" id="navbar-notification-label" aria-label="Notificaciones"></span>
+                        <span aria-label="0" class="ng-binding">0</span>
+                    </a>
+
+                    <ul uib-dropdown-menu="" aria-haspopup="true" role="list" class="dropdown-menu">
+                        <!-- ngRepeat: notification in notifications | limitTo:2 -->
+                    </ul>
+                </li>
+
+                <li class="nav-help dropdown" role="menu" uib-dropdown="">
+                    <a href="javascript:void(0);" class="nav-icon dropdown-toggle" role="menuitem" aria-labelledby="navbar-help-label" title="Ayuda" uib-dropdown-toggle="" tooltip="Ayuda" tooltip-placement="bottom" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphui glyphui-question" id="navbar-help-label" aria-label="Ayuda"></span>
+                    </a>
+
+                    <ul uib-dropdown-menu="" aria-haspopup="true" role="list" class="dropdown-menu">
+                        <li class="dropdown-header"><span ng-bind="'NAVBAR.HELP' | translate" role="heading" aria-level="1" class="ng-binding">Ayuda</span></li>
+                        <li><a ng-href="https://go.microsoft.com/fwlink/?LinkId=2094949" target="_blank" role="menuitem" href="https://go.microsoft.com/fwlink/?LinkId=2094949"><span ng-bind="'NAVBAR.GETTING_STARTED' | translate" class="ng-binding">Introducción</span></a></li>
+                        <li><a ng-href="https://go.microsoft.com/fwlink/?LinkId=2094952" target="_blank" role="menuitem" href="https://go.microsoft.com/fwlink/?LinkId=2094952"><span ng-bind="'NAVBAR.COMMUNITY' | translate" class="ng-binding">Comunidad</span></a></li>
+                        <li><a ng-href="https://go.microsoft.com/fwlink/?linkid=2095053" target="_blank" role="menuitem" href="https://go.microsoft.com/fwlink/?linkid=2095053"><span ng-bind="'NAVBAR.DEVELOPER_RESOURCES' | translate" class="ng-binding">Recursos de desarrollador</span></a></li>
+                        <li ng-show="showAccessibilityMenuItem" class="ng-hide"><a target="_blank" role="menuitem"><span ng-bind="'NAVBAR.ACCESSIBILITY_STATEMENT' | translate" class="ng-binding">Accessibility statement</span></a></li>
+                        <li><a href="javascript:void(0);" ng-click="openAbout()" role="menuitem"><span ng-bind="'NAVBAR.ABOUT' | brand | translate" class="ng-binding">Acerca de SQL Server Reporting Services</span></a></li>
+                    </ul>
+                </li>
+
+                <!-- ngIf: !isOAuthEnabled --><li class="nav-user ng-scope" data-ng-if="!isOAuthEnabled"><span><user-info class="ng-binding">Eliana Licett Velasquez Ledesma</user-info></span></li><!-- end ngIf: !isOAuthEnabled -->
+
+                <!-- ngIf: isOAuthEnabled -->
+            </ul>
+        </div><!-- end ngIf: enableNavigation -->
+        <!-- ## /full nav ## -->
+
+
+        <!-- ## mobile nav ## -->
+        <!-- ngIf: enableNavigation --><div id="mobilenav" class="mobilenav visible-xs-block ng-scope" ng-if="enableNavigation" role="menuitem">
+            <!-- buttons -->
+            <div class="mobilenav-main-menu dropdown mobile-dropdown">
+                <ul class="dropdown-menu" role="list">
+                    <li class="nav-download">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-target=".mobilenav-download-menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphui glyphui-chevron-right pull-right"></span>
+                            <span class="glyphui glyphui-download" aria-hidden="true"></span>
+                            <span ng-bind="'ACTIONS.DOWNLOAD' | translate" class="ng-binding">Descargar</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-help">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-target=".mobilenav-help-menu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphui glyphui-chevron-right pull-right"></span>
+                            <span class="glyphui glyphui-question" aria-hidden="true"></span>
+                            <span ng-bind="'NAVBAR.HELP' | translate" class="ng-binding">Ayuda</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-user"><span><user-info class="ng-binding">Eliana Licett Velasquez Ledesma</user-info></span></li>
+                </ul>
+            </div>
+
+            <div class="mobilenav-download-menu dropdown mobile-dropdown">
+                <ul class="dropdown-menu">
+                    <li class="mobilenav-back">
+                        <a href="javascript:void(0);" data-target=".mobilenav-main-menu" data-toggle="dropdown">
+                            <span class="glyphui glyphui-chevron-left"></span>
+                            <span ng-bind="'ACTIONS.BACK' | translate" class="ng-binding">Atrás</span>
+                        </a>
+                    </li>
+                    <li class="hide-nonwindows"><a ng-href="https://go.microsoft.com/fwlink/?linkid=837581" target="_blank" ng-show="isPbirs" href="https://go.microsoft.com/fwlink/?linkid=837581" class="ng-hide"><span ng-bind="'BRANDS.DESKTOP_POWER_BI' | translate" class="ng-binding">Power BI Desktop</span></a></li>
+                    <li class="hide-nonwindows"><a ng-href="https://go.microsoft.com/fwlink/?LinkId=2095051" target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=2095051"><span ng-bind="'BRANDS.REPORT_BUILDER' | translate" class="ng-binding">Report Builder</span></a></li>
+                    <li class="hide-nonwindows"><a ng-href="https://go.microsoft.com/fwlink/?linkid=2094943" target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2094943"><span ng-bind="'BRANDS.MOBILE_REPORT_PUBLISHER' | translate" class="ng-binding">Mobile Report Publisher</span></a></li>
+                    <li><a ng-href="https://go.microsoft.com/fwlink/?LinkId=717195" target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=717195"><span ng-bind="'BRANDS.MOBILE_POWER_BI' | translate" class="ng-binding">Power BI Mobile</span></a></li>
+                </ul>
+            </div>
+
+            <div class="mobilenav-help-menu dropdown mobile-dropdown">
+                <ul class="dropdown-menu">
+                    <li class="mobilenav-back">
+                        <a href="javascript:void(0);" data-target=".mobilenav-main-menu" data-toggle="dropdown">
+                            <span class="glyphui glyphui-chevron-left"></span>
+                            <span ng-bind="'ACTIONS.BACK' | translate" class="ng-binding">Atrás</span>
+                        </a>
+                    </li>
+                    <li><a ng-href="https://go.microsoft.com/fwlink/?LinkId=2094949" target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=2094949"><span ng-bind="'NAVBAR.GETTING_STARTED' | translate" class="ng-binding">Introducción</span></a></li>
+                    <li><a ng-href="https://go.microsoft.com/fwlink/?LinkId=2094952" target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=2094952"><span ng-bind="'NAVBAR.COMMUNITY' | translate" class="ng-binding">Comunidad</span></a></li>
+                    <li><a href="javascript:void(0);" ng-click="openAbout()"><span ng-bind="'NAVBAR.ABOUT' | brand | translate" class="ng-binding">Acerca de SQL Server Reporting Services</span></a></li>
+                </ul>
+            </div>
+
+        </div><!-- end ngIf: enableNavigation -->
+        <!-- ## mobile nav ## -->
+    </div>
+</nav></navbar>
+        </header><!-- end ngIf: showChrome -->
+
+        <!-- ngIf: main.serviceState.isAvailable && showChrome --><section id="subnav" class="subnav navbar-fixed-top ng-scope" ng-if="main.serviceState.isAvailable &amp;&amp; showChrome">
+            <subnav><nav role="navigation" class="toolbar" aria-label="Sub navigation">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav" role="list">
+            <li class="nav-favs">
+                <a href="favorites" ng-class="{ active: isActive('/favorites') }" role="button" aria-pressed="false">
+                    <span class="glyphui glyphui-star" aria-hidden="true"></span>
+                    <span ng-bind="'FAVORITES.FAVORITES' | translate" class="ng-binding">Favoritos</span>
+                </a>
+            </li>
+            <li class="nav-browse">
+                <a href="browse/" ng-class="{ active: isActive('/browse') }" role="button" aria-pressed="false" class="" style="">
+                    <span class="glyphui glyphui-folder" aria-hidden="true"></span>
+                    <span ng-bind="'ACTIONS.BROWSE' | translate" class="ng-binding">Examinar</span>
+                </a>
+            </li>
+        </ul>
+
+        <!-- ngIf: !migrateMode --><ul class="nav toolbar-nav ng-scope" role="list" ng-if="!migrateMode">
+            <!-- ngIf: canCreateAnything -->
+
+            <!-- ngIf: canCreateAnything -->
+
+            <!-- ngIf: canMigrate -->
+
+            <!-- ngIf: view.layout === 1 && canManageFolder -->
+
+            <!-- ngIf: view.layout === 1 && canManageFolder -->
+
+            <!-- ngIf: canManageFolder -->
+
+            <li class="nav-display dropdown" uib-dropdown="" auto-close="always" aria-haspopup="true" role="menu">
+                <a href="javascript:void(0);" alt="Ver" aria-label="view.layout === ViewLayout.Tiles ? ('NAVBAR.LAYOUT_TILES' | translate) : ('NAVBAR.LAYOUT_LIST' | translate)" uib-dropdown-toggle="" uib-tooltip="Ver" tooltip-append-to-body="true" tooltip-class="visible-sm-inline-block visible-xs-inline-block" role="menuitem" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    <span ng-class="view.layout === ViewLayout.Tiles ? 'glyphui glyphui-tilesview' : 'glyphui glyphui-listview'" aria-hidden="true" class="glyphui glyphui-tilesview" style=""></span>
+                    <span id="nav-display-label" class="text hidden-xs ng-binding" ng-bind="view.layout === ViewLayout.Tiles ? ('NAVBAR.LAYOUT_TILES' | translate) : ('NAVBAR.LAYOUT_LIST' | translate)">Iconos</span>
+                    <span class="caret hidden-xs"></span>
+                </a>
+
+                <ul class="dropdown-checkboxes dropdown-menu" uib-dropdown-menu="" aria-labelledby="nav-display-label" role="list">
+                    <li>
+                        <a href="javascript:void(0);" role="button" aria-pressed="true" ng-click="setViewLayout(ViewLayout.Tiles)">
+                            <span class="glyphui glyphui-tilesview" aria-hidden="true"></span>
+                            <span ng-bind="'NAVBAR.LAYOUT_TILES' | translate" class="ng-binding">Iconos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" role="button" aria-pressed="false" ng-click="setViewLayout(ViewLayout.List)">
+                            <span class="glyphui glyphui-listview" aria-hidden="true"></span>
+                            <span ng-bind="'NAVBAR.LAYOUT_LIST' | translate" class="ng-binding">Lista</span>
+                        </a>
+                    </li>
+                    <li class="checkable" ng-class="{checked:display.hidden}">
+                        <a href="javascript:void(0);" ng-click="toggleDisplayEvent('hidden', $event);" ng-keydown="toggleDisplayEvent('hidden', $event);" role="menuitemcheckbox" aria-label="Mostrar elementos ocultos" aria-checked="false">
+                            <span class="checkbox-toggle">
+                                <span class="glyphui glyphui-empty unchecked"></span>
+                                <span class="glyphui glyphui-checkmark checked"></span>
+                            </span>
+                            <span ng-bind="'NAVBAR.SHOW_HIDDEN' | translate" class="ng-binding">Mostrar elementos ocultos</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- search for large screen -->
+            <li class="nav-search hidden-xs">
+                <form role="search" class="ng-pristine ng-valid">
+                    <div class="input-group" role="textbox" contenteditable="true" ng-class="{'focused': searchText.placeholder == searchText.focused}">
+                        <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Buscar..." aria-label="Buscar" ng-focus="searchText.placeholder = searchText.focused" ng-blur="searchText.placeholder = searchText.blurred" ng-model="searchText.text">
+                        <span class=" input-group-btn">
+                            <button class="btn btn-default" type="submit" ng-click="search()" aria-label="Buscar"><span class="glyphui glyphui-loupe"></span></button>
+                        </span>
+                    </div>
+                </form>
+            </li>
+
+            <!-- search for small screen -->
+            <li class="nav-search visible-xs-inline-block dropdown" uib-dropdown="">
+                <a href="javascript:void(0);" alt="Buscar" aria-label="Buscar" uib-dropdown-toggle="" uib-tooltip="Buscar" tooltip-append-to-body="true" tooltip-placement="left" tooltip-class="visible-sm-inline-block visible-xs-inline-block" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphui glyphui-loupe" aria-hidden="true"></span>
+                    <span id="nav-compact-search-label" class="sr-only ng-binding" ng-bind="'NAVBAR.SEARCH' | translate">Buscar</span>
+                </a>
+                <ul uib-dropdown-menu="" aria-labelledby="nav-compact-search-label" class="dropdown-menu">
+                    <li>
+                        <form role="search" class="ng-pristine ng-valid">
+                            <input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-empty" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Buscar..." ng-focus="searchText.placeholder = searchText.focused" ng-blur="searchText.placeholder = searchText.blurred" ng-model="searchText.text" ng-keyup="$event.which == 13 &amp;&amp; search()">
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul><!-- end ngIf: !migrateMode -->
+
+        <!-- ngIf: commentsEnabled --><ul class="nav comments-nav hidden-xs ng-scope" ng-if="commentsEnabled" role="list" style="">
+            <li class="nav-comments" ng-class="{open: commentsShowing}">
+                <a href=" javascript:void(0);" ng-click="toggleComments()" alt="Comentarios" role="button" aria-label="Comentarios" uib-tooltip="Comentarios" tooltip-append-to-body="true" tooltip-class="visible-sm-inline-block">
+                    <span class="glyphui glyphui-comments" aria-hidden="true"></span>
+                    <span class="text ng-binding" ng-bind="::('NAVBAR.COMMENTS' | translate)">Comentarios</span>
+                </a>
+            </li>
+        </ul><!-- end ngIf: commentsEnabled -->
+    </div>
+</nav>
+</subnav>
+        </section><!-- end ngIf: main.serviceState.isAvailable && showChrome -->
+
+        <section id="main" class="main" ng-class="{'hideChrome': !showChrome}" role="main" aria-label="Contenido principal" tabindex="-1">
+            <!-- uiView: --><div class="view ng-scope" ui-view="" style=""><paginated-report-viewer class="ng-scope"><div class="viewerContentContainer showChrome" ng-class="{'showChrome': showChrome, 'hideChrome': !showChrome}">
+    <section class="breadcrumbs">
+        <breadcrumbs class="ng-isolate-scope"><div class="links">
+    <a href="browse/" class="i18n ng-binding" ng-bind="'COMMON.ROOT_FOLDER' | translate">Inicio</a>
+
+    <!-- ngRepeat: breadcrumb in items --><span ng-repeat="breadcrumb in items" class="ng-scope">
+        <span class="glyphui glyphui-chevron-right separator"></span>
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.Folder --><a ng-href="browse/Conciliacion_Liquidacion" ng-if="!$last &amp;&amp; breadcrumb.itemType == BreadcrumbType.Folder" class="ng-binding ng-scope" href="browse/Conciliacion_Liquidacion">Conciliacion_Liquidacion</a><!-- end ngIf: !$last && breadcrumb.itemType == BreadcrumbType.Folder -->
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.OutsideLink -->
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.Link -->
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.Custom -->
+        <!-- ngIf: $last || breadcrumb.itemType == BreadcrumbType.Static -->
+    </span><!-- end ngRepeat: breadcrumb in items --><span ng-repeat="breadcrumb in items" class="ng-scope">
+        <span class="glyphui glyphui-chevron-right separator"></span>
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.Folder -->
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.OutsideLink -->
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.Link -->
+        <!-- ngIf: !$last && breadcrumb.itemType == BreadcrumbType.Custom -->
+        <!-- ngIf: $last || breadcrumb.itemType == BreadcrumbType.Static --><span ng-if="$last || breadcrumb.itemType == BreadcrumbType.Static" class="ng-binding ng-scope">CONSULTA_CLAI</span><!-- end ngIf: $last || breadcrumb.itemType == BreadcrumbType.Static -->
+    </span><!-- end ngRepeat: breadcrumb in items -->
+</div></breadcrumbs>
+    </section>
+
+    <div>
+        <div class="frame">
+            <iframe ng-show="!failureReason" seamless="seamless" frameborder="0" class="viewer" title="Visor de informes" ng-src="/ReportServer/Pages/ReportViewer.aspx?%2FConciliacion_Liquidacion%2FCONSULTA_CLAI&amp;rc:showbackbutton=true" src="/ReportServer/Pages/ReportViewer.aspx?%2FConciliacion_Liquidacion%2FCONSULTA_CLAI&amp;rc:showbackbutton=true"></iframe>
+        </div>
+
+        <!-- ngIf: !!failureReason -->
+
+        <!-- ngIf: loading -->
+        <!-- ngIf: !loading --><div class="screen-reader-offscreen ng-binding ng-scope" aria-live="assertive" ng-if="!loading" ng-bind="::'PAGINATED_REPORT.LOADING_FINISHED_MESSAGE' | translate" style="">Carga finalizada</div><!-- end ngIf: !loading -->
+
+        <!-- ngIf: commentsShowing -->
+    </div>
+</div></paginated-report-viewer></div>
+        </section>
+    </div>
+
+
+
+    <script type="text/javascript">
+        document.write("<script src='assets/js/oauth.js'><\/script>");
+        // inject:js
+        document.write("<script src='assets/js/app-a86e28ba-6b60-44cf-98a7-196966ec91f9.js'><\/script>");
+        // endinject:js
+    </script><script src="assets/js/oauth.js"></script><script src="assets/js/app-a86e28ba-6b60-44cf-98a7-196966ec91f9.js"></script>
+
+
+<div class="popover-wrapper"><div class="popover"><div class="stem"></div><div class="content" id="content"></div></div></div></body></html>
