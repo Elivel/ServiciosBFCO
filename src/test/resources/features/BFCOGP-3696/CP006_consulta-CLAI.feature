@@ -1,15 +1,15 @@
-# Folder: Conciliacion Liquidacion
-#
-
 Feature: Validate that when performing the query for a date range,
   a table with the result of the generated query is displayed on the report screen.
 
-  Scenario: Generate report with default parameters
-    Given a valid configuration
-    And file="C:\Users\elvelasquezl\Downloads\CONSULTA_CLAI.csv"
-    And Username="appcertifica"
-    And Userpass="qacertifica01"
-    And url="jdbc:sqlserver://10.120.18.223;encrypt=false;database=master;integratedSecurity=false;"
-    When the scheduled job is executed
-    Then the report must be generated correctly and saved as a CSV file "C:\Users\elvelasquezl\Documents\ServicioBFCO"
+  Scenario: download a report consulta_Clai
+    Given open web browser in "http://reports"
+    And queries the directory "Conciliacion_Liquidacion"
+    And queries the report "CONSULTA_CLAI"
+    When applies the necessary parameters
+    And "Tarjeta" = ""
+    And "NroAutorizacion" = "33909"
+    And "NroAutorOriginal" = ""
+    And "FechaTrx" = ""
+    Then the report should be downloaded successfully
+
 
