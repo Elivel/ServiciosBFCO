@@ -13,9 +13,9 @@ public class ConsultaClaiSteps {
     WebDriver driver;
 
     // Paso 1: El usuario accede a la página de login
-    @Given("the user accesses the login page")
+   @Given("the user accesses the login page")
     public void the_user_accesses_the_login_page() throws InterruptedException {
-        PageFeatures.pageReportes();
+       PageFeatures.pageReportes();
     }
 
     // Paso 4: El usuario consulta el reporte
@@ -49,12 +49,12 @@ public class ConsultaClaiSteps {
 
     }
 
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();  // Close the browser window
-        }
-    }
+    //@After
+    //public void tearDown() {
+      //  if (driver != null) {
+        //    driver.quit();  // Close the browser window
+        //}
+    //}
 }
 
 

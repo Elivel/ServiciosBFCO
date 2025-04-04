@@ -1,9 +1,8 @@
-package stepdefinitions;
+package test;
 
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.BeforeAll;
-import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,7 +12,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.time.Instant;
 
 public class PageTest {
     private static WebDriver driver;
@@ -30,14 +28,14 @@ public class PageTest {
         driver.quit();
 
     }
-    @BeforeAll
+
     public static void pageReportes()throws InterruptedException {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("http://f8sc00008/Reports");
         Thread.sleep(10000);
     }
-    @After
+
     public static void pageConsultaClai()throws InterruptedException{
         WebElement carpconciliacion = driver.findElement(By.linkText("Conciliacion_Liquidacion")); //primera carpeta
         carpconciliacion.click();
@@ -64,14 +62,14 @@ public class PageTest {
 
 
     }
-    @AfterAll
+
     public static void mastercardReport() throws InterruptedException {
         WebElement mastercard = driver.findElement(By.linkText("Mastercard")); //primera carpeta
         mastercard.click();
         Thread.sleep(3000);
 
     }
-    @AfterAll
+
     public static void clearingReport() throws InterruptedException {
         WebElement detalladoEvento = driver.findElement(By.linkText("Daily operation"));
         detalladoEvento.click();
@@ -86,7 +84,7 @@ public class PageTest {
         fecha.clear();
 
     }
-    @AfterAll
+
     public static void detalladoMCCAReport() throws InterruptedException {
         WebElement  Billing = driver.findElement(By.linkText("Billing")); //primera carpeta
         Billing.click();
@@ -116,5 +114,11 @@ public class PageTest {
         // valida que se visualice la pagina de reportes
         WebElement reportPageElement = driver.findElement(By.id("reportsPage"));  // Elemento visible de la página de reportes
         assert reportPageElement.isDisplayed();
+    }
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();  // Close the browser window
+        }
     }
 }

@@ -21,7 +21,7 @@ Feature: Login and Download Report
     Then the report should be downloaded successfully
 
   Scenario: download a report Detallado por evento MCCA
-    Given queries the directory "mastercard"
+    Given queries the directory "Mastercard"
     And queries the directory "Billing"
     And queries the report "Detallado por evento MCCA"
     When applies the necessary parameters

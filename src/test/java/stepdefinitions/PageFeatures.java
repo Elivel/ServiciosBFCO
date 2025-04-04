@@ -1,13 +1,18 @@
 package stepdefinitions;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.time.Duration;
 
 import static org.junit.Assert.assertTrue;
 
@@ -16,14 +21,29 @@ public class PageFeatures {
     private static WebDriver driver;
 
     @Before
-    public static void pageReportes() throws InterruptedException {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("http://f8sc00008/Reports");
+    public static void setUp(){
+        if (driver == null) {
+            driver = new ChromeDriver();
+        }
+
+    }
+    public static void pageReportes()  {
+        driver.get("http://f8sc00008/Reports/browse/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.titleContains("Inicio - SQL Server 2019 Reporting Services"));
+    }
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();  // Cierra el navegador después de cada escenario
+        }
     }
 
     public static void pagesetParameter(String parameterName, String parameterValue) {
         WebElement container = driver.findElement(By.cssSelector("[data-parametername='"+parameterName+"']"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+       // WebElement directoryLink = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(parameterName)));
+        //directoryLink.click();
         log.info("pageSetParameter: {}", container.toString());
         WebElement input = container.findElement(By.tagName("input"));
         input.clear();
@@ -38,8 +58,12 @@ public class PageFeatures {
     }
 
     public static void pagedirectories(String directoryName) throws InterruptedException {
-        WebElement pagedirectoris = driver.findElement(By.linkText(directoryName)); //primera carpeta
-        pagedirectoris.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement directoryLink = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(directoryName)));
+        directoryLink.click();
+        //WebElement pagedirectoris = driver.findElement(By.linkText(directoryName)); //primera carpeta
+        //pagedirectoris.click();
         //Thread.sleep(3000);
     }
+
 }
