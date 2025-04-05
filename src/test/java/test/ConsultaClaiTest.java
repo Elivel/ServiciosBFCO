@@ -6,8 +6,6 @@ import org.openqa.selenium.WebDriver;
 
 public class ConsultaClaiTest {
     private static WebDriver driver;
-
-
     public void testGoogleSearch() throws InterruptedException {
         PageTest.google();
 
@@ -30,14 +28,11 @@ public class ConsultaClaiTest {
 
     }
 @Test
-    public void testClearing () throws InterruptedException {
+    public void testClearing() throws InterruptedException {
         PageTest.pageReportes();
         Thread.sleep(3000);
         PageTest.mastercardReport();
         Thread.sleep(3000);
-        PageTest.clearingReport();
-
-
-
+        PageTest.parametro("FechaProceso","27/10/2024");
     }
 }

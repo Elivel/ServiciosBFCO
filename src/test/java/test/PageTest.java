@@ -1,8 +1,6 @@
 package test;
 
 import io.cucumber.java.After;
-import io.cucumber.java.AfterAll;
-import io.cucumber.java.BeforeAll;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.By;
@@ -52,7 +50,7 @@ public class PageTest {
         WebElement reportconsultacali = driver.findElement(By.xpath("//*[@id=\"main\"]/div/div/section[2]/tiles-view/section/div/div/div/ul/li[25]/report-tile/rs-tile/a[1]")); //reporte
         reportconsultacali.click();
         Thread.sleep(5000);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement nroAutorizacionInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.id("ReportViewerControl_ctl04_ctl05_txtValue")));
         //WebElement nroAutorizacionInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nroAutorizacion")));
@@ -67,29 +65,132 @@ public class PageTest {
     public static void mastercardReport() throws InterruptedException {
         WebElement mastercard = driver.findElement(By.linkText("Mastercard")); //primera carpeta
         mastercard.click();
-        Thread.sleep(3000);
+        Thread.sleep(2000);
 
     }
 
-    public static void clearingReport() throws InterruptedException {
-        WebElement detalladoEvento = driver.findElement(By.linkText("Daily operation"));
-        detalladoEvento.click();
-        Thread.sleep(1000);
+    public static void clearingReport(String parameterName, String parameterValue) throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement dailyOperation = driver.findElement(By.linkText("Daily operation"));
+        dailyOperation.click();
+        Thread.sleep(2000);
+        //click clearing PMD
         WebElement reportClearingPMD = driver.findElement(By.linkText("CLEARING (PMD)"));
         reportClearingPMD.click();
-        log.info(driver.findElement(By.tagName("Body")).toString());
-        data("FechaProceso", "19/7/2023");
-
-    }
-    public static void data (String parameterName, String parameterValue){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement container = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-parametername=\"" + parameterName + "\"] input")));
-        if (container != null) {
-            container.clear();
-            container.sendKeys(parameterValue);
-
+// Esperar hasta que el iframe sea visible
+        WebElement iframeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("iframe.viewer[ng-show='!failureReason']")));
+        if (iframeElement.isDisplayed()) {
+            System.out.println("El iframe principal es visible.");
+            driver.switchTo().frame(iframeElement); // Switch to iframe using WebElement
+        } else {
+            System.out.println("El iframe principal no es visible.");
+            return; // Salir si no es visible
         }
+
+        // Segundo Iframe
+// Esperar que el iframe secundario esté disponible. Verificar si el iframe es visible (en caso de que sea oculto por el estilo).
+        WebElement innerIframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ReportViewerControl_ctl04_ctl03_ctl02")));
+
+        // Forzar la visibilidad del iframe si está oculto
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.display = 'block';", innerIframe);
+
+        // Esperar hasta que el iframe secundario sea visible
+        wait.until(ExpectedConditions.visibilityOf(innerIframe));
+        if (innerIframe.isDisplayed()) {
+            System.out.println("El iframe interno es visible.");
+            driver.switchTo().frame(innerIframe); // Switch to iframe using WebElement
+        } else {
+            System.out.println("El iframe interno no es visible.");
+            driver.switchTo().defaultContent();
+            return;
+        }
+            // el parametro
+        //WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl03$txtValue")));
+        // Forzar desplazamiento al campo de entrada (en caso de que no esté visible en la pantalla)
+        WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReportViewerControl_ctl04_ctl03_txtValue")));
+        container.clear();
+        container.sendKeys(parameterValue);
+
+       // ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", container);
+        //wait.until(ExpectedConditions.visibilityOf(container));
+        // WebElement container = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-parametername=\"" + parameterName + "\\\"] input")));
+// Si el contenedor no es null, interactuar con él
+          //  if (container != null) {
+            //    container.clear();
+              //  container.sendKeys(parameterValue);
+            //} else {
+             //   System.out.println("El contenedor no fue encontrado.");
+            //}
+// Volver al contenido principal después de trabajar dentro del iframe
+            //driver.switchTo().defaultContent();
+        }
+    public static void parametro(String parameterName, String parameterValue) throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Click en "Daily operation"
+        WebElement dailyOperation = driver.findElement(By.linkText("Daily operation"));
+        dailyOperation.click();
+        Thread.sleep(2000); // Puedes reemplazar Thread.sleep con una espera explícita si es necesario
+
+        // Click en "CLEARING (PMD)"
+        WebElement reportClearingPMD = driver.findElement(By.linkText("CLEARING (PMD)"));
+        reportClearingPMD.click();
+
+        // Esperar hasta que el primer iframe sea visible
+        WebElement iframeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("iframe.viewer[ng-show='!failureReason']")));
+
+        // Verificar si el primer iframe es visible
+        if (iframeElement.isDisplayed()) {
+            System.out.println("El iframe principal es visible.");
+            driver.switchTo().frame(iframeElement); // Cambiar al iframe principal
+        } else {
+            System.out.println("El iframe principal no es visible.");
+            return; // Salir si no es visible
+        }
+
+        // Esperar que el iframe secundario esté disponible
+        WebElement innerIframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ReportViewerControl_ctl04_ctl03_ctl02")));
+
+        // Forzar la visibilidad del iframe si está oculto
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.display = 'block';", innerIframe);
+
+        // Esperar hasta que el iframe secundario sea visible
+        wait.until(ExpectedConditions.visibilityOf(innerIframe));
+
+        // Verificar si el iframe interno es visible
+        if (innerIframe.isDisplayed()) {
+            System.out.println("El iframe interno es visible.");
+            driver.switchTo().frame(innerIframe); // Cambiar al segundo iframe
+        } else {
+            System.out.println("El iframe interno no es visible.");
+            driver.switchTo().defaultContent(); // Volver al contenido principal
+            return; // Salir si no es visible
+        }
+
+        // Ahora interactuamos con el campo de texto
+        // Esperar hasta que el campo de fecha sea visible y esté listo para hacer clic
+        WebElement inputField = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReportViewerControl_ctl04_ctl03_txtValue")));
+
+        // Asegúrate de que el campo de texto es visible
+        if (inputField.isDisplayed()) {
+            System.out.println("El campo de fecha es visible y clickeable.");
+
+            // Limpiar el campo y escribir la fecha
+            inputField.clear(); // Limpiar cualquier valor previo
+            inputField.sendKeys(parameterValue); // Escribir la fecha (por ejemplo: "5/4/2025")
+
+            // También podrías enviar un "Enter" si la página lo requiere para confirmar el valor
+            inputField.sendKeys(Keys.ENTER);
+        } else {
+            System.out.println("El campo de fecha no es visible o no es clickeable.");
+        }
+
+        // Volver al contenido principal después de interactuar con el iframe
+        driver.switchTo().defaultContent();
     }
+
 
     public static void detalladoMCCAReport() throws InterruptedException {
         WebElement  Billing = driver.findElement(By.linkText("Billing")); //primera carpeta
