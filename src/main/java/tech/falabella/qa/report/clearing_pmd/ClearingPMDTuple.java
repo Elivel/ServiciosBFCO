@@ -11,14 +11,25 @@ import tech.falabella.qa.report.Tuple;
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public class ClearingPMDTuple extends Tuple {
 
-    private String ciclo;
     private String producto;
-    private String definicionOrden;
     private String mti;
     private String functionCode;
-    private String functionDescription;
     private String processingCode;
     private String conceptoClearingSettlement;
+    private String cantidadTrxCop;
+    private String valoresTrxCop;
+    private String tiiTrxCop;
+    private String netoTrxCop;
+    private String cantidadReversosTrxCop;
+    private String valoresReversosTrxCop;
+    private String tiiReversosTrxCop;
+    private String netoReversosTrxCop;
+    private String cantidadTrx;
+    private String valoresCompresionTrxCop;
+    private String tiiComprensionTrxCop;
+    private String netoCompensacionTrxCop;
+
+
 
     @Override
     protected JsonObject getId() {

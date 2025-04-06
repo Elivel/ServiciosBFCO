@@ -32,14 +32,23 @@ public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
     public ClearingPMDTuple sqlMap(ResultSet resultSet) {
         try {
             return ClearingPMDTuple.builder()
-                    .ciclo(resultSet.getString(1))
-                    .producto(resultSet.getString(2))
-                    .definicionOrden(resultSet.getString(3))
-                    .mti(resultSet.getString(4))
-                    .functionCode(resultSet.getString(5))
-                    .functionDescription(resultSet.getString(6))
-                    .processingCode(resultSet.getString(7))
-                    .conceptoClearingSettlement(resultSet.getString(8))
+                    .producto(resultSet.getString(1))
+                    .mti(resultSet.getString(2))
+                    .functionCode(resultSet.getString(3))
+                    .processingCode(resultSet.getString(4))
+                    .conceptoClearingSettlement(resultSet.getString(5))
+                    .cantidadTrxCop(resultSet.getString(6))
+                    .valoresTrxCop(resultSet.getString(7))
+                    .tiiTrxCop(resultSet.getString(8))
+                    .netoTrxCop(resultSet.getString(9))
+                    .cantidadReversosTrxCop(resultSet.getString(10))
+                    .valoresReversosTrxCop(resultSet.getString(11))
+                    .tiiReversosTrxCop(resultSet.getString(12))
+                    .netoReversosTrxCop(resultSet.getString(13))
+                    .cantidadTrx(resultSet.getString(14))
+                    .valoresCompresionTrxCop(resultSet.getString(15))
+                    .tiiComprensionTrxCop(resultSet.getString(16))
+                    .netoCompensacionTrxCop(resultSet.getString(17))
                     .build();
         } catch (SQLException e) {
             throw new MalformedTupleException(e);
@@ -48,14 +57,23 @@ public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
 
     public ClearingPMDTuple csvMap(String[] result) {
         return ClearingPMDTuple.builder()
-                .ciclo(result[0])
-                .producto(result[1])
-                .definicionOrden(result[2])
-                .mti(result[3])
-                .functionCode(result[4])
-                .functionDescription(result[5])
-                .processingCode(result[6])
-                .conceptoClearingSettlement(result[7])
+                .producto(result[0])
+                .mti(result[1])
+                .functionCode(result[2])
+                .processingCode(result[3])
+                .conceptoClearingSettlement(result[4])
+                .cantidadTrxCop(result[5])
+                .valoresTrxCop(result[6])
+                .tiiTrxCop(result[7])
+                .netoTrxCop(result[8])
+                .cantidadReversosTrxCop(result[9])
+                .valoresReversosTrxCop(result[10])
+                .tiiReversosTrxCop(result[11])
+                .netoReversosTrxCop(result[12])
+                .cantidadTrx(result[13])
+                .valoresCompresionTrxCop(result[14])
+                .tiiComprensionTrxCop(result[15])
+                .netoCompensacionTrxCop(result[16])
                 .build();
     }
 
