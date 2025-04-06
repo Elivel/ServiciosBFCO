@@ -3,6 +3,7 @@ package tech.falabella.qa.adapter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import tech.falabella.qa.exception.GenerateIngestionObjectException;
 import tech.falabella.qa.port.IngestionPort;
 import tech.falabella.qa.report.Tuple;
 
@@ -26,9 +27,14 @@ public class DDBBIngestionAdapter<T extends Tuple> implements IngestionPort {
     private final Function<ResultSet, T> aMapFun;
     private transient Collection<T> data;
 
-    public static Connection createConnection(String url, String username, String password) throws ClassNotFoundException, SQLException {
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        return DriverManager.getConnection(url, username, password);
+    public static Connection createConnection(String url, String username, String password) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            return DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            throw new GenerateIngestionObjectException("Error estableciendo conexión a base de datos");
+        }
     }
 
     @Override
@@ -46,9 +52,8 @@ public class DDBBIngestionAdapter<T extends Tuple> implements IngestionPort {
             while (resultSet.next()) {
                 data.add(aMapFun.apply(resultSet));
             }
-
         } catch (SQLException exception) {
-            log.error(exception.getMessage(), exception);
+            throw new GenerateIngestionObjectException(exception.getMessage());
         }
     }
 }

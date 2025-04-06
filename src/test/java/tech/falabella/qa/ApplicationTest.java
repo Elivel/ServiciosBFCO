@@ -1,10 +1,10 @@
 package tech.falabella.qa;
 
 import org.junit.jupiter.api.Test;
-import tech.falabella.qa.report.consulta_clai.ConsultaCLAITuple;
 import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.report.consulta_clai.ConsultaCLAITuple;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ApplicationTest {
 

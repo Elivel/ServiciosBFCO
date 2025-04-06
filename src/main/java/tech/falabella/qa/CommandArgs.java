@@ -14,7 +14,6 @@ import tech.falabella.qa.port.IngestionPort;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -67,7 +66,7 @@ public class CommandArgs implements Callable<Integer> {
     @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "true")
     boolean print;
 
-    @Option(names = {"-o", "--output"}, description = "path output result")
+    @Option(names = {"-o", "--output"}, description = "file output result")
     String output;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
@@ -85,7 +84,7 @@ public class CommandArgs implements Callable<Integer> {
                 : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig::csvMap);
     }
 
-    public IngestionPort generatePersistence() throws SQLException, ClassNotFoundException {
+    public IngestionPort generatePersistence() {
         return generatePersistence(DDBBIngestionAdapter.createConnection(this.mssqlUrl, this.username, this.password));
     }
 
@@ -93,7 +92,8 @@ public class CommandArgs implements Callable<Integer> {
         var reportConfig = this.report.config.get();
 
         return new DDBBIngestionAdapter<>(connection,
-                reportConfig.getQuery(), reportConfig.validateAndGet(this.params),
+                reportConfig.getQuery(),
+                reportConfig.validateAndGet(this.params),
                 reportConfig::sqlMap);
     }
 
