@@ -6,24 +6,24 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tech.falabella.qa.port.IngestionPort;
 import tech.falabella.qa.report.Tuple;
 
+import java.io.File;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Slf4j
@@ -37,41 +37,46 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
     private final char separator;
     private final boolean skipHeader;
     private final Function<String[], T> aMapFun;
+    private File file;
 
-    @SneakyThrows
     @Override
     public void generate() {
-        var driver = new ChromeDriver();
-        driver.get(uriReport);
+        var driver = openBrowser();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        try {
+            driver.get(uriReport);
 
-        WebElement iframeReport = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("iframe.viewer[ng-show='!failureReason']")));
-        driver.switchTo().frame(iframeReport);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        parameters.entrySet().parallelStream().forEach(param -> {
-            WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-parametername=\"" + param.getKey() + "\"] input")));
+            WebElement iframeReport = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("iframe.viewer[ng-show='!failureReason']")));
+            driver.switchTo().frame(iframeReport);
 
-            if (container != null) {
-                container.clear();
-                container.sendKeys(param.getValue());
-            }
-        });
-//menu depslegable
-        WebElement verInforme = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl00")));
-        verInforme.click();
-//select csv
-        //WebElement btndescarga = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ReportViewerControl_ctl05_ctl04_ctl00_Menu")));
-        //btndescarga.click();
-       JavascriptExecutor js = (JavascriptExecutor) driver;
+            parameters.entrySet().parallelStream().forEach(param -> {
+                WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-parametername=\"" + param.getKey() + "\"] input")));
 
-        //js.executeScript("arguments[0].style='display: block; position: absolute; z-index: 1; visibility: visible;';", btndescarga);
-        //WebElement optioncsv = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("$find('ReportViewerControl').exportReport('CSV');")));
-        Thread.sleep(2000);
-        js.executeScript("$find('ReportViewerControl').exportReport('CSV');");
-       // optioncsv.click();
+                if (container != null) {
+                    container.clear();
+                    container.sendKeys(param.getValue());
+                }
+            });
 
-        // ToDo: read last download and move file to output
+            WebElement verInforme = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl00")));
+            verInforme.click();
+
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            Thread.sleep(2000);
+            js.executeScript("$find('ReportViewerControl').exportReport('CSV');");
+
+            // Espera un tiempo razonable para que la descarga se complete
+            Thread.sleep(5000); // Ajusta este tiempo según el tamaño del archivo y la velocidad de la red
+
+            getLatestFile();
+        } catch (Exception exception) {
+            log.error("error generando el archivo. Causa: {}", exception.getMessage(), exception);
+        } finally {
+            driver.quit();
+        }
+
     }
 
     @Override
@@ -82,7 +87,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
                 .withQuoteChar('"')
                 .build();
 
-        try (Reader reader = Files.newBufferedReader(output);
+        try (Reader reader = Files.newBufferedReader(file.toPath());
              CSVReader csvReader = new CSVReaderBuilder(reader)
                      .withSkipLines(skipHeader ? 1 : 0)
                      .withCSVParser(parser)
@@ -92,5 +97,26 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             log.error(exception.getMessage(), exception);
         }
         return List.of();
+    }
+
+    private WebDriver openBrowser() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*"); // Necesario en Chrome 111+
+        options.setExperimentalOption("prefs", new java.util.HashMap<String, Object>() {{
+            put("download.default_directory", output);
+            put("download.prompt_for_download", false); // Descarga automática sin preguntar
+            put("download.directory_upgrade", true);
+            put("safebrowsing.enabled", false); // Opcional: deshabilitar Safe Browsing para descargas
+        }});
+        return new ChromeDriver(options);
+    }
+
+    private void getLatestFile() {
+        File[] files = output.toFile().listFiles();
+        if (files == null || files.length == 0)
+            return;
+
+        Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
+        file = files[0];
     }
 }
