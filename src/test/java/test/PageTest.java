@@ -86,44 +86,53 @@ public class PageTest {
             System.out.println("El iframe principal no es visible.");
             return; // Salir si no es visible
         }
+        WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-parametername=\"" + parameterName + "\"] input")));
 
-        // Segundo Iframe
-// Esperar que el iframe secundario esté disponible. Verificar si el iframe es visible (en caso de que sea oculto por el estilo).
-        WebElement innerIframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("ReportViewerControl_ctl04_ctl03_ctl02")));
+        if (container != null) {
+            container.clear();
+            container.sendKeys(parameterValue);
 
-        // Forzar la visibilidad del iframe si está oculto
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].style.display = 'block';", innerIframe);
-
-        // Esperar hasta que el iframe secundario sea visible
-        wait.until(ExpectedConditions.visibilityOf(innerIframe));
-        if (innerIframe.isDisplayed()) {
-            System.out.println("El iframe interno es visible.");
-            driver.switchTo().frame(innerIframe); // Switch to iframe using WebElement
-        } else {
-            System.out.println("El iframe interno no es visible.");
-            driver.switchTo().defaultContent();
-            return;
         }
-            // el parametro
-        //WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl03$txtValue")));
-        // Forzar desplazamiento al campo de entrada (en caso de que no esté visible en la pantalla)
-        WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReportViewerControl_ctl04_ctl03_txtValue")));
-        container.clear();
-        container.sendKeys(parameterValue);
+        //log.info(driver.findElement(By.tagName("Body")).getTagName());
 
-       // ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", container);
-        //wait.until(ExpectedConditions.visibilityOf(container));
-        // WebElement container = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-parametername=\"" + parameterName + "\\\"] input")));
-// Si el contenedor no es null, interactuar con él
-          //  if (container != null) {
-            //    container.clear();
-              //  container.sendKeys(parameterValue);
-            //} else {
-             //   System.out.println("El contenedor no fue encontrado.");
-            //}
-// Volver al contenido principal después de trabajar dentro del iframe
-            //driver.switchTo().defaultContent();
+        WebElement verInforme = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl00")));
+        verInforme.click();
+        //descarga
+        //WebElement btndescarga = driver.findElement(By.id("ReportViewerControl_ctl05_ctl04_ctl00_ButtonLink"));
+        //btndescarga.isDisplayed();
+        //System.out.println("franja de botones visibles");
+        //btndescarga.click();
+        //Thread.sleep(2000);
+        //WebElement optioncsv = driver.findElement(By.cssSelector("a.ActiveLink[title=\"CSV (delimitado por comas)\"]"));
+        //optioncsv.click();
+        //Thread.sleep(2000);
+          // Tiempo de espera máximo: 10 segundos
+        WebElement btndescarga = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ReportViewerControl_ctl05_ctl04_ctl00_ButtonLink")));
+        System.out.println("Botón visible");
+
+        // Hacer clic en el botón de exportación
+        btndescarga.click();
+        // Esperar a que el menú se despliegue y se vuelva visible
+        WebElement menu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ReportViewerControl_ctl05_ctl04_ctl00_Menu")));
+        System.out.println("Menú visible");
+
+        // Esperar a que la opción CSV esté visible y sea clickeable
+        WebElement optioncsv = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[title=\"CSV (delimitado por comas)\"]")));
+        optioncsv.click();
+        System.out.println("Opción CSV seleccionada");
+
+        // Esperar un poco para que la exportación se realice
+        Thread.sleep(2000);
+       // String onclick ="$find('ReportViewerControl').exportReport('CSV');";
+       // var js = (JavascriptExecutor) driver;
+        //boolean isLoading = false;
+        //while(!isLoading) {
+          //  Thread.sleep(1000);
+           // isLoading = js.executeScript("return document.readyState").equals("complete");
+        //}
+        //js.executeScript(onclick);
+
+
         }
     public static void parametro(String parameterName, String parameterValue) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -171,7 +180,7 @@ public class PageTest {
 
         // Ahora interactuamos con el campo de texto
         // Esperar hasta que el campo de fecha sea visible y esté listo para hacer clic
-        WebElement inputField = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReportViewerControl_ctl04_ctl03_txtValue")));
+        WebElement inputField = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReportViewerControl_ctl04_ctl03")));
 
         // Asegúrate de que el campo de texto es visible
         if (inputField.isDisplayed()) {

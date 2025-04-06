@@ -33,6 +33,6 @@ public class ConsultaClaiTest {
         Thread.sleep(3000);
         PageTest.mastercardReport();
         Thread.sleep(3000);
-        PageTest.parametro("FechaProceso","27/10/2024");
+        PageTest.clearingReport("FechaProceso", "27/10/2024");
     }
 }
