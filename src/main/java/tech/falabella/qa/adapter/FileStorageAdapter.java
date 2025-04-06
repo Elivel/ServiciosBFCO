@@ -50,7 +50,7 @@ public class FileStorageAdapter implements StoragePort {
                 .concat(result.stream().map(it -> it.toString()).collect(Collectors.joining("\n")));
 
         try {
-            Files.writeString(Path.of(args.getOutput()), content);
+            Files.writeString(Path.of(args.getOutput().concat("out.txt")), content);
         } catch (IOException ignore) {
             log.error("Error generando archivo de salida {}", args.getOutput());
         }

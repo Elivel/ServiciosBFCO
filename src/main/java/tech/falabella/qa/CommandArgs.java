@@ -6,7 +6,6 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import tech.falabella.qa.adapter.DDBBIngestionAdapter;
 import tech.falabella.qa.adapter.FileIngestionAdapter;
-import tech.falabella.qa.adapter.SSRSIngestionAdapter;
 import tech.falabella.qa.adapter.ScrapingIngestionAdapter;
 import tech.falabella.qa.dto.Report;
 import tech.falabella.qa.dto.Separator;
@@ -14,7 +13,6 @@ import tech.falabella.qa.exception.DisabledReportException;
 import tech.falabella.qa.port.IngestionPort;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -83,7 +81,7 @@ public class CommandArgs implements Callable<Integer> {
 
         return (executeExportReport)
                 //? new SSRSIngestionAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, reportConfig.getRoute(), this.outPath, this.params, reportConfig::csvMap)
-                ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), this.params,  Path.of(this.outPath), this.separator.value, this.skipHeader, reportConfig::csvMap)
+                ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), this.params, this.outPath, this.separator.value, this.skipHeader, reportConfig::csvMap)
                 : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig::csvMap);
     }
 

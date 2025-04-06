@@ -33,7 +33,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
 
     private final String uriReport;
     private final Map<String, String> parameters;
-    private final Path output;
+    private final String output;
     private final char separator;
     private final boolean skipHeader;
     private final Function<String[], T> aMapFun;
@@ -112,7 +112,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
     }
 
     private void getLatestFile() {
-        File[] files = output.toFile().listFiles();
+        File[] files = new File(output).listFiles();
         if (files == null || files.length == 0)
             return;
 
