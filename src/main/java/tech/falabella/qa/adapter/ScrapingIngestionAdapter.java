@@ -6,8 +6,10 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -36,6 +38,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
     private final boolean skipHeader;
     private final Function<String[], T> aMapFun;
 
+    @SneakyThrows
     @Override
     public void generate() {
         var driver = new ChromeDriver();
@@ -54,15 +57,19 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
                 container.sendKeys(param.getValue());
             }
         });
-
+//menu depslegable
         WebElement verInforme = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl00")));
         verInforme.click();
+//select csv
+        //WebElement btndescarga = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ReportViewerControl_ctl05_ctl04_ctl00_Menu")));
+        //btndescarga.click();
+       JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        WebElement btndescarga = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ReportViewerControl_ctl05_ctl04_ctl00_ButtonLink")));
-        btndescarga.click();
-
-        WebElement optioncsv = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[title=\"CSV (delimitado por comas)\"]")));
-        optioncsv.click();
+        //js.executeScript("arguments[0].style='display: block; position: absolute; z-index: 1; visibility: visible;';", btndescarga);
+        //WebElement optioncsv = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("$find('ReportViewerControl').exportReport('CSV');")));
+        Thread.sleep(2000);
+        js.executeScript("$find('ReportViewerControl').exportReport('CSV');");
+       // optioncsv.click();
 
         // ToDo: read last download and move file to output
     }
