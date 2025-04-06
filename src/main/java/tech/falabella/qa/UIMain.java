@@ -143,14 +143,6 @@ public class UIMain extends JDialog {
             fireTableRowsInserted(datos.size() - 1, datos.size() - 1);
         }
 
-        public void modificarCelda(int fila, int columna, String nuevoValor) {
-            datos.get(fila)[columna] = nuevoValor;
-            fireTableCellUpdated(fila, columna);
-        }
     }
 
-    // IntelliJ IDEA form binding - Do not modify
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }

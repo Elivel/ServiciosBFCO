@@ -31,6 +31,7 @@ public class FileStorageAdapter implements StoragePort {
                     %s
                 Precondición:           Tablas pobladas
                 Estado de la Prueba:    %s
+                
                 """.formatted(
                 System.getProperty("user.name"),
                 args.getReport().name(),
@@ -46,7 +47,7 @@ public class FileStorageAdapter implements StoragePort {
                 result.isEmpty() ? "Exitoso" : "Fallido"
         );
 
-        String content = header.concat("\n")
+        String content = header
                 .concat(result.stream().map(it -> it.toString()).collect(Collectors.joining("\n")));
 
         try {

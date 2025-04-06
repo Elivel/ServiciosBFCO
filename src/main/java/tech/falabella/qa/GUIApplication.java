@@ -16,7 +16,7 @@ public class GUIApplication {
         dialog.setLocationRelativeTo(null);
         dialog.pack();
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        dialog.setVisible(true);
+        dialog.setVisible(Boolean.TRUE);
     }
 
 }
