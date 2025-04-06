@@ -19,7 +19,7 @@ public class Parameters {
         return this.value.keySet().toArray(String[]::new);
     }
 
-    void forEach(BiConsumer<String, Value> action) {
+    public void forEach(BiConsumer<String, Value> action) {
         Objects.requireNonNull(action);
         for (var entry : value.entrySet()) {
             String key;
