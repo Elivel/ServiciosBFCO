@@ -4,6 +4,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.validators.LineValidator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.util.Collection;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @Slf4j
 @Getter
@@ -40,7 +42,9 @@ public class FileIngestionAdapter<T extends Tuple> implements IngestionPort {
                      .withSkipLines(skipHeader ? 1 : 0)
                      .withCSVParser(parser)
                      .build()) {
-            this.data = csvReader.readAll().parallelStream().map(aMapFun).toList();
+            this.data = csvReader.readAll().parallelStream()
+                    .filter(line -> line.length > 0 && Stream.of(line).anyMatch(cell -> !cell.trim().isEmpty()))
+                    .map(aMapFun).toList();
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
         }

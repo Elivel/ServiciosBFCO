@@ -6,7 +6,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import tech.falabella.qa.adapter.DDBBIngestionAdapter;
 import tech.falabella.qa.adapter.FileIngestionAdapter;
-import tech.falabella.qa.adapter.SSRSIngestionAdapter;
+import tech.falabella.qa.adapter.ScrapingIngestionAdapter;
 import tech.falabella.qa.dto.Report;
 import tech.falabella.qa.dto.Separator;
 import tech.falabella.qa.exception.DisabledReportException;
@@ -59,14 +59,14 @@ public class CommandArgs implements Callable<Integer> {
     @Option(names = {"-e", "--execute-export-report"}, negatable = true, defaultValue = "false", fallbackValue = "true", description = "Indicates that the report generation process should be run from the reporting service")
     boolean executeExportReport;
 
-    @Option(names = {"-x", "--out-file-export"}, description = "output export file")
+    @Option(names = {"-x", "--out-path-export"}, description = "path export file")
     String outPath;
 
     // others
     @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "true")
     boolean print;
 
-    @Option(names = {"-o", "--output"}, description = "file output result")
+    @Option(names = {"-o", "--out-file-result"}, description = "file output result")
     String output;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
@@ -80,7 +80,8 @@ public class CommandArgs implements Callable<Integer> {
         var reportConfig = this.report.config.get();
 
         return (executeExportReport)
-                ? new SSRSIngestionAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, reportConfig.getRoute(), this.outPath, this.params, reportConfig::csvMap)
+                //? new SSRSIngestionAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, reportConfig.getRoute(), this.outPath, this.params, reportConfig::csvMap)
+                ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), this.params, this.outPath, this.separator.value, this.skipHeader, reportConfig::csvMap)
                 : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig::csvMap);
     }
 
