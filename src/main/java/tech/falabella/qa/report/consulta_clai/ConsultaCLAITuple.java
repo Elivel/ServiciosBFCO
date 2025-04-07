@@ -37,7 +37,7 @@ public class ConsultaCLAITuple extends Tuple {
     private String comercio;
 
     @Override
-    protected JsonObject getId() {
+    public JsonObject getId() {
         return toJsonIds.apply(
                 Map.of("numero-autorizacion", numeroAutorizacion,
                         "tarjeta", tarjeta,

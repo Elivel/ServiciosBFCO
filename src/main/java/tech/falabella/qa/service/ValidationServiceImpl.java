@@ -2,7 +2,6 @@ package tech.falabella.qa.service;
 
 import lombok.RequiredArgsConstructor;
 import tech.falabella.qa.port.IngestionPort;
-import tech.falabella.qa.report.Tuple;
 
 import java.util.Collection;
 
@@ -13,7 +12,7 @@ public class ValidationServiceImpl implements ValidationService {
     private final IngestionPort persistence;
 
     @Override
-    public Collection<Tuple> processElements() {
+    public Collection<String> processElements() {
         input.generate();
         persistence.generate();
 
@@ -22,6 +21,10 @@ public class ValidationServiceImpl implements ValidationService {
 
         return persistenceData.parallelStream()
                 .filter(it -> !inputData.contains(it))
+                .map(it -> {
+                    var other = inputData.stream().filter(o -> o.getId().equals(it.getId())).findFirst().get();
+                    return it.diff(other);
+                })
                 .toList();
     }
 

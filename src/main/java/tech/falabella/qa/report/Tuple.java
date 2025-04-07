@@ -23,7 +23,7 @@ public abstract class Tuple implements Serializable {
         return ids;
     };
 
-    protected abstract JsonObject getId();
+    public abstract JsonObject getId();
 
     public String toString() {
         var gson = new GsonBuilder().create();

@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import tech.falabella.qa.CommandArgs;
 import tech.falabella.qa.port.StoragePort;
-import tech.falabella.qa.report.Tuple;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class FileStorageAdapter implements StoragePort {
 
     @Override
-    public <T extends Tuple> void generate(Collection<T> result, CommandArgs args) {
+    public void generate(Collection<String> result, CommandArgs args) {
         var header = """
                 Área:                   BFCO Cluster Proyectos Corporativos - Quality Assurance
                 Nombre del Analista:    %s
@@ -47,8 +46,7 @@ public class FileStorageAdapter implements StoragePort {
                 result.isEmpty() ? "Exitoso" : "Fallido"
         );
 
-        String content = header
-                .concat(result.stream().map(it -> it.toString()).collect(Collectors.joining("\n")));
+        String content = header.concat(String.join("\n", result));
 
         try {
             Files.writeString(Path.of(args.getOutput()), content);

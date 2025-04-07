@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
 
+import java.util.Map;
+
 @Getter
 @Builder(toBuilder = true)
 @EqualsAndHashCode(callSuper = false)
@@ -27,8 +29,11 @@ public class DetalladoEventoMCCATuple extends Tuple {
     private String refArn;
 
     @Override
-    protected JsonObject getId() {
-        return null;
+    public JsonObject getId() {
+        return toJsonIds.apply(
+                Map.of("tarjeta", tarjeta,
+                        "trace-id", traceId)
+        );
     }
 
 }

@@ -29,10 +29,8 @@ public class ClearingPMDTuple extends Tuple {
     private String tiiComprensionTrxCop;
     private String netoCompensacionTrxCop;
 
-
-
     @Override
-    protected JsonObject getId() {
+    public JsonObject getId() {
         return null;
     }
 
