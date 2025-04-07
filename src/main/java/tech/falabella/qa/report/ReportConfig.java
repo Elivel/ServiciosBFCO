@@ -23,7 +23,7 @@ public interface ReportConfig<T extends Tuple> {
         getParameters().forEach((name, value) -> {
             var aValueByParamName = Optional
                     .ofNullable(dValues.get(name))
-                    .map(it -> value.action.apply(it))
+                    .map(it -> value.sqlFormat.apply(it))
                     .orElse(value.defaultValue);
 
             result.put(value.position, aValueByParamName);

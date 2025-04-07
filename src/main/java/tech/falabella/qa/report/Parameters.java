@@ -35,7 +35,7 @@ public class Parameters {
                     }
                     action.accept(key, val);
                 });
-        
+
     }
 
     @Builder
@@ -43,10 +43,14 @@ public class Parameters {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Value {
         public final Integer position;
+        @Builder.Default
         public String defaultValue = "";
         @Builder.Default
         public String type = "input";
-        public Function<String, String> action = (dValue) -> dValue;
+        @Builder.Default
+        public Function<String, String> action = dValue -> dValue;
+        @Builder.Default
+        public Function<String, String> sqlFormat = dValue -> dValue;
     }
 
 

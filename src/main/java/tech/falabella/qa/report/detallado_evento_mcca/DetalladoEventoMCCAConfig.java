@@ -9,6 +9,8 @@ import tech.falabella.qa.report.ReportConfig;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,8 +19,18 @@ import java.util.Optional;
 public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMCCATuple> {
 
     private final Parameters parameters = Parameters.of(Map.of(
-            "FECHA", Parameters.Value.of(1),
-            "EVENTO", Parameters.Value.builder().position(2).type("select").action(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.value).orElse("")).build()
+            "FECHA", Parameters.Value.builder()
+                                    .position(1)
+                                    .sqlFormat(dVal -> {
+                                        DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                        DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyyMMdd");
+                                        LocalDate date = LocalDate.parse(dVal, formatterWeb);
+                                        return date.format(formatterSql);
+                                    })
+                    .build(),
+            "EVENTO", Parameters.Value.builder().position(2).type("select")
+                    .action(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.value).orElse(""))
+                    .build()
     ));
 
     private final String route = "Mastercard/Billing/DETALLADO%20POR%20EVENTO%20MCCA";

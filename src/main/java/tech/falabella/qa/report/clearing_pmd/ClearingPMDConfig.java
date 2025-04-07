@@ -8,6 +8,8 @@ import tech.falabella.qa.report.ReportConfig;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @Getter
@@ -15,7 +17,14 @@ import java.util.Map;
 public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
 
     private final Parameters parameters = Parameters.of(Map.of(
-            "FechaProceso", Parameters.Value.of(1)
+            "FechaProceso", Parameters.Value.builder()
+                    .position(1)
+                    .sqlFormat(dVal -> {
+                        DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyyMMdd");
+                        LocalDate date = LocalDate.parse(dVal, formatterWeb);
+                        return date.format(formatterSql);
+                    }).build()
     ));
 
     private final String route = "Mastercard/Daily%20operation/CLEARING%20(PMD)";
