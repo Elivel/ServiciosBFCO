@@ -64,7 +64,9 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             verInforme.click();
 
             JavascriptExecutor js = (JavascriptExecutor) driver;
-            Thread.sleep(2000);
+            Thread.sleep(5000);
+            //WebElement tablageneral = wait.until(ExpectedConditions.elementToBeClickable(By.id("ReportViewerControl_fixedTable")));
+
             js.executeScript("$find('ReportViewerControl').exportReport('CSV');");
 
             // Espera un tiempo razonable para que la descarga se complete
@@ -108,7 +110,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             put("download.directory_upgrade", true);
             put("safebrowsing.enabled", false); // Opcional: deshabilitar Safe Browsing para descargas
         }});
-        return new ChromeDriver(options);
+        return new ChromeDriver();
     }
 
     private void getLatestFile() {
@@ -118,5 +120,6 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
 
         Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
         file = files[0];
+        log.info("ultimo archivo {}",file.toString());
     }
 }
