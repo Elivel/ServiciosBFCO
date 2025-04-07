@@ -39,9 +39,9 @@ public class Parameters {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Value {
         public final Integer position;
-        public String pattern;
-        @Builder.Default
         public String defaultValue = "";
+        @Builder.Default
+        public String type = "input";
         public Function<String, String> action = (dValue) -> dValue;
     }
 

@@ -32,4 +32,17 @@ public interface ReportConfig<T extends Tuple> {
         return result;
     }
 
+    default Map<String, Parameters.Value> assignDefaultValuesAndGet(Map<String, String> dValues) {
+        var result = new HashMap<String, Parameters.Value>();
+
+        getParameters().forEach((name, value) -> {
+            value.defaultValue = Optional
+                    .ofNullable(dValues.get(name))
+                    .map(it -> value.action.apply(it))
+                    .orElse(value.defaultValue);
+
+            result.put(name, value);
+        });
+        return result;
+    }
 }

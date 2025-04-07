@@ -16,12 +16,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tech.falabella.qa.port.IngestionPort;
+import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.Tuple;
 
 import java.io.File;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Function;
@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort {
 
     private final String uriReport;
-    private final Map<String, String> parameters;
+    private final Map<String, Parameters.Value> parameters;
     private final String output;
     private final char separator;
     private final boolean skipHeader;
@@ -52,12 +52,12 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             WebElement iframeReport = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("iframe.viewer[ng-show='!failureReason']")));
             driver.switchTo().frame(iframeReport);
 
-            parameters.entrySet().parallelStream().forEach(param -> {
-                WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-parametername=\"" + param.getKey() + "\"] input")));
+            parameters.forEach((key, value) -> {
+                WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-parametername=\"" + key + "\"] " + value.type)));
 
                 if (container != null) {
                     container.clear();
-                    container.sendKeys(param.getValue());
+                    container.sendKeys(value.defaultValue);
                 }
             });
 
@@ -123,6 +123,6 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
 
         Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
         file = files[0];
-        log.info("ultimo archivo {}",file.toString());
+        log.info("ultimo archivo {}", file.toString());
     }
 }

@@ -18,7 +18,7 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
 
     private final Parameters parameters = Parameters.of(Map.of(
             "Fecha", Parameters.Value.of(1),
-            "Evento", Parameters.Value.builder().position(2).action(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.value).orElse("")).build()
+            "Evento", Parameters.Value.builder().position(2).type("select").action(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.value).orElse("")).build()
     ));
 
     private final String route = "Mastercard/Billing/DETALLADO%20POR%20EVENTO%20MCCA";
