@@ -32,7 +32,7 @@ public class UIMain extends JDialog {
     private JPanel footerPanel;
     private JPanel headerPanel;
     private JPanel configPanel;
-    private JTextField reportPathField;
+
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField msUrlField;
@@ -134,7 +134,7 @@ public class UIMain extends JDialog {
         try {
             if (reportsBox.getSelectedItem() instanceof Report reportSelected) {
                 var reportConfig = reportSelected.config.get();
-                var uri = URI.create(this.reportPathField.getText().concat(reportConfig.getRoute()));
+                var uri = URI.create(this.rsUrlField.getText().concat(reportConfig.getRoute()));
                 Desktop.getDesktop().browse(uri);
             }
         } catch (Exception e) {

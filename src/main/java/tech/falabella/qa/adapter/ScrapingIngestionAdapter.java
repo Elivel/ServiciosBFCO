@@ -76,6 +76,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             getLatestFile();
         } catch (Exception exception) {
             log.error("error generando el archivo. Causa: {}", exception.getMessage(), exception);
+            throw new RuntimeException(exception.getMessage(), exception);
         } finally {
             driver.quit();
         }

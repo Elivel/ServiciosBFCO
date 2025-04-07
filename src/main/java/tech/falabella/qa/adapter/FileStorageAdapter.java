@@ -48,14 +48,14 @@ public class FileStorageAdapter implements StoragePort {
 
         String content = header.concat(String.join("\n", result));
 
+        if (args.isPrint()) {
+            log.info("\n{}\n", content);
+        }
+
         try {
             Files.writeString(Path.of(args.getOutput()), content);
         } catch (IOException ignore) {
             log.error("Error generando archivo de salida {}", args.getOutput());
-        }
-
-        if (args.isPrint()) {
-            log.info("\n{}\n", content);
         }
 
     }
