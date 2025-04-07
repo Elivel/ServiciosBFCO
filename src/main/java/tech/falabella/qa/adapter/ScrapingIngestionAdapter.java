@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @Slf4j
 @Getter
@@ -94,7 +95,9 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
                      .withSkipLines(skipHeader ? 1 : 0)
                      .withCSVParser(parser)
                      .build()) {
-            return csvReader.readAll().parallelStream().map(aMapFun).toList();
+            return csvReader.readAll().parallelStream()
+                    .filter(line -> line.length > 0 && Stream.of(line).anyMatch(cell -> !cell.trim().isEmpty()))
+                    .map(aMapFun).toList();
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
         }
