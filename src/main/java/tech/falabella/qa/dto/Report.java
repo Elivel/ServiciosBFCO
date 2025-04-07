@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public enum Report {
     CONSULTA_CLAI(ConsultaCLAIConfig::newInstance, Boolean.TRUE),
     DETALLADO_EVENTO_MCCA(DetalladoEventoMCCAConfig::newInstance, Boolean.TRUE),
-    CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.FALSE);
+    CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.TRUE);
 
     public final Supplier<ReportConfig<? extends Tuple>> config;
     public final boolean enabled;
