@@ -59,14 +59,14 @@ public class CommandArgs implements Callable<Integer> {
     @Option(names = {"-e", "--execute-export-report"}, negatable = true, defaultValue = "false", fallbackValue = "true", description = "Indicates that the report generation process should be run from the reporting service")
     boolean executeExportReport;
 
-    @Option(names = {"-x", "--out-file-export"}, description = "output export file")
+    @Option(names = {"-x", "--out-path-export"}, description = "path export file")
     String outPath;
 
     // others
     @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "true")
     boolean print;
 
-    @Option(names = {"-o", "--output"}, description = "file output result")
+    @Option(names = {"-o", "--out-file-result"}, description = "file output result")
     String output;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
