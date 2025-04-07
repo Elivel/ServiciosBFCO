@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tech.falabella.qa.port.IngestionPort;
 import tech.falabella.qa.report.Parameters;
@@ -53,11 +54,18 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             driver.switchTo().frame(iframeReport);
 
             parameters.forEach((key, value) -> {
-                WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-parametername=\"" + key + "\"] " + value.type)));
+                WebElement container = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[data-parametername=\"" + key + "\"] " + value.type)));
 
                 if (container != null) {
-                    container.clear();
-                    container.sendKeys(value.defaultValue);
+                    if (value.type.equalsIgnoreCase("select")){
+                        Select select = new Select(container);
+                        select.selectByVisibleText(value.defaultValue); // Ejemplo
+                    }
+                    else {
+                        container.clear();
+                        container.sendKeys(value.defaultValue);
+                    }
+
                 }
             });
 

@@ -29,7 +29,8 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
                                     })
                     .build(),
             "EVENTO", Parameters.Value.builder().position(2).type("select")
-                    .action(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.value).orElse(""))
+                    .action(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.description).orElse(""))
+                    .sqlFormat(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.value).orElse(""))
                     .build()
     ));
 
