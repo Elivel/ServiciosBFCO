@@ -2,7 +2,10 @@ package tech.falabella.qa;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import picocli.CommandLine;
+import tech.falabella.qa.adapter.FileStorageAdapter;
 import tech.falabella.qa.dto.Report;
+import tech.falabella.qa.service.ValidationServiceImpl;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -28,8 +31,14 @@ public class UIMain extends JDialog {
     private JPanel mainPanel;
     private JPanel footerPanel;
     private JPanel headerPanel;
-
-    private String reportPath = "http://f8sc00008/Reports/report/";
+    private JPanel configPanel;
+    private JTextField reportPathField;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JTextField msUrlField;
+    private JTextField rsUrlField;
+    private JTextField outPathExportField;
+    private JTextField outFileResultField;
 
     public UIMain() {
         setContentPane(contentPane);
@@ -73,7 +82,48 @@ public class UIMain extends JDialog {
     }
 
     private void onOK() {
-        dispose();
+        List<String> args = new ArrayList<>();
+        if (reportsBox.getSelectedItem() instanceof Report reportSelected) {
+            var reportConfig = reportSelected.config.get();
+
+            args.add("--report-name=" + reportSelected.name());
+            args.add("--print");
+            args.add("--execute-export-report");
+            args.add("--skip-header");
+            args.add("--separator=comma");
+            args.add("--username=" + usernameField.getText());
+            args.add("--password=" + String.valueOf(passwordField.getPassword()));
+            args.add("--mssql-url=" + msUrlField.getText());
+            args.add("--ssrs-url=" + rsUrlField.getText());
+            args.add("--out-path-export=" + outPathExportField.getText());
+            args.add("--out-file-result=" + outFileResultField.getText());
+
+            var params = tableParameters.getModel();
+            var rows = params.getRowCount();
+
+            for (int i = 0; i < rows; i++) {
+                args.add("-D" + params.getValueAt(i, 0) + "=" + params.getValueAt(i, 1));
+            }
+
+        }
+
+        var commandLine = new CommandLine(CommandArgs.newInstance());
+        commandLine.setCaseInsensitiveEnumValuesAllowed(Boolean.TRUE);
+
+        commandLine.parseArgs(args.toArray(String[]::new));
+
+        int exitCode = commandLine.execute(args.toArray(String[]::new));
+
+        var command = commandLine.<CommandArgs>getCommand();
+
+        var reportValidation = ValidationServiceImpl.newInstance(command.generateInput(),
+                command.generatePersistence());
+
+        final var result = reportValidation.processElements();
+
+        var fileOutput = FileStorageAdapter.newInstance();
+        fileOutput.generate(result, command);
+
     }
 
     private void onCancel() {
@@ -84,7 +134,7 @@ public class UIMain extends JDialog {
         try {
             if (reportsBox.getSelectedItem() instanceof Report reportSelected) {
                 var reportConfig = reportSelected.config.get();
-                var uri = URI.create(this.reportPath.concat(reportConfig.getRoute()));
+                var uri = URI.create(this.reportPathField.getText().concat(reportConfig.getRoute()));
                 Desktop.getDesktop().browse(uri);
             }
         } catch (Exception e) {
@@ -110,8 +160,8 @@ public class UIMain extends JDialog {
 
     @NoArgsConstructor
     class ParamsTableModel extends AbstractTableModel {
-        private List<String[]> datos = new ArrayList<>();
-        private String[] columnas = {"Name", "Value"};
+        private final List<String[]> datos = new ArrayList<>();
+        private final String[] columnas = {"Name", "Value"};
 
         @Override
         public int getRowCount() {
@@ -135,7 +185,15 @@ public class UIMain extends JDialog {
 
         @Override
         public boolean isCellEditable(int row, int column) {
-            return column == 1;
+            return column == 1; // Solo la columna de "Value" es editable
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+            if (columnIndex == 1) { // Solo actualizamos la columna de "Value"
+                datos.get(rowIndex)[columnIndex] = (String) aValue;
+                fireTableCellUpdated(rowIndex, columnIndex); // Notificamos a la tabla que el dato ha cambiado
+            }
         }
 
         public void addRow(String[] nuevaFila) {
