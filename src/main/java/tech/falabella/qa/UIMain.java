@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class UIMain extends JDialog {
 
-    private JPanel contentPane;
+    private JPanel contentPanel;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JComboBox reportsBox;
@@ -41,7 +41,7 @@ public class UIMain extends JDialog {
     private JTextField outFileResultField;
 
     public UIMain() {
-        setContentPane(contentPane);
+        setContentPane(contentPanel);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
@@ -76,7 +76,7 @@ public class UIMain extends JDialog {
             }
         });
 
-        contentPane.registerKeyboardAction(e -> onCancel(),
+        contentPanel.registerKeyboardAction(e -> onCancel(),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
