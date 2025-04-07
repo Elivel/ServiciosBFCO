@@ -15,7 +15,7 @@ import java.util.Map;
 public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
 
     private final Parameters parameters = Parameters.of(Map.of(
-            "Fecha", Parameters.Value.of(1)
+            "FechaProceso", Parameters.Value.of(1)
     ));
 
     private final String route = "Mastercard/Daily%20operation/CLEARING%20(PMD)";
