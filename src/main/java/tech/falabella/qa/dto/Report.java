@@ -3,6 +3,7 @@ package tech.falabella.qa.dto;
 import lombok.RequiredArgsConstructor;
 import tech.falabella.qa.report.ReportConfig;
 import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.report.cl_ConsolidadoLiq.ConsolidadoLiqConfig;
 import tech.falabella.qa.report.clearing_pmd.ClearingPMDConfig;
 import tech.falabella.qa.report.consulta_clai.ConsultaCLAIConfig;
 import tech.falabella.qa.report.detallado_evento_mcca.DetalladoEventoMCCAConfig;
@@ -13,7 +14,8 @@ import java.util.function.Supplier;
 public enum Report {
     CONSULTA_CLAI(ConsultaCLAIConfig::newInstance, Boolean.TRUE),
     DETALLADO_EVENTO_MCCA(DetalladoEventoMCCAConfig::newInstance, Boolean.TRUE),
-    CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.TRUE);
+    CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.TRUE),
+    CONSOLIDADOLIQ(ConsolidadoLiqConfig::newInstance, Boolean.TRUE);
 
     public final Supplier<ReportConfig<? extends Tuple>> config;
     public final boolean enabled;
