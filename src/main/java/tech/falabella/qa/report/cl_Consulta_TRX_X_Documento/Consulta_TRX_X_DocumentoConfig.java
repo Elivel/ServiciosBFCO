@@ -46,7 +46,7 @@ public class Consulta_TRX_X_DocumentoConfig implements ReportConfig<Consulta_TRX
             """;
 
     //por definir la bd
-    public Consulta_TRX_X_DocumentoTuple sql(ResultSet resultSet) {
+    public Consulta_TRX_X_DocumentoTuple sqlMap(ResultSet resultSet) {
         try {
             return Consulta_TRX_X_DocumentoTuple.builder()
                     .canal(resultSet.getString(1))
