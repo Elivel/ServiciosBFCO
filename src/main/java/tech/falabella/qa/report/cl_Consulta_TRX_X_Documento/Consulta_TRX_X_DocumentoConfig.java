@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
