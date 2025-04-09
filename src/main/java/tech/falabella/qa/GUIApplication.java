@@ -11,12 +11,15 @@ public class GUIApplication {
             e.printStackTrace();
         }
 
-        UIMain dialog = new UIMain();
-        dialog.setTitle("SSRS Validator");
-        dialog.setLocationRelativeTo(null);
-        dialog.pack();
-        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        dialog.setVisible(Boolean.TRUE);
+        SwingUtilities.invokeLater(() -> {
+            UIMain dialog = new UIMain();
+            dialog.setTitle("SSRS Validator");
+            dialog.setLocationRelativeTo(null);
+            dialog.pack();
+            dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            dialog.setVisible(Boolean.TRUE);
+        });
+
     }
 
 }

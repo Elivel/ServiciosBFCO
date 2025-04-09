@@ -152,7 +152,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        tech.falabella.qa.Application
+                                        tech.falabella.qa.GUIApplication
                                     </mainClass>
                                 </manifest>
                             </archive>
