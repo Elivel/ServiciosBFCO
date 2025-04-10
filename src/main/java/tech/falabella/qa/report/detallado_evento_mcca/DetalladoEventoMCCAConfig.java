@@ -25,7 +25,7 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
                                         if (null == dVal || dVal.isBlank())
                                             return "";
                                         DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                                        DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyyMMdd");
+                                        DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                         LocalDate date = LocalDate.parse(dVal, formatterWeb);
                                         return date.format(formatterSql);
                                     })
@@ -52,7 +52,7 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
         try {
             return DetalladoEventoMCCATuple.builder()
                     .tipoMensaje(resultSet.getString(1))
-                    .codigoFuncion(resultSet.getString(2))
+                    .codigoFuncion(resultSet.getString(2 ))
                     .tarjeta(resultSet.getString(3))
                     .tipoTransaccion(resultSet.getString(4))
                     .fecha(resultSet.getString(5))
