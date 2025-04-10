@@ -34,15 +34,15 @@ public class Consulta_TRX_X_DocumentoConfig implements ReportConfig<Consulta_TRX
     ));
     private final String route = "Conciliacion_Liquidacion/Consulta_TRX_X_Documento";
     private final String query = """
-            
+            USE [CONCILIACION]
             SELECT TOP 1000  CUENTAS.Documento ,   TBL.[JOU-FECHA] , 
             TBL.[JOU-FECHPROCESOCMR], TBL.[JOU-TARJETA] , 
             TBL.CUENTA ,[JOU-TRANSACCCREDITO] / 100
             FROM          TBL_JOURNAL_XCONCILIADO AS TBL WITH (NOLOCK)
             INNER JOIN   nuevaconciliacion.TBL_Cuentas AS CUENTAS WITH (NOLOCK)
             ON  TBL.[JOU-TARJETA] = CUENTAS.NumeroTarjeta
-            WHERE     ([JOU-FECHPROCESOCMR] BETWEEN  '20230101' AND  '20231231')
-            AND CUENTAS.Documento = '1012461912'
+            WHERE     ([JOU-FECHPROCESOCMR] BETWEEN  ? AND  ?)
+            AND CUENTAS.Documento = ?
             """;
 
     //por definir la bd

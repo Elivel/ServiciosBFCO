@@ -4,31 +4,29 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+import tech.falabella.qa.report.detallado_evento_mcca.DetalladoEventoMCCAConfig;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Optional;
 
 @Getter
 @NoArgsConstructor(staticName = "newInstance")
 public class ControlFacturaMciConfig implements ReportConfig<ControlFacturaMciTuple>{
-    //no tiene parametros
+    private final  Parameters parameters = Parameters.of(Map.of(
+
+    ));
     private final String route ="Mastercard/Billing/CONTROL FACTURA MCI";
     private final String query = """
             USE [CONCILIACION]
-            GO
+           
             DECLARE	@return_value int
             EXEC	@return_value = [nuevaconciliacion].[USP_CONTROL_FACTURA]
-            SELECT	'Return Value' = @return_value
-            GO
-           
+          
             """;
-
-
-    @Override
-    public Parameters getParameters() {
-        return null;
-    }
-
     public ControlFacturaMciTuple sqlMap(ResultSet resultSet) {
         try {
             return ControlFacturaMciTuple.builder()

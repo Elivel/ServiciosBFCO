@@ -68,9 +68,13 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
 
                 }
             });
+            //ver informe
+            if (!parameters.isEmpty()) {
+                WebElement verInforme = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl00")));
+                verInforme.click();
 
-            WebElement verInforme = wait.until(ExpectedConditions.elementToBeClickable(By.name("ReportViewerControl$ctl04$ctl00")));
-            verInforme.click();
+            }
+
 
             JavascriptExecutor js = (JavascriptExecutor) driver;
             Thread.sleep(5000);
