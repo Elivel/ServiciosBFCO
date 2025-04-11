@@ -90,7 +90,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             log.error("error generando el archivo. Causa: {}", exception.getMessage(), exception);
             throw new RuntimeException(exception.getMessage(), exception);
         } finally {
-            driver.quit();
+           driver.quit();
         }
 
     }
@@ -119,15 +119,22 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
 
     private WebDriver openBrowser() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*"); // Necesario en Chrome 111+
-        options.setExperimentalOption("prefs", new java.util.HashMap<String, Object>() {{
-            put("download.default_directory", output);
-            put("download.prompt_for_download", false); // Descarga automática sin preguntar
-            put("download.directory_upgrade", true);
-            put("safebrowsing.enabled", false); // Opcional: deshabilitar Safe Browsing para descargas
-        }});
-        return new ChromeDriver();
+        options.addArguments("--remote-allow-origins=*"
+            //   ,"--headless", "--disable-gpu" no abre el navegador, ejecuta prueba por debajo
+                       );
+        options.setExperimentalOption("prefs",
+                Map.of("download.default_directory", output,
+                        "profile.default_content_settings.popups", 0,
+                        "download.prompt_for_download", false,
+                        "download.directory_upgrade", true,
+                        "safebrowsing.enabled", false));
+
+        var driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+
+        return driver;
     }
+
 
     private void getLatestFile() {
         File[] files = new File(output).listFiles();
