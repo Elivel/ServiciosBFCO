@@ -21,10 +21,13 @@ public class ValidationServiceImpl implements ValidationService {
 
         return persistenceData.parallelStream()
                 .filter(it -> !inputData.contains(it))
-                .map(it -> {
-                    var other = inputData.stream().filter(o -> o.getId().equals(it.getId())).findFirst().get();
-                    return it.diff(other);
-                })
+                .map(it ->
+                        inputData.stream()
+                                .filter(o -> o.getId().equals(it.getId()))
+                                .findFirst()
+                                .map(it::diff)
+                                .orElse("")
+                )
                 .toList();
     }
 

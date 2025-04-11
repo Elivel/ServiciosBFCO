@@ -13,26 +13,27 @@ import java.util.Map;
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public class DetalladoEventoMCCATuple extends Tuple {
 
-    private String tipoMensaje;
-    private String codigoFuncion;
-    private String tarjeta;
-    private String tipoTransaccion;
-    private String fecha;
-    private String codigoComercio;
-    private String nombreComercio;
-    private String estadoComercio;
-    private String paisComercio;
-    private String valorTransaccion;
-    private String valorIva;
-    private String numAprobacion;
-    private String traceId;
-    private String refArn;
+    private String rep_tipoMensaje;
+    private String rep_codigoFuncion;
+    private String rep_tarjeta;
+    private String rep_tipoTransaccion;
+    private String rep_fecha;
+    private String rep_codigoComercio;
+    private String rep_nombreComercio;
+    private String rep_estadoComercio;
+    private String rep_paisComercio;
+    private String rep_valorTransaccion;
+    private String rep_valorIva;
+    private String rep_numAprobacion;
+    private String rep_traceId;
+    private String rep_refArn;
 
     @Override
     public JsonObject getId() {
         return toJsonIds.apply(
-                Map.of("tarjeta", tarjeta,
-                        "trace-id", traceId)
+                Map.of("tarjeta", rep_tarjeta,
+                        "trace-id", rep_traceId,
+                        "codigo de comercio", rep_codigoComercio)
         );
     }
 
