@@ -43,8 +43,10 @@ public class FileIngestionAdapter<T extends Tuple> implements IngestionPort {
                      .withCSVParser(parser)
                      .build()) {
             this.data = csvReader.readAll().parallelStream()
-                    .filter(line -> line.length > 0 && Stream.of(line).anyMatch(cell -> !cell.trim().isEmpty()))
+                    .filter(line -> line.length > 0)
+                    .filter(line -> Stream.of(line).anyMatch(cell -> !cell.trim().isEmpty()))
                     .map(aMapFun).toList();
+
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
         }

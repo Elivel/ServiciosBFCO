@@ -33,7 +33,7 @@ public class DetalladoEventoMCCATuple extends Tuple {
         return toJsonIds.apply(
                 Map.of("tarjeta", rep_tarjeta,
                         "trace-id", rep_traceId,
-                        "codigo de comercio", rep_codigoComercio)
+                        "codigo-comercio", rep_codigoComercio)
         );
     }
 
