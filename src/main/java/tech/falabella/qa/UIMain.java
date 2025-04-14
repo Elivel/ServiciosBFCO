@@ -12,9 +12,11 @@ import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.service.ValidationServiceImpl;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +40,7 @@ public class UIMain extends JDialog {
     private JPanel configPanel;
 
     private JTextField automationField;
+    private JButton autoBtn;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField msUrlField;
@@ -62,7 +65,7 @@ public class UIMain extends JDialog {
         } else
             log.warn("Icono 'images/banco-falabella.ico' no encontrado en los recursos.");
 
-        automationField.addActionListener(e -> loadAutomationFile());
+        autoBtn.addActionListener(e -> loadAutomationFile());
 
         tableParameters.setModel(ParamsTableModel.newInstance());
 
@@ -95,8 +98,21 @@ public class UIMain extends JDialog {
 
     private void loadAutomationFile() {
         try {
-            var filePath = Path.of(automationField.getText());
-            String jsonString = new String(Files.readAllBytes(filePath));
+            JFileChooser fileChooser = new JFileChooser();
+            // fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de Texto (*.json)", "json");
+            fileChooser.setFileFilter(filter);
+
+            int result = fileChooser.showOpenDialog(this);
+
+            if (result != JFileChooser.APPROVE_OPTION)
+                return;
+
+            File selectedFile = fileChooser.getSelectedFile();
+            automationField.setText(selectedFile.getAbsolutePath());
+
+            String jsonString = new String(Files.readAllBytes(selectedFile.toPath()));
 
             Gson gson = new Gson();
 
