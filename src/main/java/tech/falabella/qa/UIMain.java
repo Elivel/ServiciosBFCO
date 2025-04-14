@@ -1,5 +1,7 @@
 package tech.falabella.qa;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,8 @@ import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class UIMain extends JDialog {
     private JPanel headerPanel;
     private JPanel configPanel;
 
+    private JTextField automationField;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField msUrlField;
@@ -56,6 +61,8 @@ public class UIMain extends JDialog {
             setIconImage(image);
         } else
             log.warn("Icono 'images/banco-falabella.ico' no encontrado en los recursos.");
+
+        automationField.addActionListener(e -> loadAutomationFile());
 
         tableParameters.setModel(ParamsTableModel.newInstance());
 
@@ -84,6 +91,32 @@ public class UIMain extends JDialog {
 
         pack();
         setVisible(Boolean.TRUE);
+    }
+
+    private void loadAutomationFile() {
+        try {
+            var filePath = Path.of(automationField.getText());
+            String jsonString = new String(Files.readAllBytes(filePath));
+
+            Gson gson = new Gson();
+
+            var jsonObject = gson.fromJson(jsonString, JsonObject.class);
+            var config = jsonObject.getAsJsonObject("config");
+
+            var mssql = config.getAsJsonObject("mssql");
+            this.usernameField.setText(mssql.getAsJsonPrimitive("username").getAsString());
+            this.passwordField.setText(mssql.getAsJsonPrimitive("password").getAsString());
+            this.msUrlField.setText(mssql.getAsJsonPrimitive("url").getAsString());
+
+            this.outFileResultField.setText(config.getAsJsonPrimitive("output-path-result").getAsString());
+
+            var ssrs = config.getAsJsonObject("ssrs");
+            this.rsUrlField.setText(ssrs.getAsJsonPrimitive("url").getAsString());
+            this.outPathExportField.setText(ssrs.getAsJsonPrimitive("out-path-export").getAsString());
+
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
+        }
     }
 
     private void onOK() {
@@ -129,6 +162,8 @@ public class UIMain extends JDialog {
 
             var fileOutput = FileStorageAdapter.newInstance();
             fileOutput.generate(result, command);
+
+            JOptionPane.showMessageDialog(this, "El proceso ha terminado con '" + result.size() + "' inconsistencia(s)");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             JOptionPane.showMessageDialog(this, e.getMessage());
