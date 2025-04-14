@@ -64,13 +64,13 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
                     .netoADepositarREC(resultSet.getString(22))
                     //tablatres
                     //liquidación de  Comercios AVA
-                    .nombreComercioAVA(resultSet.getString(16))
-                    .totalTrxAVA(resultSet.getString(17))
-                    .avanceTotalAVA(resultSet.getString(18))
-                    .comisionAVA(resultSet.getString(19))
-                    .ivaComisionAVA(resultSet.getString(20))
-                    .retencion(resultSet.getString(21))
-                    .retencionAVA(resultSet.getString(22))
+                    .nombreComercioAVA(resultSet.getString(23))
+                    .totalTrxAVA(resultSet.getString(24))
+                    .avanceTotalAVA(resultSet.getString(25))
+                    .comisionAVA(resultSet.getString(26))
+                    .ivaComisionAVA(resultSet.getString(27))
+                    .retencion(resultSet.getString(28))
+                    .retencionAVA(resultSet.getString(29))
                     .build();
         }
         catch (SQLException e){
