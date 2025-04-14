@@ -112,23 +112,27 @@ public class UIMain extends JDialog {
 
         }
 
-        var commandLine = new CommandLine(CommandArgs.newInstance());
-        commandLine.setCaseInsensitiveEnumValuesAllowed(Boolean.TRUE);
+        try {
+            var commandLine = new CommandLine(CommandArgs.newInstance());
+            commandLine.setCaseInsensitiveEnumValuesAllowed(Boolean.TRUE);
 
-        commandLine.parseArgs(args.toArray(String[]::new));
+            commandLine.parseArgs(args.toArray(String[]::new));
 
-        commandLine.execute(args.toArray(String[]::new));
+            commandLine.execute(args.toArray(String[]::new));
 
-        var command = commandLine.<CommandArgs>getCommand();
+            var command = commandLine.<CommandArgs>getCommand();
 
-        var reportValidation = ValidationServiceImpl.newInstance(command.generateInput(),
-                command.generatePersistence());
+            var reportValidation = ValidationServiceImpl.newInstance(command.generateInput(),
+                    command.generatePersistence());
 
-        final var result = reportValidation.processElements();
+            final var result = reportValidation.processElements();
 
-        var fileOutput = FileStorageAdapter.newInstance();
-        fileOutput.generate(result, command);
-
+            var fileOutput = FileStorageAdapter.newInstance();
+            fileOutput.generate(result, command);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
     private void onCancel() {

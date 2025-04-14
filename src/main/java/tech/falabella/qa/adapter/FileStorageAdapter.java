@@ -40,7 +40,6 @@ public class FileStorageAdapter implements StoragePort {
                         .filter(it -> !it.getValue().isBlank())
                         .map(it -> it.getKey().concat(": ").concat(it.getValue()))
                         .collect(Collectors.joining(", ")),
-                "",
                 LocalDateTime.now(),
                 1,
                 args.isExecuteExportReport()
