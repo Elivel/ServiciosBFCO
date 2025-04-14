@@ -41,6 +41,12 @@ public class UIMain extends JFrame {
     private JTextField outFileResultField;
 
     public UIMain() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignore) {
+        
+        }
+
         setTitle("SSRS Validator");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(Boolean.TRUE);
