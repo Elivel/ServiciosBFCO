@@ -82,7 +82,7 @@ public class CommandArgs implements Callable<Integer> {
         return (executeExportReport)
                 //? new SSRSIngestionAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, reportConfig.getRoute(), this.outPath, this.params, reportConfig::csvMap)
                 ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), reportConfig.assignDefaultValuesAndGet(this.params), this.outPath, this.separator.value, this.skipHeader, reportConfig::csvMap)
-                : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig::csvMap);
+                : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig.getHeaderRowSize(), reportConfig::csvMap);
     }
 
     public IngestionPort generatePersistence() {

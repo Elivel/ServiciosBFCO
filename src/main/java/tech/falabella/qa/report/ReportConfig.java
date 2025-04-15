@@ -13,6 +13,10 @@ public interface ReportConfig<T extends Tuple> {
 
     String getQuery();
 
+    default int getHeaderRowSize() {
+        return 1;
+    }
+
     T sqlMap(ResultSet resultSet);
 
     T csvMap(String[] result);

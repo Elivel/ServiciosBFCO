@@ -2,14 +2,15 @@ package tech.falabella.qa.report.cl_ConsolidadoLiq;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+
 @Getter
 @NoArgsConstructor(staticName = "newInstance")
 public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
@@ -25,18 +26,19 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
     ));
     private final String route = "Conciliacion_Liquidacion/ConsolidadoLiq";
     private final String query = """
-        USE [CMRliquidaciones]
-        SELECT DISTINCT FECHALIQ, CODEST, NOMEST, CODLOC, 
-        NOMLOC, CANTTRX, IMPTRXMN, IMPIGVMN, IMPPRPMN, 
-        IMPCOMNETMN, IMPCMSCMRMN, IMPRETFTEMN, IMPRETIVAMN, 
-        IMPNETMN, IMPRETICAMN, IMPRETCREEMN, IMPINCMN,
-        RETAVITAB, RETIMPBOM
-        FROM TBL_CONSOLIDADOPORCONVENIOVTA
-        WHERE (FECHALIQ = ?) ORDER BY NOMEST
-        """;
+            USE [CMRliquidaciones]
+            SELECT DISTINCT FECHALIQ, CODEST, NOMEST, CODLOC,
+            NOMLOC, CANTTRX, IMPTRXMN, IMPIGVMN, IMPPRPMN,
+            IMPCOMNETMN, IMPCMSCMRMN, IMPRETFTEMN, IMPRETIVAMN,
+            IMPNETMN, IMPRETICAMN, IMPRETCREEMN, IMPINCMN,
+            RETAVITAB, RETIMPBOM
+            FROM TBL_CONSOLIDADOPORCONVENIOVTA
+            WHERE (FECHALIQ = ?) ORDER BY NOMEST
+            """;
 
+    private final int headerRowSize = 4;
 
-    public ConsolidadoLiqTuple sqlMap (ResultSet resultSet) {
+    public ConsolidadoLiqTuple sqlMap(ResultSet resultSet) {
         try {
             return ConsolidadoLiqTuple.builder()
                     .nombreComercioVTA(resultSet.getString(1))
@@ -72,45 +74,48 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
                     .retencion(resultSet.getString(28))
                     .retencionAVA(resultSet.getString(29))
                     .build();
+        } catch (SQLException ignore) {
+            return null;
         }
-        catch (SQLException e){
-                throw new MalformedTupleException(e);
+    }
 
-            }
+    public ConsolidadoLiqTuple csvMap(String[] result) {
+        try {
+            return ConsolidadoLiqTuple.builder()
+                    .nombreComercioVTA(result[0])
+                    .totalTrxVTA(result[1])
+                    .ventaTotal(result[2])
+                    .iva(result[3])
+                    .propina(result[4])
+                    .ventaNeta(result[5])
+                    .comision(result[6])
+                    .retencion(result[7])
+                    .reteiva(result[8])
+                    .netoadepositar(result[9])
+                    .reteica(result[10])
+                    .reteCree(result[11])
+                    .impConsumo(result[12])
+                    .retAviyTabler(result[13])
+                    .retSobBombe(result[14])
+                    //liquidación de  Comercios REC
+                    .nombreComercioREC(result[15])
+                    .totalTrxREC(result[16])
+                    .recaudoTotalREC(result[17])
+                    .comisionREC(result[18])
+                    .ivaComisionREC(result[19])
+                    .retencionREC(result[20])
+                    .netoADepositarREC(result[21])
+                    //liquidación deComercios AVA
+                    .nombreComercioAVA(result[22])
+                    .totalTrxAVA(result[23])
+                    .avanceTotalAVA(result[24])
+                    .comisionAVA(result[25])
+                    .ivaComisionAVA(result[26])
+                    .retencionAVA(result[27])
+                    .netoADepositarAVA(result[28])
+                    .build();
+        } catch (Exception ignore) {
+            return null;
         }
-        public ConsolidadoLiqTuple csvMap (String[] result){
-        return ConsolidadoLiqTuple.builder()
-                .nombreComercioVTA(result[0])
-                .totalTrxVTA(result[1])
-                .ventaTotal(result[2])
-                .iva(result[3])
-                .propina(result[4])
-                .ventaNeta(result[5])
-                .comision(result[6])
-                .retencion(result[7])
-                .reteiva(result[8])
-                .netoadepositar(result[9])
-                .reteica(result[10])
-                .reteCree(result[11])
-                .impConsumo(result[12])
-                .retAviyTabler(result[13])
-                .retSobBombe(result[14])
-                //liquidación de  Comercios REC
-                .nombreComercioREC(result[15])
-                .totalTrxREC(result[16])
-                .recaudoTotalREC(result[17])
-                .comisionREC(result[18])
-                .ivaComisionREC(result[19])
-                .retencionREC(result[20])
-                .netoADepositarREC(result[21])
-                //liquidación deComercios AVA
-                .nombreComercioAVA(result[22])
-                .totalTrxAVA(result[23])
-                .avanceTotalAVA(result[24])
-                .comisionAVA(result[25])
-                .ivaComisionAVA(result[26])
-                .retencionAVA(result[27])
-                .netoADepositarAVA(result[28])
-                .build();
-        }
+    }
 }

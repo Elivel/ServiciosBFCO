@@ -4,7 +4,6 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.validators.LineValidator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import java.io.File;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -26,6 +26,7 @@ public class FileIngestionAdapter<T extends Tuple> implements IngestionPort {
     private final File path;
     private final char separator;
     private final boolean skipHeader;
+    private final int headerRowSize;
     private final Function<String[], T> aMapFun;
     private Collection<T> data;
 
@@ -39,13 +40,14 @@ public class FileIngestionAdapter<T extends Tuple> implements IngestionPort {
 
         try (Reader reader = Files.newBufferedReader(path.toPath());
              CSVReader csvReader = new CSVReaderBuilder(reader)
-                     .withSkipLines(skipHeader ? 1 : 0)
+                     .withSkipLines(skipHeader ? headerRowSize : 0)
                      .withCSVParser(parser)
                      .build()) {
             this.data = csvReader.readAll().parallelStream()
                     .filter(line -> line.length > 0)
                     .filter(line -> Stream.of(line).anyMatch(cell -> !cell.trim().isEmpty()))
-                    .map(aMapFun).toList();
+                    .map(aMapFun)
+                    .filter(Objects::nonNull).toList();
 
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);

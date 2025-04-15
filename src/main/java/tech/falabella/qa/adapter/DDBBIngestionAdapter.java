@@ -53,7 +53,7 @@ public class DDBBIngestionAdapter<T extends Tuple> implements IngestionPort {
                 data.add(aMapFun.apply(resultSet));
             }
         } catch (SQLException exception) {
-            throw       new GenerateIngestionObjectException(exception.getMessage());
+            throw new GenerateIngestionObjectException(exception.getMessage());
         }
     }
 }

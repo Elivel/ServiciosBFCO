@@ -1,6 +1,5 @@
 ﻿RTA,NumeroAutorizacion,TARJETA,cuenta,CodigoTransaccionAdquiriente,ValorOriginal,UltimoPaso,CodigoRespuestaAdquiriente,FechaFinal,RedAdquiriente,Secuencia,Aut_Original,FECHA_REGISTRO,FECHA_REGISTROD,MontoImpIVA,MontoBaseIVA,Propina,Terminal,PosEntryMode,NAl_Internal,Cuotas,Comercio
-RTA,NumeroAutorizacion,TARJETA,cuenta,CodigoTransaccionAdquiriente,ValorOriginal,UltimoPaso,CodigoRespuestaAdquiriente,FechaFinal,RedAdquiriente,Secuencia,Aut_Original,FECHA_REGISTRO,FECHA_REGISTROD,MontoImpIVA,MontoBaseIVA,Propina,Terminal,PosEntryMode,NAl_Internal,Cuotas,Comercio
-
 CORRECTO,399300,*0130,300000940749,003000,"128,430",OK,00,2024/09/08 16:13:30,MCI,782993,,9/9/2024 12:00:00 AM,9/9/2024 12:00:00 AM,0.00,0.00,0.00,000B2ENS,051,False,1,13933601
 CORRECTO,399300,*5544,528209670035,003000,"730,000",OK,00,2023/12/29 16:39:10,MCI,372521,,12/30/2023 12:00:00 AM,12/30/2023 12:00:00 AM,0.00,0.00,0.00,00095635,051,False,1,12770103
 CORRECTO,399300,*7668,528209849528,003000,"60,000",OK,00,2024/08/21 19:28:32,MCI,319482,,8/22/2024 12:00:00 AM,8/22/2024 12:00:00 AM,0.00,0.00,0.00,UV00U401,051,False,15,21056387
+
