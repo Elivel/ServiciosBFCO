@@ -39,7 +39,7 @@ public class SettlementConfig  implements ReportConfig<SettlementTuple> {
                         .compensacion(resultSet.getString(1))
                         .ciclo(resultSet.getString(4))
                         .monto_neto(resultSet.getString(5))
-                        .monto_pesos(resultSet.getString(6)
+                        .monto_pesos(resultSet.getString(6))
                         .build();
 
             }catch (SQLException e){
