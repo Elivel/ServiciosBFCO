@@ -55,16 +55,16 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
                     .rep_codigoFuncion(resultSet.getString( 6))
                     .rep_tarjeta(resultSet.getString(7))
                     .rep_tipoTransaccion(resultSet.getString(8))
-                    .rep_fecha(resultSet.getString(2))
+                    .rep_fecha(resultSet.getString(9))
                     .rep_codigoComercio(resultSet.getString(10))
                     .rep_nombreComercio(resultSet.getString(11))
                     .rep_estadoComercio(resultSet.getString(12))
                     .rep_paisComercio(resultSet.getString(13))
                     .rep_valorTransaccion(resultSet.getString(14))
-                    .rep_valorIva(resultSet.getString(14))
+                    .rep_valorIva(resultSet.getString(15))
                     .rep_numAprobacion(resultSet.getString(16))
-                    .rep_traceId(resultSet.getString(18))
-                    .rep_refArn(resultSet.getString(19))
+                    .rep_traceId(resultSet.getString(17))
+                    .rep_refArn(resultSet.getString(18))
                     .build();
         } catch (SQLException e) {
             throw new MalformedTupleException(e);
