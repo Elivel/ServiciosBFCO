@@ -20,6 +20,8 @@ public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
             "FechaProceso", Parameters.Value.builder()
                     .position(1)
                     .sqlFormat(dVal -> {
+                        if (null == dVal || dVal.isBlank())
+                            return "";
                         DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                         DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyyMMdd");
                         LocalDate date = LocalDate.parse(dVal, formatterWeb);

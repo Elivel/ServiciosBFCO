@@ -34,11 +34,12 @@ public class FileStorageAdapter implements StoragePort {
                 """.formatted(
                 System.getProperty("user.name"),
                 args.getReport().name(),
-                //args.getParams().entrySet().stream()
-                //        .filter(it -> !it.getValue().isBlank())
-                //        .map(it -> it.getKey().concat(": ").concat(it.getValue()))
-                //        .collect(Collectors.joining(", ")),
-                "",
+                (null == args.getParams())
+                        ? ""
+                        : args.getParams().entrySet().stream()
+                        .filter(it -> !it.getValue().isBlank())
+                        .map(it -> it.getKey().concat(": ").concat(it.getValue()))
+                        .collect(Collectors.joining(", ")),
                 LocalDateTime.now(),
                 1,
                 args.isExecuteExportReport()

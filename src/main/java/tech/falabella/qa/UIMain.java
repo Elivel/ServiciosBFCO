@@ -1,21 +1,26 @@
 package tech.falabella.qa;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 import tech.falabella.qa.adapter.FileStorageAdapter;
 import tech.falabella.qa.dto.Report;
+import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.service.ValidationServiceImpl;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 import java.util.List;
 
 @Slf4j
@@ -24,7 +29,7 @@ public class UIMain extends JDialog {
     private JPanel contentPanel;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JComboBox reportsBox;
+    private JComboBox<Report> reportsBox;
     private JButton buttonBrowse;
     private JTable tableParameters;
 
@@ -34,6 +39,8 @@ public class UIMain extends JDialog {
     private JPanel headerPanel;
     private JPanel configPanel;
 
+    private JTextField automationField;
+    private JButton autoBtn;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField msUrlField;
@@ -42,21 +49,25 @@ public class UIMain extends JDialog {
     private JTextField outFileResultField;
 
     public UIMain() {
+        setTitle("SSRS Validator");
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationByPlatform(Boolean.TRUE);
+
         setContentPane(contentPanel);
-        setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        // Cargar el icono desde los recursos
         var iconURL = getClass().getClassLoader().getResource("images/banco-falabella.ico");
 
         if (iconURL != null) {
             ImageIcon imgIcon = new ImageIcon(iconURL);
             Image image = imgIcon.getImage();
-            setIconImage(image); // Establecer el icono para el JDialog
-        } else {
+            setIconImage(image);
+        } else
             log.warn("Icono 'images/banco-falabella.ico' no encontrado en los recursos.");
-        }
-        tableParameters.setModel(new ParamsTableModel());
+
+        autoBtn.addActionListener(e -> loadAutomationFile());
+
+        tableParameters.setModel(ParamsTableModel.newInstance());
 
         Arrays.stream(Report.values()).filter(it -> it.enabled).forEach(reportsBox::addItem);
         printParameters();
@@ -80,13 +91,56 @@ public class UIMain extends JDialog {
         contentPanel.registerKeyboardAction(e -> onCancel(),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        pack();
+        setVisible(Boolean.TRUE);
+    }
+
+    private void loadAutomationFile() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            // fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de Texto (*.json)", "json");
+            fileChooser.setFileFilter(filter);
+
+            int result = fileChooser.showOpenDialog(this);
+
+            if (result != JFileChooser.APPROVE_OPTION)
+                return;
+
+            File selectedFile = fileChooser.getSelectedFile();
+            automationField.setText(selectedFile.getAbsolutePath());
+
+            String jsonString = new String(Files.readAllBytes(selectedFile.toPath()));
+
+            Gson gson = new Gson();
+
+            var jsonObject = gson.fromJson(jsonString, JsonObject.class);
+            var config = jsonObject.getAsJsonObject("config");
+
+            var mssql = config.getAsJsonObject("mssql");
+            this.usernameField.setText(mssql.getAsJsonPrimitive("username").getAsString());
+            this.passwordField.setText(mssql.getAsJsonPrimitive("password").getAsString());
+            this.msUrlField.setText(mssql.getAsJsonPrimitive("url").getAsString());
+
+            this.outFileResultField.setText(config.getAsJsonPrimitive("output-path-result").getAsString());
+
+            var ssrs = config.getAsJsonObject("ssrs");
+            this.rsUrlField.setText(ssrs.getAsJsonPrimitive("url").getAsString());
+            this.outPathExportField.setText(ssrs.getAsJsonPrimitive("out-path-export").getAsString());
+
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
+        }
     }
 
     private void onOK() {
+        if (tableParameters.isEditing())
+            tableParameters.getCellEditor().stopCellEditing();
+
         List<String> args = new ArrayList<>();
         if (reportsBox.getSelectedItem() instanceof Report reportSelected) {
-            var reportConfig = reportSelected.config.get();
-
             args.add("--report-name=" + reportSelected.name());
             args.add("--print");
             args.add("--execute-export-report");
@@ -99,32 +153,37 @@ public class UIMain extends JDialog {
             args.add("--out-path-export=" + outPathExportField.getText());
             args.add("--out-file-result=" + outFileResultField.getText());
 
-            var params = tableParameters.getModel();
-            var rows = params.getRowCount();
-
-            for (int i = 0; i < rows; i++) {
-                args.add("-D" + params.getValueAt(i, 0) + "=" + params.getValueAt(i, 1));
-            }
+            Optional.of(tableParameters)
+                    .map(it -> (ParamsTableModel) it.getModel())
+                    .map(ParamsTableModel::getData)
+                    .stream().flatMap(Collection::stream)
+                    .forEach(row -> args.add("-D" + row[0] + "=" + row[1]));
 
         }
 
-        var commandLine = new CommandLine(CommandArgs.newInstance());
-        commandLine.setCaseInsensitiveEnumValuesAllowed(Boolean.TRUE);
+        try {
+            var commandLine = new CommandLine(CommandArgs.newInstance());
+            commandLine.setCaseInsensitiveEnumValuesAllowed(Boolean.TRUE);
 
-        commandLine.parseArgs(args.toArray(String[]::new));
+            commandLine.parseArgs(args.toArray(String[]::new));
 
-        int exitCode = commandLine.execute(args.toArray(String[]::new));
+            commandLine.execute(args.toArray(String[]::new));
 
-        var command = commandLine.<CommandArgs>getCommand();
+            var command = commandLine.<CommandArgs>getCommand();
 
-        var reportValidation = ValidationServiceImpl.newInstance(command.generateInput(),
-                command.generatePersistence());
+            var reportValidation = ValidationServiceImpl.newInstance(command.generateInput(),
+                    command.generatePersistence());
 
-        final var result = reportValidation.processElements();
+            final var result = reportValidation.processElements();
 
-        var fileOutput = FileStorageAdapter.newInstance();
-        fileOutput.generate(result, command);
+            var fileOutput = FileStorageAdapter.newInstance();
+            fileOutput.generate(result, command);
 
+            JOptionPane.showMessageDialog(this, "El proceso ha terminado con '" + result.size() + "' inconsistencia(s)");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
     private void onCancel() {
@@ -148,58 +207,62 @@ public class UIMain extends JDialog {
             log.info(reportSelected.name());
             var reportConfig = reportSelected.config.get();
 
-            ParamsTableModel model = (ParamsTableModel) tableParameters.getModel();
-            model.datos.clear();
-            model.fireTableDataChanged();
-
-            reportConfig.getParameters().forEach((name, index) ->
-                    model.addRow(new String[]{name, ""}));
+            Optional.of(tableParameters)
+                    .map(it -> (ParamsTableModel) it.getModel())
+                    .ifPresent(it -> it.reload(reportConfig.getParameters()));
 
             tableParameters.repaint();
         }
     }
 
-    @NoArgsConstructor
-    class ParamsTableModel extends AbstractTableModel {
-        private final List<String[]> datos = new ArrayList<>();
-        private final String[] columnas = {"Name", "Value"};
+    @Getter
+    @NoArgsConstructor(staticName = "newInstance")
+    static class ParamsTableModel extends AbstractTableModel {
+        private final List<String[]> data = new ArrayList<>();
+        private final String[] columnNames = {"Name", "Value"};
 
         @Override
         public int getRowCount() {
-            return datos.size();
+            return data.size();
         }
 
         @Override
         public int getColumnCount() {
-            return columnas.length;
+            return columnNames.length;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            return datos.get(rowIndex)[columnIndex];
+            return data.get(rowIndex)[columnIndex];
         }
 
         @Override
         public String getColumnName(int column) {
-            return columnas[column];
+            return columnNames[column];
         }
 
         @Override
         public boolean isCellEditable(int row, int column) {
-            return column == 1; // Solo la columna de "Value" es editable
+            return column == 1;
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-            if (columnIndex == 1) { // Solo actualizamos la columna de "Value"
-                datos.get(rowIndex)[columnIndex] = (String) aValue;
-                fireTableCellUpdated(rowIndex, columnIndex); // Notificamos a la tabla que el dato ha cambiado
-            }
+            if (!isCellEditable(rowIndex, columnIndex))
+                return;
+
+            data.get(rowIndex)[columnIndex] = (String) aValue;
+            fireTableCellUpdated(rowIndex, columnIndex);
         }
 
-        public void addRow(String[] nuevaFila) {
-            datos.add(nuevaFila);
-            fireTableRowsInserted(datos.size() - 1, datos.size() - 1);
+        public void reload(Parameters parameters) {
+            data.clear();
+            fireTableDataChanged();
+
+            parameters.forEach((key, value) -> {
+                data.add(new String[]{key, ""});
+                fireTableRowsInserted(data.size() - 1, data.size() - 1);
+            });
         }
 
     }

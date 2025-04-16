@@ -54,7 +54,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
             driver.switchTo().frame(iframeReport);
 
             parameters.forEach((key, value) -> {
-                WebElement container = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("[data-parametername=\"" + key + "\"] " + value.type)));
+                WebElement container = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[data-parametername=\"" + key + "\"] " + value.type)));
 
                 if (container != null) {
                     if (value.type.equalsIgnoreCase("select")){

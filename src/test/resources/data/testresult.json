@@ -1,0 +1,39 @@
+{
+  "id": {
+    "codigo-comercio": "14409304",
+    "trace-id": "MCSAT8B0H0718",
+    "tarjeta": "5282090000003693"
+  },
+  "expected": {
+    "rep_tipoMensaje": "",
+    "rep_codigoFuncion": "003000",
+    "rep_tarjeta": "5282090000003693",
+    "rep_tipoTransaccion": "",
+    "rep_fecha": "2023-07-18",
+    "rep_codigoComercio": "14409304",
+    "rep_nombreComercio": "FALABELLA COM S A S    1100100 BOGOT COL",
+    "rep_estadoComercio": "",
+    "rep_paisComercio": "",
+    "rep_valorTransaccion": "107.00",
+    "rep_valorIva": "17.00",
+    "rep_numAprobacion": "494438",
+    "rep_traceId": "MCSAT8B0H0718",
+    "rep_refArn": "000000325638"
+  },
+  "actual": {
+    "rep_tipoMensaje": "",
+    "rep_codigoFuncion": "003000",
+    "rep_tarjeta": "5282090000003693",
+    "rep_tipoTransaccion": "",
+    "rep_fecha": "18/07/2023",
+    "rep_codigoComercio": "14409304",
+    "rep_nombreComercio": "FALABELLA COM S A S    1100100 BOGOT COL",
+    "rep_estadoComercio": "",
+    "rep_paisComercio": "",
+    "rep_valorTransaccion": "$107,00",
+    "rep_valorIva": "$17,00",
+    "rep_numAprobacion": "494438",
+    "rep_traceId": "MCSAT8B0H0718",
+    "rep_refArn": "000000325638"
+  }
+}
