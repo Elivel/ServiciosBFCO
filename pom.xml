@@ -28,10 +28,12 @@
         <junit.version>5.12.0</junit.version>
         <assertj-core.version>3.27.3</assertj-core.version>
         <junit-platform-suite.version>1.12.1</junit-platform-suite.version>
+        <mockito.version>5.17.0</mockito.version>
+        <h2.version>2.3.232</h2.version>
         <slf4j.version>2.0.16</slf4j.version>
 
-        <cucumber.version>7.21.1</cucumber.version>
-        <selenium-java.version>4.30.0</selenium-java.version>
+        <cucumber.version>7.22.0</cucumber.version>
+        <selenium-java.version>4.31.0</selenium-java.version>
     </properties>
 
     <dependencies>
@@ -108,13 +110,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.17.0</version>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.3.232</version>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -199,7 +201,8 @@
                             </classPath>
                             <jre>
                                 <minVersion>21</minVersion>
-                                <path>jre</path> </jre>
+                                <path>jre</path>
+                            </jre>
                         </configuration>
                     </execution>
                 </executions>
@@ -222,39 +225,15 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}/libs
-                            </outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
+                <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>
-                                tech.falabella.qa.Application
-                            </mainClass>
-                        </manifest>
-                    </archive>
+                    <argLine>
+                        -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+                    </argLine>
                 </configuration>
-            </plugin-->
+            </plugin>
         </plugins>
     </build>
 </project>

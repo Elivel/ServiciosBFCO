@@ -38,6 +38,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
     private final String output;
     private final char separator;
     private final boolean skipHeader;
+    private final int headerRowSize;
     private final Function<String[], T> aMapFun;
     private File file;
 
@@ -105,7 +106,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
 
         try (Reader reader = Files.newBufferedReader(file.toPath());
              CSVReader csvReader = new CSVReaderBuilder(reader)
-                     .withSkipLines(skipHeader ? 1 : 0)
+                     .withSkipLines(skipHeader ? headerRowSize : 0)
                      .withCSVParser(parser)
                      .build()) {
             return csvReader.readAll().parallelStream()
