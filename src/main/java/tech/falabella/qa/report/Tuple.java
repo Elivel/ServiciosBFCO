@@ -31,12 +31,13 @@ public abstract class Tuple implements Serializable {
     }
 
     public String diff(Tuple other) {
+        var gson = new GsonBuilder().create();
+
         var jsonElement = new JsonObject();
         jsonElement.add("id", getId());
-        jsonElement.addProperty("expected", this.toString());
-        jsonElement.addProperty("actual", other.toString());
+        jsonElement.add("expected", gson.toJsonTree(this));
+        jsonElement.add("actual", gson.toJsonTree(other));
 
-        var gson = new GsonBuilder().create();
         return gson.toJson(jsonElement);
     }
 }

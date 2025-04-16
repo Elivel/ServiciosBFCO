@@ -22,15 +22,17 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
             "FECHA", Parameters.Value.builder()
                                     .position(1)
                                     .sqlFormat(dVal -> {
+                                        if (null == dVal || dVal.isBlank())
+                                            return "";
                                         DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                                        DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyyMMdd");
+                                        DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                         LocalDate date = LocalDate.parse(dVal, formatterWeb);
                                         return date.format(formatterSql);
                                     })
                     .build(),
             "EVENTO", Parameters.Value.builder().position(2).type("select")
                     .action(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.description).orElse(""))
-                    .sqlFormat(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.value).orElse(""))
+                    .sqlFormat(dVal -> Optional.ofNullable(Evento.fromValue(dVal)).map(it -> it.internalId).orElse(""))
                     .build()
     ));
 
@@ -49,20 +51,20 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
     public DetalladoEventoMCCATuple sqlMap(ResultSet resultSet) {
         try {
             return DetalladoEventoMCCATuple.builder()
-                    .tipoMensaje(resultSet.getString(1))
-                    .codigoFuncion(resultSet.getString(2))
-                    .tarjeta(resultSet.getString(3))
-                    .tipoTransaccion(resultSet.getString(4))
-                    .fecha(resultSet.getString(5))
-                    .codigoComercio(resultSet.getString(6))
-                    .nombreComercio(resultSet.getString(7))
-                    .estadoComercio(resultSet.getString(8))
-                    .paisComercio(resultSet.getString(9))
-                    .valorTransaccion(resultSet.getString(10))
-                    .valorIva(resultSet.getString(11))
-                    .numAprobacion(resultSet.getString(12))
-                    .traceId(resultSet.getString(13))
-                    .refArn(resultSet.getString(14))
+                    .rep_tipoMensaje(resultSet.getString(5))
+                    .rep_codigoFuncion(resultSet.getString( 6))
+                    .rep_tarjeta(resultSet.getString(7))
+                    .rep_tipoTransaccion(resultSet.getString(8))
+                    .rep_fecha(resultSet.getString(9))
+                    .rep_codigoComercio(resultSet.getString(10))
+                    .rep_nombreComercio(resultSet.getString(11))
+                    .rep_estadoComercio(resultSet.getString(12))
+                    .rep_paisComercio(resultSet.getString(13))
+                    .rep_valorTransaccion(resultSet.getString(14))
+                    .rep_valorIva(resultSet.getString(15))
+                    .rep_numAprobacion(resultSet.getString(16))
+                    .rep_traceId(resultSet.getString(17))
+                    .rep_refArn(resultSet.getString(18))
                     .build();
         } catch (SQLException e) {
             throw new MalformedTupleException(e);
@@ -71,42 +73,43 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
 
     public DetalladoEventoMCCATuple csvMap(String[] result) {
         return DetalladoEventoMCCATuple.builder()
-                .tipoMensaje(result[0])
-                .codigoFuncion(result[1])
-                .tarjeta(result[2])
-                .tipoTransaccion(result[3])
-                .fecha(result[4])
-                .codigoComercio(result[5])
-                .nombreComercio(result[6])
-                .estadoComercio(result[7])
-                .paisComercio(result[8])
-                .valorTransaccion(result[9])
-                .valorIva(result[10])
-                .numAprobacion(result[11])
-                .traceId(result[12])
-                .refArn(result[13])
+                .rep_tipoMensaje(result[0])
+                .rep_codigoFuncion(result[1])
+                .rep_tarjeta(result[2])
+                .rep_tipoTransaccion(result[3])
+                .rep_fecha(result[4])
+                .rep_codigoComercio(result[5])
+                .rep_nombreComercio(result[6])
+                .rep_estadoComercio(result[7])
+                .rep_paisComercio(result[8])
+                .rep_valorTransaccion(result[9])
+                .rep_valorIva(result[10])
+                .rep_numAprobacion(result[11])
+                .rep_traceId(result[12])
+                .rep_refArn(result[13])
                 .build();
     }
 
     @AllArgsConstructor
     public enum Evento {
-        ISSUER_DOMESTIC_CLEARING_FEE_MICRO("1", "Issuer Domestic Clearing Fee Micro"),
-        ISSUER_DOMESTIC_CLEARING_FEE_SMALL("2", "Issuer Domestic Clearing Fee Small"),
-        ISSUER_DOMESTIC_CLEARING_FEE_MID("3", "Issuer Domestic Clearing Fee Mid"),
-        ISSUER_DOMESTIC_CLEARING_FEE_LARGE("4", "Issuer Domestic Clearing Fee Large"),
-        ISSUER_DOMESTIC_CLEARING_FEE_MAX("5", "Issuer Domestic Clearing Fee Max"),
-        AUTHORIZATION_ISSUER_FEE_MICRO_TIER("6", "Authorization Issuer Fee Micro Tier"),
-        AUTHORIZATION_ISSUER_FEE_DOMESTIC_SMALL_TIER("7", "Authorization Issuer Fee Domestic Small Tier"),
-        AUTHORIZATION_ISSUER_FEE_DOMESTIC_MID_TIER("8", "Authorization Issuer Fee Domestic Mid Tier"),
-        AUTHORIZATION_ISSUER_FEE_DOMESTIC_LARGE_TIER("9", "Authorization Issuer Fee Domestic Large Tier"),
-        AUTHORIZATION_ISSUER_FEE_DOMESTIC_MAX_TIER("10", "Authorization Issuer Fee Domestic Max Tier"),
-        AUTHORIZATION_ISSUER_FEE_MICRO_ACQ_GENERATED_REVERSAL("11", "Authorization Issuer Fee—Micro Acq Generated Reversal"),
-        AUTHORIZATION_ISSUER_FEE_SMALL_ACQ_GENERATED_REVERSAL("12", "Authorization Issuer Fee—Small Acq Generated Reversal"),
-        AUTHORIZATION_ISSUER_FEE_MID_ACQ_GENERATED_REVERSAL("13", "Authorization Issuer Fee—Mid Acq Generated Reversal"),
-        AUTHORIZATION_ISSUER_FEE_DOMESTIC_LARGE_ACQ_GENERATED_REVERSAL("14", "Authorization Issuer Fee Domestic—Large Acq Generated Reversal"),
-        AUTHORIZATION_ISSUER_FEE_DOMESTIC_MAX_ACQ_GENERATED_REVERSAL("15", "Authorization Issuer Fee Domestic—Max Acq Generated Reversal");
+        ISSUER_DOMESTIC_CLEARING_FEE_MICRO("1", "1", "Issuer Domestic Clearing Fee Micro"),
+        ISSUER_DOMESTIC_CLEARING_FEE_SMALL("2", "2", "Issuer Domestic Clearing Fee Small"),
+        ISSUER_DOMESTIC_CLEARING_FEE_MID("3", "3", "Issuer Domestic Clearing Fee Mid"),
+        ISSUER_DOMESTIC_CLEARING_FEE_LARGE("4", "4", "Issuer Domestic Clearing Fee Large"),
+        ISSUER_DOMESTIC_CLEARING_FEE_MAX("5", "5", "Issuer Domestic Clearing Fee Max"),
+        AUTHORIZATION_ISSUER_FEE_MICRO_TIER("6", "21", "Authorization Issuer Fee Micro Tier"),
+        AUTHORIZATION_ISSUER_FEE_DOMESTIC_SMALL_TIER("7", "22", "Authorization Issuer Fee Domestic Small Tier"),
+        AUTHORIZATION_ISSUER_FEE_DOMESTIC_MID_TIER("8", "23", "Authorization Issuer Fee Domestic Mid Tier"),
+        AUTHORIZATION_ISSUER_FEE_DOMESTIC_LARGE_TIER("9", "24", "Authorization Issuer Fee Domestic Large Tier"),
+        AUTHORIZATION_ISSUER_FEE_DOMESTIC_MAX_TIER("10", "25", "Authorization Issuer Fee Domestic Max Tier"),
+        AUTHORIZATION_ISSUER_FEE_MICRO_ACQ_GENERATED_REVERSAL("11", "26", "Authorization Issuer Fee—Micro Acq Generated Reversal"),
+        AUTHORIZATION_ISSUER_FEE_SMALL_ACQ_GENERATED_REVERSAL("12", "27", "Authorization Issuer Fee—Small Acq Generated Reversal"),
+        AUTHORIZATION_ISSUER_FEE_MID_ACQ_GENERATED_REVERSAL("13", "28", "Authorization Issuer Fee—Mid Acq Generated Reversal"),
+        AUTHORIZATION_ISSUER_FEE_DOMESTIC_LARGE_ACQ_GENERATED_REVERSAL("14", "29", "Authorization Issuer Fee Domestic—Large Acq Generated Reversal"),
+        AUTHORIZATION_ISSUER_FEE_DOMESTIC_MAX_ACQ_GENERATED_REVERSAL("15", "30", "Authorization Issuer Fee Domestic—Max Acq Generated Reversal");
 
         public final String value;
+        public final String internalId;
         public final String description;
 
         public static Evento fromValue(String value) {
