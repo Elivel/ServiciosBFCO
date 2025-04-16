@@ -194,9 +194,12 @@
                             <icon>src/main/resources/images/banco-falabella.ico</icon>
                             <classPath>
                                 <mainClass>
-                                    tech.falabella.qa.Application
+                                    tech.falabella.qa.GUIApplication
                                 </mainClass>
                             </classPath>
+                            <jre>
+                                <minVersion>21</minVersion>
+                                <path>jre</path> </jre>
                         </configuration>
                     </execution>
                 </executions>
