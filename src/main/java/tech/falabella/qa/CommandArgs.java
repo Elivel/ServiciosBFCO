@@ -80,8 +80,7 @@ public class CommandArgs implements Callable<Integer> {
         var reportConfig = this.report.config.get();
 
         return (executeExportReport)
-                //? new SSRSIngestionAdapter<>(this.separator.value, this.skipHeader, this.ssrsUrl, reportConfig.getRoute(), this.outPath, this.params, reportConfig::csvMap)
-                ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), reportConfig.assignDefaultValuesAndGet(this.params), this.outPath, this.separator.value, this.skipHeader, reportConfig::csvMap)
+                ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), reportConfig.assignDefaultValuesAndGet(this.params), this.outPath, this.separator.value, this.skipHeader, reportConfig.getHeaderRowSize(), reportConfig::csvMap)
                 : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig.getHeaderRowSize(), reportConfig::csvMap);
     }
 
