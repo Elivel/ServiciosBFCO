@@ -29,8 +29,9 @@ public class SettlementConfig  implements ReportConfig<SettlementTuple> {
                 USE [CONCILIACION]
                 DECLARE	@return_value int
                 EXEC	@return_value = [nuevaconciliacion].[USP_MC_ObtenerDatosConciliadoCiclos]
-                		(Fecha = ?)
+                		@Fecha = ?
         """;
+        private final int headerRowSize = 8;
 
 
         public SettlementTuple sqlMap (ResultSet resultSet) {
@@ -50,9 +51,9 @@ public class SettlementConfig  implements ReportConfig<SettlementTuple> {
         public SettlementTuple csvMap (String[] result){
             return SettlementTuple.builder()
                     .compensacion(result[0])
-                    .ciclo(result[1])
-                    .monto_neto(result[2])
-                    .monto_pesos(result[3])
+                    .ciclo(result[2])
+                    .monto_neto(result[3])
+                    .monto_pesos(result[4])
                     .build();
         }
 

@@ -8,6 +8,7 @@ import tech.falabella.qa.report.cl_Consulta_TRX_X_Documento.Consulta_TRX_X_Docum
 import tech.falabella.qa.report.clearing_pmd.ClearingPMDConfig;
 import tech.falabella.qa.report.consulta_clai.ConsultaCLAIConfig;
 import tech.falabella.qa.report.detallado_evento_mcca.DetalladoEventoMCCAConfig;
+import tech.falabella.qa.report.ms_Settlement.SettlementConfig;
 import tech.falabella.qa.report.msbil_ControlFacturamci.ControlFacturaMciConfig;
 
 import java.util.function.Supplier;
@@ -19,7 +20,8 @@ public enum Report {
     CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.FALSE),
     CONSOLIDADO_LIQ(ConsolidadoLiqConfig::newInstance, Boolean.TRUE),
     CONSULTA_TRX_XDOCUMENTO(Consulta_TRX_X_DocumentoConfig::newInstance, Boolean.FALSE),
-    CONTROL_FACTURA_MCI(ControlFacturaMciConfig::newInstance,Boolean.TRUE);
+    CONTROL_FACTURA_MCI(ControlFacturaMciConfig::newInstance,Boolean.TRUE),
+    SETTLEMENT(SettlementConfig:: newInstance,Boolean.TRUE);
 
     public final Supplier<ReportConfig<? extends Tuple>> config;
     public final boolean enabled;
