@@ -19,7 +19,6 @@ import java.awt.event.*;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
@@ -28,7 +27,6 @@ public class UIMain extends JDialog {
 
     private JPanel contentPanel;
     private JButton buttonOK;
-    private JButton buttonCancel;
     private JComboBox<Report> reportsBox;
     private JButton buttonBrowse;
     private JTable tableParameters;
@@ -47,6 +45,8 @@ public class UIMain extends JDialog {
     private JTextField rsUrlField;
     private JTextField outPathExportField;
     private JTextField outFileResultField;
+    private JButton executeBatchButton;
+    private JCheckBox hideAutomaticTestWebCheckBox;
 
     public UIMain() {
         setTitle("SSRS Validator");
@@ -54,7 +54,7 @@ public class UIMain extends JDialog {
         setLocationByPlatform(Boolean.TRUE);
 
         setContentPane(contentPanel);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(autoBtn);
 
         var iconURL = getClass().getClassLoader().getResource("images/banco-falabella.ico");
 
@@ -74,7 +74,6 @@ public class UIMain extends JDialog {
 
         reportsBox.addActionListener(e -> printParameters());
         buttonOK.addActionListener(e -> onOK());
-        buttonCancel.addActionListener(e -> onCancel());
 
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
             buttonBrowse.addActionListener(e -> onOpenWeb());
@@ -141,7 +140,6 @@ public class UIMain extends JDialog {
 
         List<String> args = new ArrayList<>();
         if (reportsBox.getSelectedItem() instanceof Report reportSelected) {
-            args.add("--report-name=" + reportSelected.name());
             args.add("--print");
             args.add("--execute-export-report");
             args.add("--skip-header");
@@ -151,7 +149,12 @@ public class UIMain extends JDialog {
             args.add("--mssql-url=" + msUrlField.getText());
             args.add("--ssrs-url=" + rsUrlField.getText());
             args.add("--out-path-export=" + outPathExportField.getText());
-            args.add("--out-file-result=" + outFileResultField.getText());
+            if (hideAutomaticTestWebCheckBox.isSelected())
+                args.add("--hidden-browser");
+
+            args.add("--report-name=" + reportSelected.name());
+            var resultFile = outFileResultField.getText() + reportSelected.name() + ".txt";
+            args.add("--out-file-result=" + resultFile);
 
             Optional.of(tableParameters)
                     .map(it -> (ParamsTableModel) it.getModel())

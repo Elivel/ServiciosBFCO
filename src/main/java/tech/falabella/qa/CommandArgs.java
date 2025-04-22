@@ -62,6 +62,9 @@ public class CommandArgs implements Callable<Integer> {
     @Option(names = {"-x", "--out-path-export"}, description = "path export file")
     String outPath;
 
+    @Option(names = {"--hidden-browser"}, defaultValue = "false", fallbackValue = "true", description = "Indicates that the web browser will not be visible")
+    boolean hiddenBrowser;
+
     // others
     @Option(names = {"-p", "--print"}, description = "display output", negatable = true, defaultValue = "false", fallbackValue = "true")
     boolean print;
@@ -80,7 +83,7 @@ public class CommandArgs implements Callable<Integer> {
         var reportConfig = this.report.config.get();
 
         return (executeExportReport)
-                ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), reportConfig.assignDefaultValuesAndGet(this.params), this.outPath, this.separator.value, this.skipHeader, reportConfig.getHeaderRowSize(), reportConfig::csvMap)
+                ? new ScrapingIngestionAdapter<>(this.ssrsUrl.concat(reportConfig.getRoute()), reportConfig.assignDefaultValuesAndGet(this.params), this.outPath, this.separator.value, this.skipHeader, reportConfig.getHeaderRowSize(), this.isHiddenBrowser(), reportConfig::csvMap)
                 : new FileIngestionAdapter<>(this.csvInput, this.separator.value, this.skipHeader, reportConfig.getHeaderRowSize(), reportConfig::csvMap);
     }
 

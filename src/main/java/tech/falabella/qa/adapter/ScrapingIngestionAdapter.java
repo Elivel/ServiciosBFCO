@@ -39,6 +39,7 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
     private final char separator;
     private final boolean skipHeader;
     private final int headerRowSize;
+    private final boolean hiddenBrowser;
     private final Function<String[], T> aMapFun;
     private File file;
 
@@ -120,9 +121,11 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
 
     private WebDriver openBrowser() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*"
-            //   ,"--headless", "--disable-gpu" no abre el navegador, ejecuta prueba por debajo
-                       );
+        if (hiddenBrowser)
+            options.addArguments("--remote-allow-origins=*","--headless", "--disable-gpu");
+        else
+            options.addArguments("--remote-allow-origins=*");
+
         options.setExperimentalOption("prefs",
                 Map.of("download.default_directory", output,
                         "profile.default_content_settings.popups", 0,
