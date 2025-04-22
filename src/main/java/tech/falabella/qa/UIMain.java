@@ -50,7 +50,7 @@ public class UIMain extends JDialog {
     private JButton executeBatchButton;
     private JCheckBox hideAutomaticTestWebCheckBox;
 
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("_yyyyMMdd_HH:mm:ss");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("_yyyyMMdd_HHmmss");
 
     public UIMain() {
         setTitle("SSRS Validator");
