@@ -1,8 +1,8 @@
 package tech.falabella.qa.service;
 
-import java.util.Collection;
+import tech.falabella.qa.dto.Result;
 
 public interface ValidationService {
 
-    Collection<String> processElements();
+    Result processElements();
 }

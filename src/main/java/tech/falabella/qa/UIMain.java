@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import picocli.CommandLine;
 import tech.falabella.qa.adapter.FileStorageAdapter;
 import tech.falabella.qa.dto.Report;
+import tech.falabella.qa.dto.Result;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.service.ValidationServiceImpl;
 
@@ -15,7 +16,9 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
@@ -136,7 +139,7 @@ public class UIMain extends JDialog {
             var reports = jsonObject.getAsJsonArray("reports");
 
             this.executeBatchButton.setEnabled(Boolean.TRUE);
-            this.executeBatchButton.setText("Execute batch (" + reports.size() +")");
+            this.executeBatchButton.setText("Execute batch (" + reports.size() + ")");
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
@@ -191,11 +194,26 @@ public class UIMain extends JDialog {
             var fileOutput = FileStorageAdapter.newInstance();
             fileOutput.generate(result, command);
 
-            JOptionPane.showMessageDialog(this, "El proceso ha terminado con '" + result.size() + "' inconsistencia(s)");
+            showMessageDialog(result);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+
+    private void showMessageDialog(Result result) {
+        var content = """
+                Cantidad de datos en reporte:       %d
+                Cantidad de datos en base de datos: %d
+                Cantidad de datos inconsistentes:   %d
+                """.formatted(
+                result.inputCount(),
+                result.persistenceCount(),
+                result.inconsistenciesCount()
+        );
+
+        JOptionPane.showMessageDialog(this, content, "Resultado de la prueba " + result.status(),
+                "Fallido".equals(result.status()) ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void onCancel() {
