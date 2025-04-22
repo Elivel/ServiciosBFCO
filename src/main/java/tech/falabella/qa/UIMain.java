@@ -19,6 +19,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
@@ -47,6 +49,8 @@ public class UIMain extends JDialog {
     private JTextField outFileResultField;
     private JButton executeBatchButton;
     private JCheckBox hideAutomaticTestWebCheckBox;
+
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("_yyyyMMdd_HH:mm:ss");
 
     public UIMain() {
         setTitle("SSRS Validator");
@@ -100,7 +104,7 @@ public class UIMain extends JDialog {
             JFileChooser fileChooser = new JFileChooser();
             // fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de Texto (*.json)", "json");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de configuración (*.json)", "json");
             fileChooser.setFileFilter(filter);
 
             int result = fileChooser.showOpenDialog(this);
@@ -129,6 +133,10 @@ public class UIMain extends JDialog {
             this.rsUrlField.setText(ssrs.getAsJsonPrimitive("url").getAsString());
             this.outPathExportField.setText(ssrs.getAsJsonPrimitive("out-path-export").getAsString());
 
+            var reports = jsonObject.getAsJsonArray("reports");
+
+            this.executeBatchButton.setEnabled(Boolean.TRUE);
+            this.executeBatchButton.setText("Execute batch (" + reports.size() +")");
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
@@ -153,7 +161,8 @@ public class UIMain extends JDialog {
                 args.add("--hidden-browser");
 
             args.add("--report-name=" + reportSelected.name());
-            var resultFile = outFileResultField.getText() + reportSelected.name() + ".txt";
+            var dateSuffix = LocalDateTime.now().format(dateTimeFormatter);
+            var resultFile = outFileResultField.getText() + reportSelected.name() + dateSuffix + ".txt";
             args.add("--out-file-result=" + resultFile);
 
             Optional.of(tableParameters)
