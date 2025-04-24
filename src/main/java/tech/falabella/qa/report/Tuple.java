@@ -1,10 +1,14 @@
 package tech.falabella.qa.report;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import lombok.NoArgsConstructor;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
+import java.io.IOException;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
@@ -26,8 +30,63 @@ public abstract class Tuple implements Serializable {
     public abstract JsonObject getId();
 
     public String toString() {
-        var gson = new GsonBuilder().create();
-        return gson.toJson(this);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(DateTime.class, new TypeAdapter<DateTime>() {
+            @Override
+            public void write(JsonWriter jsonWriter, DateTime value) throws IOException {
+                if (value == null) {
+                    jsonWriter.nullValue();
+                } else {
+                    jsonWriter.value(value.value().toString());
+                }
+            }
+            @Override
+            public DateTime read(JsonReader jsonReader) throws IOException {
+                if (jsonReader.peek() == com.google.gson.stream.JsonToken.NULL) {
+                    jsonReader.nextNull();
+                    return null;
+                }
+                return DateTime.from(jsonReader.nextString());
+            }
+        });
+        gsonBuilder.registerTypeAdapter(Money.class, new TypeAdapter<Money>() {
+            @Override
+            public void write(JsonWriter jsonWriter, Money money) throws IOException {
+                if (money == null) {
+                    jsonWriter.nullValue();
+                } else {
+                    jsonWriter.value(money.value().toString());
+                }
+            }
+            @Override
+            public Money read(JsonReader jsonReader) throws IOException {
+                if (jsonReader.peek() == com.google.gson.stream.JsonToken.NULL) {
+                    jsonReader.nextNull();
+                    return null;
+                }
+                return Money.from(jsonReader.nextString());
+            }
+        });
+        gsonBuilder.registerTypeAdapter(Number.class, new TypeAdapter<Number>() {
+            @Override
+            public void write(JsonWriter jsonWriter, Number number) throws IOException {
+                if (number == null) {
+                    jsonWriter.nullValue();
+                } else {
+                    jsonWriter.value(number.value().toString());
+                }
+            }
+            @Override
+            public Number read(JsonReader jsonReader) throws IOException {
+                if (jsonReader.peek() == com.google.gson.stream.JsonToken.NULL) {
+                    jsonReader.nextNull();
+                    return null;
+                }
+                return Number.from(jsonReader.nextString());
+            }
+        });
+
+        return gsonBuilder.create().toJson(this);
     }
 
     public String diff(Tuple other) {
