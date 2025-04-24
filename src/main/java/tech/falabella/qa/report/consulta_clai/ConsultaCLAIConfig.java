@@ -60,8 +60,8 @@ public class ConsultaCLAIConfig implements ReportConfig<ConsultaCLAITuple> {
                     .terminal(resultSet.getString(18))
                     .posEntryMode(resultSet.getString(19))
                     .nalInternal(resultSet.getString(20))
-                    .numeroCuotas(resultSet.getString(21))
-                    .comercio(resultSet.getString(22))
+                    .numeroCuotas(resultSet.getString(22))
+                    .comercio(resultSet.getString(23))
                     .build();
         } catch (SQLException e) {
             throw new MalformedTupleException(e);
