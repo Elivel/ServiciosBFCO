@@ -5,9 +5,12 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Map;
 
 @Getter
@@ -42,18 +45,18 @@ public class ConsultaCLAIConfig implements ReportConfig<ConsultaCLAITuple> {
                     .tarjeta(resultSet.getString(3))
                     .cuenta(resultSet.getString(4))
                     .codigoTransaccionAdquiriente(resultSet.getString(5))
-                    .valorOriginal(resultSet.getString(6))
+                    .valorOriginal(Money.from (resultSet.getString(6)))
                     .ultimoPaso(resultSet.getString(7))
                     .codigoRespuestaAdquiriente(resultSet.getString(8))
-                    .fechaFinal(resultSet.getString(9))
+                    .fechaFinal(DateTime.from(resultSet.getString(9)))
                     .redAdquiriente(resultSet.getString(10))
                     .secuencia(resultSet.getString(11))
                     .autOriginal(resultSet.getString(12))
-                    .fechaRegistroEncabezado(resultSet.getString(13))
-                    .fechaRegistroDetalle(resultSet.getString(14))
-                    .montoImpIVA(resultSet.getString(15))
-                    .montoBaseIVA(resultSet.getString(16))
-                    .propina(resultSet.getString(17))
+                    .fechaRegistroEncabezado(DateTime.from(resultSet.getString(13)))
+                    .fechaRegistroDetalle(DateTime.from(resultSet.getString(14)))
+                    .montoImpIVA(Money.from(resultSet.getString(15)))
+                    .montoBaseIVA(Money.from(resultSet.getString(16)))
+                    .propina(Money.from(resultSet.getString(17)))
                     .terminal(resultSet.getString(18))
                     .posEntryMode(resultSet.getString(19))
                     .nalInternal(resultSet.getString(20))
@@ -72,18 +75,18 @@ public class ConsultaCLAIConfig implements ReportConfig<ConsultaCLAITuple> {
                 .tarjeta(result[2])
                 .cuenta(result[3])
                 .codigoTransaccionAdquiriente(result[4])
-                .valorOriginal(result[5])
+                .valorOriginal(Money.from(result[5]))
                 .ultimoPaso(result[6])
                 .codigoRespuestaAdquiriente(result[7])
-                .fechaFinal(result[8])
+                .fechaFinal(DateTime.from(result[8]))
                 .redAdquiriente(result[9])
                 .secuencia(result[10])
                 .autOriginal(result[11])
-                .fechaRegistroEncabezado(result[12])
-                .fechaRegistroDetalle(result[13])
-                .montoImpIVA(result[14])
-                .montoBaseIVA(result[15])
-                .propina(result[16])
+                .fechaRegistroEncabezado(DateTime.from(result[12]))
+                .fechaRegistroDetalle(DateTime.from(result[13]))
+                .montoImpIVA(Money.from(result[14]))
+                .montoBaseIVA(Money.from(result[15]))
+                .propina(Money.from(result[16]))
                 .terminal(result[17])
                 .posEntryMode(result[18])
                 .nalInternal(result[19])

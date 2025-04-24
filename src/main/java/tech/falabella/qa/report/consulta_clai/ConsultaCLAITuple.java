@@ -3,6 +3,8 @@ package tech.falabella.qa.report.consulta_clai;
 import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
 
 import java.util.Map;
 
@@ -18,18 +20,18 @@ public class ConsultaCLAITuple extends Tuple {
     private String tarjeta;
     private String cuenta;
     private String codigoTransaccionAdquiriente;
-    private String valorOriginal;
+    private Money valorOriginal;
     private String ultimoPaso;
     private String codigoRespuestaAdquiriente;
-    private String fechaFinal;
+    private DateTime fechaFinal;
     private String redAdquiriente;
     private String secuencia;
     private String autOriginal;
-    private String fechaRegistroEncabezado;
-    private String fechaRegistroDetalle;
-    private String montoImpIVA;
-    private String montoBaseIVA;
-    private String propina;
+    private DateTime fechaRegistroEncabezado;
+    private DateTime fechaRegistroDetalle;
+    private Money montoImpIVA;
+    private Money montoBaseIVA;
+    private Money propina;
     private String terminal;
     private String posEntryMode;
     private String nalInternal;
