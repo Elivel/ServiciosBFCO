@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,16 +55,16 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
         try {
             return DetalladoEventoMCCATuple.builder()
                     .rep_tipoMensaje(resultSet.getString(5))
-                    .rep_codigoFuncion(resultSet.getString( 6))
+                    .rep_codigoFuncion(Number.from(resultSet.getString( 6)))
                     .rep_tarjeta(resultSet.getString(7))
                     .rep_tipoTransaccion(resultSet.getString(8))
-                    .rep_fecha(resultSet.getString(9))
+                    .rep_fecha(DateTime.from(resultSet.getString(9)))
                     .rep_codigoComercio(resultSet.getString(10))
                     .rep_nombreComercio(resultSet.getString(11))
                     .rep_estadoComercio(resultSet.getString(12))
                     .rep_paisComercio(resultSet.getString(13))
-                    .rep_valorTransaccion(resultSet.getString(14))
-                    .rep_valorIva(resultSet.getString(15))
+                    .rep_valorTransaccion(Money.from(resultSet.getString(14)))
+                    .rep_valorIva(Money.from(resultSet.getString(15)))
                     .rep_numAprobacion(resultSet.getString(16))
                     .rep_traceId(resultSet.getString(17))
                     .rep_refArn(resultSet.getString(18))
@@ -74,16 +77,16 @@ public class DetalladoEventoMCCAConfig implements ReportConfig<DetalladoEventoMC
     public DetalladoEventoMCCATuple csvMap(String[] result) {
         return DetalladoEventoMCCATuple.builder()
                 .rep_tipoMensaje(result[0])
-                .rep_codigoFuncion(result[1])
+                .rep_codigoFuncion(Number.from(result[1]))
                 .rep_tarjeta(result[2])
                 .rep_tipoTransaccion(result[3])
-                .rep_fecha(result[4])
+                .rep_fecha(DateTime.from(result[4]))
                 .rep_codigoComercio(result[5])
                 .rep_nombreComercio(result[6])
                 .rep_estadoComercio(result[7])
                 .rep_paisComercio(result[8])
-                .rep_valorTransaccion(result[9])
-                .rep_valorIva(result[10])
+                .rep_valorTransaccion(Money.from(result[9]))
+                .rep_valorIva(Money.from(result[10]))
                 .rep_numAprobacion(result[11])
                 .rep_traceId(result[12])
                 .rep_refArn(result[13])

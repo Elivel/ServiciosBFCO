@@ -3,6 +3,9 @@ package tech.falabella.qa.report.detallado_evento_mcca;
 import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 import java.util.Map;
 
@@ -14,16 +17,16 @@ import java.util.Map;
 public class DetalladoEventoMCCATuple extends Tuple {
 
     private String rep_tipoMensaje;
-    private String rep_codigoFuncion;
+    private Number rep_codigoFuncion;
     private String rep_tarjeta;
     private String rep_tipoTransaccion;
-    private String rep_fecha;
+    private DateTime rep_fecha;
     private String rep_codigoComercio;
     private String rep_nombreComercio;
     private String rep_estadoComercio;
     private String rep_paisComercio;
-    private String rep_valorTransaccion;
-    private String rep_valorIva;
+    private Money rep_valorTransaccion;
+    private Money rep_valorIva;
     private String rep_numAprobacion;
     private String rep_traceId;
     private String rep_refArn;
