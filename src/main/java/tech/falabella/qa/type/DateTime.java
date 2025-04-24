@@ -5,10 +5,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
+import java.util.Locale;
 
 public record DateTime(Temporal value) {
 
     private static String[] dateTimeFormats = {
+            "M/d/yyyy hh:mm:ss a",
+            "M/dd/yyyy hh:mm:ss a",
+            "MM/d/yyyy hh:mm:ss a",
+            "MM/dd/yyyy hh:mm:ss a",
             "yyyy-MM-dd'T'HH:mm:ss",
             "yyyy-MM-dd HH:mm:ss",
             "yyyy/MM/dd HH:mm:ss",
@@ -33,7 +38,7 @@ public record DateTime(Temporal value) {
 
         for (String format : dateTimeFormats) {
             try {
-                var formatter = DateTimeFormatter.ofPattern(format);
+                var formatter = DateTimeFormatter.ofPattern(format, Locale.US);
                 parsedDateTime = LocalDateTime.parse(unformatted, formatter);
                 break;
             } catch (DateTimeParseException ignore) {
