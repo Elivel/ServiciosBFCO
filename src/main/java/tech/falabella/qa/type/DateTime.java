@@ -42,7 +42,7 @@ public record DateTime(Temporal value) {
                 parsedDateTime = LocalDateTime.parse(unformatted, formatter);
                 break;
             } catch (DateTimeParseException ignore) {
-                // Ignore the exception and try the next format
+                ignore.printStackTrace();
             }
         }
 

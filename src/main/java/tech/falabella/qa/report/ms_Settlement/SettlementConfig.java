@@ -31,7 +31,7 @@ public class SettlementConfig  implements ReportConfig<SettlementTuple> {
                 EXEC	@return_value = [nuevaconciliacion].[USP_MC_ObtenerDatosConciliadoCiclos]
                 		@Fecha = ?
         """;
-        private final int headerRowSize = 8;
+        private final int headerRowSize = 7;
 
 
         public SettlementTuple sqlMap (ResultSet resultSet) {

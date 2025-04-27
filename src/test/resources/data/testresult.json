@@ -1,55 +1,37 @@
-{
-  "id": {
-    "numero-autorizacion": "399300",
-    "cuenta": "528209670035",
-    "tarjeta": "*5544"
-  },
-  "expected": {
-    "rta": "CORRECTO",
-    "numeroAutorizacion": "399300",
-    "tarjeta": "*5544",
-    "cuenta": "528209670035",
-    "codigoTransaccionAdquiriente": "003000",
-    "valorOriginal": "730000.00",
-    "ultimoPaso": "OK",
-    "codigoRespuestaAdquiriente": "00",
-    "fechaFinal": "2023/12/29 16:39:10",
-    "redAdquiriente": "MCI",
-    "secuencia": "372521",
-    "autOriginal": "SAT",
-    "fechaRegistroEncabezado": "",
-    "fechaRegistroDetalle": "2023-12-30 00:00:00.0",
-    "montoImpIVA": "2023-12-30 00:00:00.0",
-    "montoBaseIVA": "0.00",
-    "propina": "0.00",
-    "terminal": "0.00",
-    "posEntryMode": "00095635",
-    "nalInternal": "051",
-    "numeroCuotas": "0",
-    "comercio": "1"
-  },
-  "actual": {
-    "rta": "CORRECTO",
-    "numeroAutorizacion": "399300",
-    "tarjeta": "*5544",
-    "cuenta": "528209670035",
-    "codigoTransaccionAdquiriente": "003000",
-    "valorOriginal": "730,000",
-    "ultimoPaso": "OK",
-    "codigoRespuestaAdquiriente": "00",
-    "fechaFinal": "2023/12/29 16:39:10",
-    "redAdquiriente": "MCI",
-    "secuencia": "372521",
-    "autOriginal": "",
-    "fechaRegistroEncabezado": "12/30/2023 12:00:00 AM",
-    "fechaRegistroDetalle": "12/30/2023 12:00:00 AM",
-    "montoImpIVA": "0.00",
-    "montoBaseIVA": "0.00",
-    "propina": "0.00",
-    "terminal": "00095635",
-    "posEntryMode": "051",
-    "nalInternal": "False",
-    "numeroCuotas": "1",
-    "comercio": "12770103"
-  }
-}
+uplicate key {
+  "codigo-comercio": "CCPT IDC",
+  "trace-id": "             ",
+  "tarjeta": "5282090000005144"
+} (attempted merging values {
+  "rep_tipoMensaje": "",
+  "rep_codigoFuncion": "93330",
+  "rep_tarjeta": "5282090000005144",
+  "rep_tipoTransaccion": "",
+  "rep_fecha": "2023-07-18",
+  "rep_codigoComercio": "CCPT IDC",
+  "rep_nombreComercio": "                                        ",
+  "rep_estadoComercio": "",
+  "rep_paisComercio": "",
+  "rep_valorTransaccion": "0.00",
+  "rep_valorIva": "0.00",
+  "rep_numAprobacion": "",
+  "rep_traceId": "             ",
+  "rep_refArn": "319918898742"
+} and {
+  "rep_tipoMensaje": "",
+  "rep_codigoFuncion": "93330",
+  "rep_tarjeta": "5282090000005144",
+  "rep_tipoTransaccion": "",
+  "rep_fecha": "2023-07-18",
+  "rep_codigoComercio": "CCPT IDC",
+  "rep_nombreComercio": "                                        ",
+  "rep_estadoComercio": "",
+  "rep_paisComercio": "",
+  "rep_valorTransaccion": "0.00",
+  "rep_valorIva": "0.00",
+  "rep_numAprobacion": "",
+  "rep_traceId": "             ",
+  "rep_refArn": "320001904415"
+})
+java.lang.IllegalStateException: Duplicate key {"codigo-comercio": "CCPT IDC", "trace-id": "             ", "tarjeta": "5282090000005144"} (attempted merging values {"rep_tipoMensaje": "", "rep_codigoFuncion": "93330", "rep_tarjeta": "5282090000005144", "rep_tipoTransaccion": "", "rep_fecha": "2023-07-18", "rep_codigoComercio": "CCPT IDC", "rep_nombreComercio": "                                        ", "rep_estadoComercio": "", "rep_paisComercio": "", "rep_valorTransaccion": "0.00", "rep_valorIva": "0.00", "rep_numAprobacion": "", "rep_traceId": "             ", "rep_refArn": "319918898742"} and {"rep_tipoMensaje": "", "rep_codigoFuncion": "93330", "rep_tarjeta": "5282090000005144", "rep_tipoTransaccion": "", "rep_fecha": "2023-07-18", "rep_codigoComercio": "CCPT IDC", "rep_nombreComercio": "                                        ", "rep_estadoComercio": "", "rep_paisComercio": "", "rep_valorTransaccion": "0.00", "rep_valorIva": "0.00", "rep_numAprobacion": "", "rep_traceId": "             ", "rep_refArn": "320001904415"
+})

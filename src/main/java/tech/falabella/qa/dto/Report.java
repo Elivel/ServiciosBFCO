@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 public enum Report {
     CONSULTA_CLAI(ConsultaCLAIConfig::newInstance, Boolean.TRUE),
     DETALLADO_EVENTO_MCCA(DetalladoEventoMCCAConfig::newInstance, Boolean.TRUE),
-    CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.FALSE),
+    CLEARING_PMD(ClearingPMDConfig::newInstance, Boolean.TRUE),
     CONSOLIDADO_LIQ(ConsolidadoLiqConfig::newInstance, Boolean.TRUE),
     CONSULTA_TRX_XDOCUMENTO(Consulta_TRX_X_DocumentoConfig::newInstance, Boolean.FALSE),
     CONTROL_FACTURA_MCI(ControlFacturaMciConfig::newInstance,Boolean.TRUE),
