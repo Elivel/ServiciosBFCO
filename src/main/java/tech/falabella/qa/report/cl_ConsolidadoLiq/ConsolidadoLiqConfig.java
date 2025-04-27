@@ -34,6 +34,22 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
             RETAVITAB, RETIMPBOM
             FROM TBL_CONSOLIDADOPORCONVENIOVTA
             WHERE (FECHALIQ = ?) ORDER BY NOMEST
+            UNION
+            SELECT DISTINCT FechaLiq, codest, nomest, codloc,
+            nomloc, cantrx, imptrxmn, impcmsrecmn, impivacmsrecmn,
+            impretcmsrecmn, impnetmn, '', '',
+            '', '', '', ''
+            '', ''
+            FROM TBL_CONSOLIDADOPORCONVENIOREC
+            WHERE (FechaLiq = ?) ORDER BY nomest
+            UNION
+            SELECT FECHALIQ, CODEST, NOMEST, CODLOC,
+            NOMLOC, CANTTRX, IMPTRXMN, IMPCMAVAMN, IMPIVACMSAVAMN,
+            IMPRETCMSAVAMN, IMPNETMN, '', '',
+            '', '', '', ''
+            '', ''
+            FROM TBL_CONSOLIDADOPORCONVENIOAVA
+            WHERE (FECHALIQ = ?) ORDER BY NOMEST
             """;
 
     private final int headerRowSize = 4;
