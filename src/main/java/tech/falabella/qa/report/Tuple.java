@@ -59,11 +59,11 @@ public abstract class Tuple implements Serializable {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(DateTime.class, new TypeAdapter<DateTime>() {
             @Override
-            public void write(JsonWriter jsonWriter, DateTime value) throws IOException {
-                if (value == null) {
+            public void write(JsonWriter jsonWriter, DateTime date) throws IOException {
+                if (date == null || date.value() == null) {
                     jsonWriter.nullValue();
                 } else {
-                    jsonWriter.value(value.value().toString());
+                    jsonWriter.value(date.value().toString());
                 }
             }
 
@@ -79,7 +79,7 @@ public abstract class Tuple implements Serializable {
         gsonBuilder.registerTypeAdapter(Money.class, new TypeAdapter<Money>() {
             @Override
             public void write(JsonWriter jsonWriter, Money money) throws IOException {
-                if (money == null) {
+                if (money == null || money.value() == null) {
                     jsonWriter.nullValue();
                 } else {
                     jsonWriter.value(money.value().toString());
@@ -98,7 +98,7 @@ public abstract class Tuple implements Serializable {
         gsonBuilder.registerTypeAdapter(Number.class, new TypeAdapter<Number>() {
             @Override
             public void write(JsonWriter jsonWriter, Number number) throws IOException {
-                if (number == null) {
+                if (number == null || number.value() == null) {
                     jsonWriter.nullValue();
                 } else {
                     jsonWriter.value(number.value().toString());
