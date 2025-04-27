@@ -112,7 +112,8 @@ public class ScrapingIngestionAdapter<T extends Tuple> implements IngestionPort 
                      .build()) {
             return csvReader.readAll().parallelStream()
                     .filter(line -> line.length > 0 && Stream.of(line).anyMatch(cell -> !cell.trim().isEmpty()))
-                    .map(aMapFun).toList();
+                    .map(aMapFun)
+                    .collect(Collectors.toCollection(HashSet::new));
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
         }

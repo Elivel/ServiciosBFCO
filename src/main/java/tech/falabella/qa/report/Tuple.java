@@ -30,6 +30,32 @@ public abstract class Tuple implements Serializable {
     public abstract JsonObject getId();
 
     public String toString() {
+        return createGson().toJson(this);
+    }
+
+    public String diff(Tuple other) {
+        Gson gson = createGson();
+
+        var jsonElement = new JsonObject();
+        jsonElement.add("id", getId());
+        jsonElement.add("expected", gson.toJsonTree(this));
+        jsonElement.add("actual", gson.toJsonTree(other));
+
+        return gson.toJson(jsonElement);
+    }
+
+    public static String result(JsonObject id, Tuple expected, Tuple actual) {
+        Gson gson = createGson();
+
+        var jsonElement = new JsonObject();
+        jsonElement.add("id", id);
+        jsonElement.add("expected", null == expected ? new JsonObject() : gson.toJsonTree(expected));
+        jsonElement.add("actual", null == actual ? new JsonObject() : gson.toJsonTree(actual));
+
+        return gson.toJson(jsonElement);
+    }
+
+    private static Gson createGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(DateTime.class, new TypeAdapter<DateTime>() {
             @Override
@@ -40,6 +66,7 @@ public abstract class Tuple implements Serializable {
                     jsonWriter.value(value.value().toString());
                 }
             }
+
             @Override
             public DateTime read(JsonReader jsonReader) throws IOException {
                 if (jsonReader.peek() == com.google.gson.stream.JsonToken.NULL) {
@@ -58,6 +85,7 @@ public abstract class Tuple implements Serializable {
                     jsonWriter.value(money.value().toString());
                 }
             }
+
             @Override
             public Money read(JsonReader jsonReader) throws IOException {
                 if (jsonReader.peek() == com.google.gson.stream.JsonToken.NULL) {
@@ -76,6 +104,7 @@ public abstract class Tuple implements Serializable {
                     jsonWriter.value(number.value().toString());
                 }
             }
+
             @Override
             public Number read(JsonReader jsonReader) throws IOException {
                 if (jsonReader.peek() == com.google.gson.stream.JsonToken.NULL) {
@@ -86,17 +115,6 @@ public abstract class Tuple implements Serializable {
             }
         });
 
-        return gsonBuilder.create().toJson(this);
-    }
-
-    public String diff(Tuple other) {
-        var gson = new GsonBuilder().create();
-
-        var jsonElement = new JsonObject();
-        jsonElement.add("id", getId());
-        jsonElement.add("expected", gson.toJsonTree(this));
-        jsonElement.add("actual", gson.toJsonTree(other));
-
-        return gson.toJson(jsonElement);
+        return gsonBuilder.create();
     }
 }

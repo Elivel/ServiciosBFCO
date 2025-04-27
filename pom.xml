@@ -16,23 +16,27 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <picocli.version>4.7.6</picocli.version>
+        <!--  args -->
+        <main.class>tech.falabella.qa.GUIApplication</main.class>
+
+        <!-- dependencies -->
+        <picocli.version>4.7.7</picocli.version>
         <opencsv.version>5.10</opencsv.version>
 
         <jakarta.persistence-api.version>3.2.0</jakarta.persistence-api.version>
-        <mssql-jdbc.version>12.8.1.jre11</mssql-jdbc.version>
+        <mssql-jdbc.version>12.10.0.jre11</mssql-jdbc.version>
 
-        <lombok.version>1.18.36</lombok.version>
-        <gson.version>2.12.1</gson.version>
+        <lombok.version>1.18.38</lombok.version>
+        <gson.version>2.13.1</gson.version>
 
-        <junit.version>5.12.0</junit.version>
-        <assertj-core.version>3.27.3</assertj-core.version>
-        <junit-platform-suite.version>1.12.1</junit-platform-suite.version>
+        <junit.version>5.13.0-M2</junit.version>
+        <assertj-core.version>4.0.0-M1</assertj-core.version>
+        <junit-platform-suite.version>1.13.0-M2</junit-platform-suite.version>
         <mockito.version>5.17.0</mockito.version>
         <h2.version>2.3.232</h2.version>
-        <slf4j.version>2.0.16</slf4j.version>
+        <slf4j.version>2.0.17</slf4j.version>
 
-        <cucumber.version>7.22.0</cucumber.version>
+        <cucumber.version>7.22.1</cucumber.version>
         <selenium-java.version>4.31.0</selenium-java.version>
     </properties>
 

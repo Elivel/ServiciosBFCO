@@ -48,12 +48,16 @@ public class DDBBIngestionAdapter<T extends Tuple> implements IngestionPort {
 
             var resultSet = statement.executeQuery();
 
-            data = new ArrayList<>();
+            data = new HashSet<>();
             while (resultSet.next()) {
                 data.add(aMapFun.apply(resultSet));
             }
         } catch (SQLException exception) {
             throw new GenerateIngestionObjectException(exception.getMessage());
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ignore) { }
         }
     }
 }
