@@ -27,30 +27,30 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
     private final String route = "Conciliacion_Liquidacion/ConsolidadoLiq";
     private final String query = """
             USE [CMRliquidaciones]
-            DECLARE @fechaLiq = ?;
+            DECLARE @fechaLiq DATE = ?;
             SELECT DISTINCT FECHALIQ, CODEST, NOMEST, CODLOC,
             NOMLOC, CANTTRX, IMPTRXMN, IMPIGVMN, IMPPRPMN,
             IMPCOMNETMN, IMPCMSCMRMN, IMPRETFTEMN, IMPRETIVAMN,
             IMPNETMN, IMPRETICAMN, IMPRETCREEMN, IMPINCMN,
             RETAVITAB, RETIMPBOM
             FROM TBL_CONSOLIDADOPORCONVENIOVTA
-            WHERE (FECHALIQ = @fechaLiq)
+            WHERE FECHALIQ = @fechaLiq
             UNION
             SELECT DISTINCT FechaLiq, codest, nomest, codloc,
             nomloc, cantrx, imptrxmn, impcmsrecmn, impivacmsrecmn,
             impretcmsrecmn, impnetmn, null, null,
-            null, null, null, null
+            null, null, null, null,
             null, null
             FROM TBL_CONSOLIDADOPORCONVENIOREC
-            WHERE (FechaLiq = @fechaLiq)
+            WHERE FechaLiq = @fechaLiq
             UNION
             SELECT FECHALIQ, CODEST, NOMEST, CODLOC,
             NOMLOC, CANTTRX, IMPTRXMN, IMPCMAVAMN, IMPIVACMSAVAMN,
             IMPRETCMSAVAMN, IMPNETMN, null, null,
-            null, null, null, null
+            null, null, null, null,
             null, null
             FROM TBL_CONSOLIDADOPORCONVENIOAVA
-            WHERE (FECHALIQ = @fechaLiq)
+            WHERE FECHALIQ = @fechaLiq
             ORDER BY NOMEST;
             """;
 
@@ -60,9 +60,9 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
         try {
             return ConsolidadoLiqTuple.builder()
                     //.fechaLiq(DateTime.from(resultSet.getString(1)))
-                    .codEst(resultSet.getString(2))
+                    //.codEst(resultSet.getString(2))
                     .nomEst(resultSet.getString(3))
-                    .codLoc(resultSet.getString(4))
+                   // .codLoc(resultSet.getString(4))
                     .nomLoc(resultSet.getString(5))
                     .cantTrx(resultSet.getString(6))
                     .impTrxMn(resultSet.getString(7))
@@ -87,24 +87,24 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
     public ConsolidadoLiqTuple csvMap(String[] result) {
         try {
             return ConsolidadoLiqTuple.builder()
-                    .codEst(result[0])
-                    .nomEst(result[1])
-                    .codLoc(result[2])
-                    .nomLoc(result[3])
-                    .cantTrx(result[4])
-                    .impTrxMn(result[5])
-                    .impIgvMn(result[6])
-                    .impPrpMn(result[7])
-                    .impComNetMn(result[8])
-                    .impCmsCmrMn(result[9])
-                    .impRetFteMn(result[10])
-                    .impRetIvaMn(result[11])
-                    .impNetMn(result[12])
-                    .impRetIcaMn(result[13])
-                    .impRetCreeMn(result[14])
-                    .impIncMn(result[15])
-                    .retAviTab(result[16])
-                    .retImpBom(result[17])
+                    //.codEst(result[1])
+                    .nomEst(result[0])
+                  // .codLoc(result[2])
+                    .nomLoc(result[15])
+                    .cantTrx(result[16])
+                    .impTrxMn(result[17])
+                    .impIgvMn(result[18])
+                    .impPrpMn(result[19])
+                    .impComNetMn(result[20])
+                    .impCmsCmrMn(result[21])
+                    .impRetFteMn(result[22])
+                    .impRetIvaMn(result[23])
+                    .impNetMn(result[24])
+                    .impRetIcaMn(result[25])
+                    .impRetCreeMn(result[26])
+                    .impIncMn(result[27])
+                    .retAviTab(result[28])
+                    .retImpBom(result[29])
                     .build();
         } catch (Exception ignore) {
             return null;

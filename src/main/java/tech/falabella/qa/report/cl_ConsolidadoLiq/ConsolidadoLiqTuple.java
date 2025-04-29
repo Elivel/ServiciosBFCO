@@ -12,10 +12,10 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public class ConsolidadoLiqTuple extends Tuple {
-    private DateTime fechaLiq;
-    private String codEst;
+    //private DateTime fechaLiq;
+    //private String codEst;
     private String nomEst;
-    private String codLoc;
+    //private String codLoc;
     private String nomLoc;
     private String cantTrx;
     private String impTrxMn;
@@ -35,7 +35,8 @@ public class ConsolidadoLiqTuple extends Tuple {
     @Override
     public JsonObject getId() {
         return toJsonIds.apply(
-                Map.of("nombre-comercio", nomEst)
+                Map.of("nombre-establecimiento", nomEst,
+                        "nombre-local",nomLoc)
 
         );
     }
