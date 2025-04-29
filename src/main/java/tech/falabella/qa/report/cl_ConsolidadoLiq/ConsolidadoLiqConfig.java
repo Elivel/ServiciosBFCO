@@ -27,29 +27,31 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
     private final String route = "Conciliacion_Liquidacion/ConsolidadoLiq";
     private final String query = """
             USE [CMRliquidaciones]
+            DECLARE @fechaLiq = ?;
             SELECT DISTINCT FECHALIQ, CODEST, NOMEST, CODLOC,
             NOMLOC, CANTTRX, IMPTRXMN, IMPIGVMN, IMPPRPMN,
             IMPCOMNETMN, IMPCMSCMRMN, IMPRETFTEMN, IMPRETIVAMN,
             IMPNETMN, IMPRETICAMN, IMPRETCREEMN, IMPINCMN,
             RETAVITAB, RETIMPBOM
             FROM TBL_CONSOLIDADOPORCONVENIOVTA
-            WHERE (FECHALIQ = ?) ORDER BY NOMEST
+            WHERE (FECHALIQ = @fechaLiq)
             UNION
             SELECT DISTINCT FechaLiq, codest, nomest, codloc,
             nomloc, cantrx, imptrxmn, impcmsrecmn, impivacmsrecmn,
-            impretcmsrecmn, impnetmn, '', '',
-            '', '', '', ''
-            '', ''
+            impretcmsrecmn, impnetmn, null, null,
+            null, null, null, null
+            null, null
             FROM TBL_CONSOLIDADOPORCONVENIOREC
-            WHERE (FechaLiq = ?) ORDER BY nomest
+            WHERE (FechaLiq = @fechaLiq)
             UNION
             SELECT FECHALIQ, CODEST, NOMEST, CODLOC,
             NOMLOC, CANTTRX, IMPTRXMN, IMPCMAVAMN, IMPIVACMSAVAMN,
-            IMPRETCMSAVAMN, IMPNETMN, '', '',
-            '', '', '', ''
-            '', ''
+            IMPRETCMSAVAMN, IMPNETMN, null, null,
+            null, null, null, null
+            null, null
             FROM TBL_CONSOLIDADOPORCONVENIOAVA
-            WHERE (FECHALIQ = ?) ORDER BY NOMEST
+            WHERE (FECHALIQ = @fechaLiq)
+            ORDER BY NOMEST;
             """;
 
     private final int headerRowSize = 4;
@@ -57,38 +59,25 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
     public ConsolidadoLiqTuple sqlMap(ResultSet resultSet) {
         try {
             return ConsolidadoLiqTuple.builder()
-                    .nombreComercioVTA(resultSet.getString(1))
-                    .totalTrxVTA(resultSet.getString(2))
-                    .ventaTotal(resultSet.getString(3))
-                    .iva(resultSet.getString(4))
-                    .propina(resultSet.getString(5))
-                    .ventaNeta(resultSet.getString(6))
-                    .comision(resultSet.getString(7))
-                    .retencion(resultSet.getString(8))
-                    .reteiva(resultSet.getString(9))
-                    .netoadepositar(resultSet.getString(10))
-                    .reteica(resultSet.getString((11)))
-                    .reteCree(resultSet.getString(12))
-                    .impConsumo(resultSet.getString(13))
-                    .retAviyTabler(resultSet.getString(14))
-                    .retSobBombe(resultSet.getString(15))
-                    //segundatabla liquidación de  Comercios REC
-                    .nombreComercioREC(resultSet.getString(16))
-                    .totalTrxREC(resultSet.getString(17))
-                    .recaudoTotalREC(resultSet.getString(18))
-                    .comision(resultSet.getString(19))
-                    .ivaComisionREC(resultSet.getString(20))
-                    .retencionREC(resultSet.getString(21))
-                    .netoADepositarREC(resultSet.getString(22))
-                    //tablatres
-                    //liquidación de  Comercios AVA
-                    .nombreComercioAVA(resultSet.getString(23))
-                    .totalTrxAVA(resultSet.getString(24))
-                    .avanceTotalAVA(resultSet.getString(25))
-                    .comisionAVA(resultSet.getString(26))
-                    .ivaComisionAVA(resultSet.getString(27))
-                    .retencion(resultSet.getString(28))
-                    .retencionAVA(resultSet.getString(29))
+                    //.fechaLiq(DateTime.from(resultSet.getString(1)))
+                    .codEst(resultSet.getString(2))
+                    .nomEst(resultSet.getString(3))
+                    .codLoc(resultSet.getString(4))
+                    .nomLoc(resultSet.getString(5))
+                    .cantTrx(resultSet.getString(6))
+                    .impTrxMn(resultSet.getString(7))
+                    .impIgvMn(resultSet.getString(8))
+                    .impPrpMn(resultSet.getString(9))
+                    .impComNetMn(resultSet.getString(10))
+                    .impCmsCmrMn(resultSet.getString(11))
+                    .impRetFteMn(resultSet.getString(12))
+                    .impRetIvaMn(resultSet.getString(13))
+                    .impNetMn(resultSet.getString(14))
+                    .impRetIcaMn(resultSet.getString(15))
+                    .impRetCreeMn(resultSet.getString(16))
+                    .impIncMn(resultSet.getString(17))
+                    .retAviTab(resultSet.getString(18))
+                    .retImpBom(resultSet.getString(19))
                     .build();
         } catch (SQLException ignore) {
             return null;
@@ -98,37 +87,24 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
     public ConsolidadoLiqTuple csvMap(String[] result) {
         try {
             return ConsolidadoLiqTuple.builder()
-                    .nombreComercioVTA(result[0])
-                    .totalTrxVTA(result[1])
-                    .ventaTotal(result[2])
-                    .iva(result[3])
-                    .propina(result[4])
-                    .ventaNeta(result[5])
-                    .comision(result[6])
-                    .retencion(result[7])
-                    .reteiva(result[8])
-                    .netoadepositar(result[9])
-                    .reteica(result[10])
-                    .reteCree(result[11])
-                    .impConsumo(result[12])
-                    .retAviyTabler(result[13])
-                    .retSobBombe(result[14])
-                    //liquidación de  Comercios REC
-                    .nombreComercioREC(result[15])
-                    .totalTrxREC(result[16])
-                    .recaudoTotalREC(result[17])
-                    .comisionREC(result[18])
-                    .ivaComisionREC(result[19])
-                    .retencionREC(result[20])
-                    .netoADepositarREC(result[21])
-                    //liquidación deComercios AVA
-                    .nombreComercioAVA(result[22])
-                    .totalTrxAVA(result[23])
-                    .avanceTotalAVA(result[24])
-                    .comisionAVA(result[25])
-                    .ivaComisionAVA(result[26])
-                    .retencionAVA(result[27])
-                    .netoADepositarAVA(result[28])
+                    .codEst(result[0])
+                    .nomEst(result[1])
+                    .codLoc(result[2])
+                    .nomLoc(result[3])
+                    .cantTrx(result[4])
+                    .impTrxMn(result[5])
+                    .impIgvMn(result[6])
+                    .impPrpMn(result[7])
+                    .impComNetMn(result[8])
+                    .impCmsCmrMn(result[9])
+                    .impRetFteMn(result[10])
+                    .impRetIvaMn(result[11])
+                    .impNetMn(result[12])
+                    .impRetIcaMn(result[13])
+                    .impRetCreeMn(result[14])
+                    .impIncMn(result[15])
+                    .retAviTab(result[16])
+                    .retImpBom(result[17])
                     .build();
         } catch (Exception ignore) {
             return null;
