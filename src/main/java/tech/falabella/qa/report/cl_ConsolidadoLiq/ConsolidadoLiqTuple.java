@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
 import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
 
 import java.util.Map;
 @Getter
@@ -18,19 +19,19 @@ public class ConsolidadoLiqTuple extends Tuple {
     //private String codLoc;
     private String nomLoc;
     private String cantTrx;
-    private String impTrxMn;
-    private String impIgvMn;
-    private String impPrpMn;
-    private String impComNetMn;
-    private String impCmsCmrMn;
-    private String impRetFteMn;
-    private String impRetIvaMn;
-    private String impNetMn;
-    private String impRetIcaMn;
-    private String impRetCreeMn;
-    private String impIncMn;
-    private String retAviTab;
-    private String retImpBom;
+    private Money impTrxMn;
+    private Money impIgvMn;
+    private Money impPrpMn;
+    private Money impComNetMn;
+    private Money impCmsCmrMn;
+    private Money impRetFteMn;
+    private Money impRetIvaMn;
+    private Money impNetMn;
+    private Money impRetIcaMn;
+    private Money impRetCreeMn;
+    private Money impIncMn;
+    private Money retAviTab;
+    private Money retImpBom;
 
     @Override
     public JsonObject getId() {

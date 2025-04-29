@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+import tech.falabella.qa.type.Money;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,19 +66,19 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
                    // .codLoc(resultSet.getString(4))
                     .nomLoc(resultSet.getString(5))
                     .cantTrx(resultSet.getString(6))
-                    .impTrxMn(resultSet.getString(7))
-                    .impIgvMn(resultSet.getString(8))
-                    .impPrpMn(resultSet.getString(9))
-                    .impComNetMn(resultSet.getString(10))
-                    .impCmsCmrMn(resultSet.getString(11))
-                    .impRetFteMn(resultSet.getString(12))
-                    .impRetIvaMn(resultSet.getString(13))
-                    .impNetMn(resultSet.getString(14))
-                    .impRetIcaMn(resultSet.getString(15))
-                    .impRetCreeMn(resultSet.getString(16))
-                    .impIncMn(resultSet.getString(17))
-                    .retAviTab(resultSet.getString(18))
-                    .retImpBom(resultSet.getString(19))
+                    .impTrxMn(Money.from( resultSet.getString(7)))
+                    .impIgvMn(Money.from(resultSet.getString(8)))
+                    .impPrpMn(Money.from(resultSet.getString(9)))
+                    .impComNetMn(Money.from(resultSet.getString(10)))
+                    .impCmsCmrMn(Money.from(resultSet.getString(11)))
+                    .impRetFteMn(Money.from(resultSet.getString(12)))
+                    .impRetIvaMn(Money.from(resultSet.getString(13)))
+                    .impNetMn(Money.from(resultSet.getString(14)))
+                    .impRetIcaMn(Money.from(resultSet.getString(15)))
+                    .impRetCreeMn(Money.from(resultSet.getString(16)))
+                    .impIncMn(Money.from(resultSet.getString(17)))
+                    .retAviTab(Money.from(resultSet.getString(18)))
+                    .retImpBom(Money.from(resultSet.getString(19)))
                     .build();
         } catch (SQLException ignore) {
             return null;
@@ -92,19 +93,19 @@ public class ConsolidadoLiqConfig implements ReportConfig<ConsolidadoLiqTuple> {
                   // .codLoc(result[2])
                     .nomLoc(result[15])
                     .cantTrx(result[16])
-                    .impTrxMn(result[17])
-                    .impIgvMn(result[18])
-                    .impPrpMn(result[19])
-                    .impComNetMn(result[20])
-                    .impCmsCmrMn(result[21])
-                    .impRetFteMn(result[22])
-                    .impRetIvaMn(result[23])
-                    .impNetMn(result[24])
-                    .impRetIcaMn(result[25])
-                    .impRetCreeMn(result[26])
-                    .impIncMn(result[27])
-                    .retAviTab(result[28])
-                    .retImpBom(result[29])
+                    .impTrxMn(Money.from(result[17]))
+                    .impIgvMn(Money.from(result[18]))
+                    .impPrpMn(Money.from(result[19]))
+                    .impComNetMn(Money.from(result[20]))
+                    .impCmsCmrMn(Money.from(result[21]))
+                    .impRetFteMn(Money.from(result[22]))
+                    .impRetIvaMn(Money.from(result[23]))
+                    .impNetMn(Money.from(result[24]))
+                    .impRetIcaMn(Money.from(result[25]))
+                    .impRetCreeMn(Money.from(result[26]))
+                    .impIncMn(Money.from(result[27]))
+                    .retAviTab(Money.from(result[28]))
+                    .retImpBom(Money.from(result[29]))
                     .build();
         } catch (Exception ignore) {
             return null;

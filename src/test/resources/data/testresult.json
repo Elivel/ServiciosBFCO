@@ -1,37 +1,42 @@
-uplicate key {
-  "codigo-comercio": "CCPT IDC",
-  "trace-id": "             ",
-  "tarjeta": "5282090000005144"
-} (attempted merging values {
-  "rep_tipoMensaje": "",
-  "rep_codigoFuncion": "93330",
-  "rep_tarjeta": "5282090000005144",
-  "rep_tipoTransaccion": "",
-  "rep_fecha": "2023-07-18",
-  "rep_codigoComercio": "CCPT IDC",
-  "rep_nombreComercio": "                                        ",
-  "rep_estadoComercio": "",
-  "rep_paisComercio": "",
-  "rep_valorTransaccion": "0.00",
-  "rep_valorIva": "0.00",
-  "rep_numAprobacion": "",
-  "rep_traceId": "             ",
-  "rep_refArn": "319918898742"
-} and {
-  "rep_tipoMensaje": "",
-  "rep_codigoFuncion": "93330",
-  "rep_tarjeta": "5282090000005144",
-  "rep_tipoTransaccion": "",
-  "rep_fecha": "2023-07-18",
-  "rep_codigoComercio": "CCPT IDC",
-  "rep_nombreComercio": "                                        ",
-  "rep_estadoComercio": "",
-  "rep_paisComercio": "",
-  "rep_valorTransaccion": "0.00",
-  "rep_valorIva": "0.00",
-  "rep_numAprobacion": "",
-  "rep_traceId": "             ",
-  "rep_refArn": "320001904415"
-})
-java.lang.IllegalStateException: Duplicate key {"codigo-comercio": "CCPT IDC", "trace-id": "             ", "tarjeta": "5282090000005144"} (attempted merging values {"rep_tipoMensaje": "", "rep_codigoFuncion": "93330", "rep_tarjeta": "5282090000005144", "rep_tipoTransaccion": "", "rep_fecha": "2023-07-18", "rep_codigoComercio": "CCPT IDC", "rep_nombreComercio": "                                        ", "rep_estadoComercio": "", "rep_paisComercio": "", "rep_valorTransaccion": "0.00", "rep_valorIva": "0.00", "rep_numAprobacion": "", "rep_traceId": "             ", "rep_refArn": "319918898742"} and {"rep_tipoMensaje": "", "rep_codigoFuncion": "93330", "rep_tarjeta": "5282090000005144", "rep_tipoTransaccion": "", "rep_fecha": "2023-07-18", "rep_codigoComercio": "CCPT IDC", "rep_nombreComercio": "                                        ", "rep_estadoComercio": "", "rep_paisComercio": "", "rep_valorTransaccion": "0.00", "rep_valorIva": "0.00", "rep_numAprobacion": "", "rep_traceId": "             ", "rep_refArn": "320001904415"
-})
+{
+  "id": {
+    "nombre-establecimiento": "DROGUERIAS Y FARMACIAS CRUZ VERDE S.A.S",
+    "nombre-local": "CRUZ VERDE LAS VEGAS"
+  },
+  "expected": {
+    "nomEst": "DROGUERIAS Y FARMACIAS CRUZ VERDE S.A.S",
+    "nomLoc": "CRUZ VERDE LAS VEGAS",
+    "cantTrx": "2",
+    "impTrxMn": "13225.0000",
+    "impIgvMn": "788.0000",
+    "impPrpMn": "0.0000",
+    "impComNetMn": "12437.0000",
+    "impCmsCmrMn": "0.0000",
+    "impRetFteMn": "187",
+    "impRetIvaMn": "118",
+    "impNetMn": "12858",
+    "impRetIcaMn": "62",
+    "impRetCreeMn": "0",
+    "impIncMn": "0",
+    "retAviTab": "0",
+    "retImpBom": "0"
+  },
+  "actual": {
+    "nomEst": "DROGUERIAS Y FARMACIAS CRUZ VERDE S.A.S",
+    "nomLoc": "CRUZ VERDE LAS VEGAS",
+    "cantTrx": "2",
+    "impTrxMn": "13225.00",
+    "impIgvMn": "788.00",
+    "impPrpMn": "0.00",
+    "impComNetMn": "12437.00",
+    "impCmsCmrMn": "0.00",
+    "impRetFteMn": "187.00",
+    "impRetIvaMn": "118.00",
+    "impNetMn": "12858.00",
+    "impRetIcaMn": "62.00",
+    "impRetCreeMn": "0.00",
+    "impIncMn": "0.00",
+    "retAviTab": "0.00",
+    "retImpBom": "0.00"
+  }
+}
