@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public record DateTime(Temporal value) {
 
-    private static String[] dateTimeFormats = {
+    private static final String[] dateTimeFormats = {
             "M/d/yyyy hh:mm:ss a",
             "M/dd/yyyy hh:mm:ss a",
             "MM/d/yyyy hh:mm:ss a",
@@ -26,7 +26,7 @@ public record DateTime(Temporal value) {
             "dd/MM/yyyy HH:mm:ss.SSS"
     };
 
-    private static String[] dateFormats = {
+    private static final String[] dateFormats = {
             "yyyy-MM-dd",
             "dd-MM-yyyy",
             "yyyy/MM/dd",
@@ -42,7 +42,7 @@ public record DateTime(Temporal value) {
                 parsedDateTime = LocalDateTime.parse(unformatted, formatter);
                 break;
             } catch (DateTimeParseException ignore) {
-                ignore.printStackTrace();
+                // Ignore the exception and try the next format
             }
         }
 
@@ -52,7 +52,9 @@ public record DateTime(Temporal value) {
                     var formatter = DateTimeFormatter.ofPattern(format);
                     parsedDateTime = LocalDate.parse(unformatted, formatter);
                     break;
-                } catch (DateTimeParseException ignore) {}
+                } catch (DateTimeParseException ignore) {
+                    // Ignore the exception and try the next format
+                }
             }
 
         return new DateTime(parsedDateTime);
