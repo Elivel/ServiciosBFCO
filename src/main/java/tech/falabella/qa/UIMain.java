@@ -143,6 +143,7 @@ public class UIMain extends JDialog {
             this.outPathExportField.setText(ssrs.getAsJsonPrimitive("out-path-export").getAsString());
 
             this.reports = jsonObject.getAsJsonArray("reports");
+            printParameters();
 
             this.executeBatchButton.setEnabled(Boolean.TRUE);
             this.executeBatchButton.setText("Execute batch (" + reports.size() + ")");

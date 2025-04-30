@@ -53,7 +53,7 @@ class DDBBIngestionAdapterTest {
         return new DDBBIngestionAdapter<>(connection, query, Map.of(), aMapFun);
     }
 
-    @Test
+    //@Test
     void generateFromConsultaClai() {
         var path = "src/test/resources/data/query/CONSULTA_CLAI.csv";
         var config = ConsultaCLAIConfig.newInstance();

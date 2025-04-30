@@ -1,7 +1,6 @@
 {
   "config": {
     "output-path-result": "/out/",
-    "input-path-data": "/input/",
     "hide-automatic-test-web": true,
     "mssql": {
       "url": "jdbc:sqlserver://localhost;encrypt=false;database=master;integratedSecurity=false;",
@@ -10,8 +9,6 @@
     },
     "ssrs": {
       "url": "localhost",
-      "username": "sa",
-      "password": "ssrsYourStrong#Password",
       "out-path-export": "/input/"
     },
     "file": {

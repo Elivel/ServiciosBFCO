@@ -8,19 +8,17 @@ class NumberTest {
 
     @Test
     void newInstance() {
-        var n1 = Number.from("00600");
-        var n2 = Number.from("123");
-        var n3 = Number.from("0");
-        var n4 = Number.from("000");
-        var n5 = Number.from(null);
-        var n6 = Number.from("abc");
+        assertEquals(600, Number.from("00600").value());
+        assertEquals(123, Number.from("123").value());
+        assertEquals(0, Number.from("0").value());
+        assertEquals(0, Number.from("000").value());
+        assertEquals(0, Number.from("000").value());
 
-        assertEquals(600, n1.value());
-        assertEquals(123, n2.value());
-        assertEquals(0, n3.value());
-        assertEquals(0, n4.value());
-        assertEquals(null, n5.value());
-        assertEquals(null, n6.value());
+        assertEquals(31_744.16f, Number.from("3174416.000%").value());
+        assertEquals(31_744.16f, Number.from("31744.160000000000000000").value());
+
+        assertEquals(null, Number.from(null).value());
+        assertEquals(null, Number.from("abc").value());
     }
 
 }
