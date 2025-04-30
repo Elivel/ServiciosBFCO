@@ -3,6 +3,8 @@ package tech.falabella.qa.report.clearing_pmd;
 import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 @Getter
 @Builder(toBuilder = true)
@@ -17,17 +19,17 @@ public class ClearingPMDTuple extends Tuple {
     private String processingCode;
     private String conceptoClearingSettlement;
     private String cantidadTrxCop;
-    private String valoresTrxCop;
-    private String tiiTrxCop;
-    private String netoTrxCop;
-    private String cantidadReversosTrxCop;
-    private String valoresReversosTrxCop;
-    private String tiiReversosTrxCop;
-    private String netoReversosTrxCop;
-    private String cantidadTrx;
-    private String valoresCompresionTrxCop;
-    private String tiiComprensionTrxCop;
-    private String netoCompensacionTrxCop;
+    private Money valoresTrxCop;
+    private Money tiiTrxCop;
+    private Money netoTrxCop;
+    private Money cantidadReversosTrxCop;
+    private Money valoresReversosTrxCop;
+    private Money tiiReversosTrxCop;
+    private Money netoReversosTrxCop;
+    private Number cantidadTrx;
+    private Money valoresCompresionTrxCop;
+    private Money tiiComprensionTrxCop;
+    private Money netoCompensacionTrxCop;
 
     @Override
     public JsonObject getId() {

@@ -5,11 +5,15 @@ import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
 import tech.falabella.qa.report.detallado_evento_mcca.DetalladoEventoMCCAConfig;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,16 +34,16 @@ public class ControlFacturaMciConfig implements ReportConfig<ControlFacturaMciTu
     public ControlFacturaMciTuple sqlMap(ResultSet resultSet) {
         try {
             return ControlFacturaMciTuple.builder()
-                    .fecha(resultSet.getString(1))
+                    .fecha(DateTime.from(resultSet.getString(1)))
                     .eventCode(resultSet.getString(2))
                     .groupServiceCode(resultSet.getString(3))
                     .name(resultSet.getString(4))
-                    .valueA(resultSet.getString(5))
-                    .rate(resultSet.getString(6))
-                    .charge(resultSet.getString(7))
-                    .valorInvoice(resultSet.getString(8))
-                    .rateValor(resultSet.getString(9))
-                    .chargeInvoide(resultSet.getString(10))
+                    .valueA(Money.from (resultSet.getString(5)))
+                    .rate(Money.from(resultSet.getString(6)))
+                    .charge(Money.from(resultSet.getString(7)))
+                    .valorInvoice(Money.from(resultSet.getString(8)))
+                    .rateValor(Money.from (resultSet.getString(9)))
+                    .chargeInvoide(Money.from(resultSet.getString(10)))
                     .efectividadControlFacturaMci(resultSet.getString(11))
                     .build();
 
@@ -51,16 +55,16 @@ public class ControlFacturaMciConfig implements ReportConfig<ControlFacturaMciTu
     @Override
     public ControlFacturaMciTuple csvMap(String[] result) {
         return ControlFacturaMciTuple.builder()
-                .fecha(result[0])
+                .fecha(DateTime.from(result[0]))
                 .eventCode(result[1])
                 .groupServiceCode(result[2])
                 .name(result[3])
-                .valueA(result[4])
-                .rate(result[5])
-                .charge(result[6])
-                .valorInvoice(result[7])
-                .rateValor(result[8])
-                .chargeInvoide(result[9])
+                .valueA(Money.from(result[4]))
+                .rate(Money.from(result[5]))
+                .charge(Money.from(result[6]))
+                .valorInvoice(Money.from(result[7]))
+                .rateValor(Money.from(result[8]))
+                .chargeInvoide(Money.from(result[9]))
                 .efectividadControlFacturaMci(result[10])
                 .build();
 

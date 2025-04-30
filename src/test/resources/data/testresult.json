@@ -1,42 +1,31 @@
 {
   "id": {
-    "nombre-establecimiento": "DROGUERIAS Y FARMACIAS CRUZ VERDE S.A.S",
-    "nombre-local": "CRUZ VERDE LAS VEGAS"
+    "Grupo Servicio": "AB: Issuer Authoriza",
+    "Nombre": "Issuer Authoriza"
   },
   "expected": {
-    "nomEst": "DROGUERIAS Y FARMACIAS CRUZ VERDE S.A.S",
-    "nomLoc": "CRUZ VERDE LAS VEGAS",
-    "cantTrx": "2",
-    "impTrxMn": "13225.0000",
-    "impIgvMn": "788.0000",
-    "impPrpMn": "0.0000",
-    "impComNetMn": "12437.0000",
-    "impCmsCmrMn": "0.0000",
-    "impRetFteMn": "187",
-    "impRetIvaMn": "118",
-    "impNetMn": "12858",
-    "impRetIcaMn": "62",
-    "impRetCreeMn": "0",
-    "impIncMn": "0",
-    "retAviTab": "0",
-    "retImpBom": "0"
+    "fecha": "2024-10-27",
+    "eventCode": "AB",
+    "groupServiceCode": "AB: Issuer Authoriza",
+    "name": "Issuer Authoriza",
+    "valueA": "3589065.57",
+    "rate": "0.0600000000",
+    "charge": "25423.80",
+    "valorInvoice": "9",
+    "rateValor": "0.0600000000",
+    "chargeInvoide": "0.000000",
+    "efectividadControlFacturaMci": "25423.800000000000000000"
   },
   "actual": {
-    "nomEst": "DROGUERIAS Y FARMACIAS CRUZ VERDE S.A.S",
-    "nomLoc": "CRUZ VERDE LAS VEGAS",
-    "cantTrx": "2",
-    "impTrxMn": "13225.00",
-    "impIgvMn": "788.00",
-    "impPrpMn": "0.00",
-    "impComNetMn": "12437.00",
-    "impCmsCmrMn": "0.00",
-    "impRetFteMn": "187.00",
-    "impRetIvaMn": "118.00",
-    "impNetMn": "12858.00",
-    "impRetIcaMn": "62.00",
-    "impRetCreeMn": "0.00",
-    "impIncMn": "0.00",
-    "retAviTab": "0.00",
-    "retImpBom": "0.00"
+    "fecha": "2024-10-27",
+    "eventCode": "AB",
+    "groupServiceCode": "AB: Issuer Authoriza",
+    "name": "Issuer Authoriza",
+    "valueA": "0.00",
+    "rate": "0.0600000",
+    "charge": "0.00",
+    "rateValor": "0.0600000",
+    "chargeInvoide": "25.42380",
+    "efectividadControlFacturaMci": "2542380.000%"
   }
 }

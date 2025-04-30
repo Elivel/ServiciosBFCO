@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,17 +51,17 @@ public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
                     .processingCode(resultSet.getString(4))
                     .conceptoClearingSettlement(resultSet.getString(5))
                     .cantidadTrxCop(resultSet.getString(6))
-                    .valoresTrxCop(resultSet.getString(7))
-                    .tiiTrxCop(resultSet.getString(8))
-                    .netoTrxCop(resultSet.getString(9))
-                    .cantidadReversosTrxCop(resultSet.getString(10))
-                    .valoresReversosTrxCop(resultSet.getString(11))
-                    .tiiReversosTrxCop(resultSet.getString(12))
-                    .netoReversosTrxCop(resultSet.getString(13))
-                    .cantidadTrx(resultSet.getString(14))
-                    .valoresCompresionTrxCop(resultSet.getString(15))
-                    .tiiComprensionTrxCop(resultSet.getString(16))
-                    .netoCompensacionTrxCop(resultSet.getString(17))
+                    .valoresTrxCop(Money.from(resultSet.getString(7)))
+                    .tiiTrxCop(Money.from(resultSet.getString(8)))
+                    .netoTrxCop(Money.from(resultSet.getString(9)))
+                    .cantidadReversosTrxCop(Money.from(resultSet.getString(10)))
+                    .valoresReversosTrxCop(Money.from(resultSet.getString(11)))
+                    .tiiReversosTrxCop(Money.from(resultSet.getString(12)))
+                    .netoReversosTrxCop(Money.from(resultSet.getString(13)))
+                    .cantidadTrx(Number.from(resultSet.getString(14)))
+                    .valoresCompresionTrxCop(Money.from(resultSet.getString(15)))
+                    .tiiComprensionTrxCop(Money.from(resultSet.getString(16)))
+                    .netoCompensacionTrxCop(Money.from(resultSet.getString(17)))
                     .build();
         } catch (SQLException e) {
             throw new MalformedTupleException(e);
@@ -74,17 +76,17 @@ public class ClearingPMDConfig implements ReportConfig<ClearingPMDTuple> {
                 .processingCode(result[3])
                 .conceptoClearingSettlement(result[4])
                 .cantidadTrxCop(result[5])
-                .valoresTrxCop(result[6])
-                .tiiTrxCop(result[7])
-                .netoTrxCop(result[8])
-                .cantidadReversosTrxCop(result[9])
-                .valoresReversosTrxCop(result[10])
-                .tiiReversosTrxCop(result[11])
-                .netoReversosTrxCop(result[12])
-                .cantidadTrx(result[13])
-                .valoresCompresionTrxCop(result[14])
-                .tiiComprensionTrxCop(result[15])
-                .netoCompensacionTrxCop(result[16])
+                .valoresTrxCop(Money.from(result[6]))
+                .tiiTrxCop(Money.from(result[7]))
+                .netoTrxCop(Money.from(result[8]))
+                .cantidadReversosTrxCop(Money.from(result[9]))
+                .valoresReversosTrxCop(Money.from(result[10]))
+                .tiiReversosTrxCop(Money.from(result[11]))
+                .netoReversosTrxCop(Money.from(result[12]))
+                .cantidadTrx(Number.from(result[13]))
+                .valoresCompresionTrxCop(Money.from(result[14]))
+                .tiiComprensionTrxCop(Money.from(result[15]))
+                .netoCompensacionTrxCop(Money.from(result[16]))
                 .build();
     }
 

@@ -3,6 +3,7 @@ package tech.falabella.qa.report.ms_Settlement;
 import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.type.Money;
 
 import java.util.Map;
 
@@ -14,8 +15,8 @@ import java.util.Map;
 public class SettlementTuple extends Tuple {
     private String compensacion;
     private String ciclo;
-    private String monto_neto;
-    private String monto_pesos;
+    private Money monto_neto;
+    private Money monto_pesos;
 
     @Override
     public JsonObject getId() {

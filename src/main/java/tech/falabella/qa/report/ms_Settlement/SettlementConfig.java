@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+import tech.falabella.qa.type.Money;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -39,8 +41,8 @@ public class SettlementConfig  implements ReportConfig<SettlementTuple> {
                 return SettlementTuple.builder()
                         .compensacion(resultSet.getString(1))
                         .ciclo(resultSet.getString(4))
-                        .monto_neto(resultSet.getString(5))
-                        .monto_pesos(resultSet.getString(6))
+                        .monto_neto(Money.from(resultSet.getString(5)))
+                        .monto_pesos(Money.from(resultSet.getString(6)))
                         .build();
 
             }catch (SQLException e){
@@ -52,8 +54,8 @@ public class SettlementConfig  implements ReportConfig<SettlementTuple> {
             return SettlementTuple.builder()
                     .compensacion(result[0])
                     .ciclo(result[2])
-                    .monto_neto(result[3])
-                    .monto_pesos(result[4])
+                    .monto_neto(Money.from(result[3]))
+                    .monto_pesos(Money.from(result[4]))
                     .build();
         }
 

@@ -2,7 +2,11 @@ package tech.falabella.qa.report.msbil_ControlFacturamci;
 import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
+import java.util.Date;
 import java.util.Map;
 @Getter
 @Builder(toBuilder = true)
@@ -10,16 +14,16 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public class ControlFacturaMciTuple extends Tuple {
-private String fecha;
+private DateTime fecha;
 private String eventCode;
 private String groupServiceCode;
 private String name;
-private String valueA;
-private String rate;
-private String charge;
-private String valorInvoice;
-private String rateValor;
-private String chargeInvoide;
+private Money valueA;
+private Money rate;
+private Money charge;
+private Money valorInvoice;
+private Money rateValor;
+private Money chargeInvoide;
 private String efectividadControlFacturaMci;
 
     @Override
