@@ -38,7 +38,7 @@ public class Parameters {
 
     }
 
-    @Builder
+    @Builder(toBuilder = true)
     @RequiredArgsConstructor(staticName = "of")
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Value {

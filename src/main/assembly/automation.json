@@ -2,6 +2,7 @@
   "config": {
     "output-path-result": "/out/",
     "input-path-data": "/input/",
+    "hide-automatic-test-web": true,
     "mssql": {
       "url": "jdbc:sqlserver://localhost;encrypt=false;database=master;integratedSecurity=false;",
       "username": "sa",
@@ -23,29 +24,23 @@
       "name": "CONSULTA_CLAI",
       "parameters": {
         "Tarjeta": "",
-        "NroAutorizacion": "",
+        "NroAutorizacion": "39330",
         "NroAutorOriginal": "",
         "FechaTrx": ""
-      },
-      "execute-export-report": true,
-      "file": "input.CONSULTA_CLAI.cvs"
+      }
     },
     {
       "name": "DETALLADO_EVENTO_MCCA",
       "parameters": {
         "fecha": "",
         "type": ""
-      },
-      "execute-export-report": false,
-      "file": "input.DETALLADO_EVENTO_MCCA.cvs"
+      }
     },
     {
       "name": "CLEARING_PMD",
       "parameters": {
         "fecha": ""
-      },
-      "execute-export-report": false,
-      "file": "input.CLEARING_PMD.cvs"
+      }
     }
 
   ]

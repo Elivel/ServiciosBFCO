@@ -1,6 +1,8 @@
 package tech.falabella.qa;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 public class UIMain extends JDialog {
@@ -54,6 +57,7 @@ public class UIMain extends JDialog {
     private JCheckBox hideAutomaticTestWebCheckBox;
 
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("_yyyyMMdd_HHmmss");
+    private JsonArray reports;
 
     public UIMain() {
         setTitle("SSRS Validator");
@@ -131,17 +135,18 @@ public class UIMain extends JDialog {
             this.msUrlField.setText(mssql.getAsJsonPrimitive("url").getAsString());
 
             this.outFileResultField.setText(config.getAsJsonPrimitive("output-path-result").getAsString());
+            if (config.getAsJsonPrimitive("hide-automatic-test-web").getAsBoolean())
+                this.hideAutomaticTestWebCheckBox.doClick();
 
             var ssrs = config.getAsJsonObject("ssrs");
             this.rsUrlField.setText(ssrs.getAsJsonPrimitive("url").getAsString());
             this.outPathExportField.setText(ssrs.getAsJsonPrimitive("out-path-export").getAsString());
 
-            var reports = jsonObject.getAsJsonArray("reports");
+            this.reports = jsonObject.getAsJsonArray("reports");
 
             this.executeBatchButton.setEnabled(Boolean.TRUE);
             this.executeBatchButton.setText("Execute batch (" + reports.size() + ")");
         } catch (Exception ignore) {
-            ignore.printStackTrace();
         }
     }
 
@@ -237,9 +242,28 @@ public class UIMain extends JDialog {
             log.info(reportSelected.name());
             var reportConfig = reportSelected.config.get();
 
+            var defaultParams = new AtomicReference<JsonObject>();
+            if (null != reports)
+                reports.asList().stream()
+                        .filter(it -> it.getAsJsonObject().get("name").getAsString()
+                                .equalsIgnoreCase(reportSelected.name()))
+                        .findFirst()
+                        .map(it -> it.getAsJsonObject().get("parameters"))
+                        .ifPresent(it -> defaultParams.set(it.getAsJsonObject()));
+
+            var parameters = new HashMap<String, Parameters.Value>();
+            reportConfig.getParameters().forEach((key, value) -> {
+                var defaultValue = Optional.ofNullable(defaultParams.get())
+                        .map(it -> it.get(key))
+                        .map(JsonElement::getAsString)
+                        .orElse("");
+
+                parameters.put(key, value.toBuilder().defaultValue(defaultValue).build());
+            });
+
             Optional.of(tableParameters)
                     .map(it -> (ParamsTableModel) it.getModel())
-                    .ifPresent(it -> it.reload(reportConfig.getParameters()));
+                    .ifPresent(it -> it.reload(Parameters.of(parameters)));
 
             tableParameters.repaint();
         }
@@ -290,7 +314,7 @@ public class UIMain extends JDialog {
             fireTableDataChanged();
 
             parameters.forEach((key, value) -> {
-                data.add(new String[]{key, ""});
+                data.add(new String[]{key, value.defaultValue});
                 fireTableRowsInserted(data.size() - 1, data.size() - 1);
             });
         }
