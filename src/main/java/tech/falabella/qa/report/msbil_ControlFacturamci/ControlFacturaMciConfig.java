@@ -44,7 +44,7 @@ public class ControlFacturaMciConfig implements ReportConfig<ControlFacturaMciTu
                     .valorInvoice(Money.from(resultSet.getString(8)))
                     .rateValor(Money.from (resultSet.getString(9)))
                     .chargeInvoide(Money.from(resultSet.getString(10)))
-                    .efectividadControlFacturaMci(resultSet.getString(11))
+                    .efectividadControlFacturaMci(Number.from(resultSet.getString(11)))
                     .build();
 
         } catch (SQLException e) {
@@ -65,7 +65,7 @@ public class ControlFacturaMciConfig implements ReportConfig<ControlFacturaMciTu
                 .valorInvoice(Money.from(result[7]))
                 .rateValor(Money.from(result[8]))
                 .chargeInvoide(Money.from(result[9]))
-                .efectividadControlFacturaMci(result[10])
+                .efectividadControlFacturaMci(Number.from(result[10]))
                 .build();
 
 

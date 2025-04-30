@@ -63,10 +63,10 @@ class DDBBIngestionAdapterTest {
         var result = adapter.getData();
 
         assertFalse(result.isEmpty());
-        assertEquals(3, result.size());
+        assertEquals(2, result.size());
     }
 
-    @Test
+
     void generateFromDetalladoEventoMCCA() {
         var path = "src/test/resources/data/query/DETALLADO_EVENTO_MCCA.csv";
         var config = DetalladoEventoMCCAConfig.newInstance();

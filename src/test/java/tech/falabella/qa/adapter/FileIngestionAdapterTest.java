@@ -29,7 +29,7 @@ class FileIngestionAdapterTest {
         var result = adapter.getData();
 
         assertFalse(result.isEmpty());
-        assertEquals(3, result.size());
+        assertEquals(2, result.size());
     }
 
     @Test

@@ -24,7 +24,7 @@ private Money charge;
 private Money valorInvoice;
 private Money rateValor;
 private Money chargeInvoide;
-private String efectividadControlFacturaMci;
+private Number efectividadControlFacturaMci;
 
     @Override
     public JsonObject getId() {

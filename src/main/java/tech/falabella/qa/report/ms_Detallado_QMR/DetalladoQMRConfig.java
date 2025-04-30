@@ -39,7 +39,7 @@ public class DetalladoQMRConfig implements ReportConfig<DetalladoQMRTupla> {
                     })
                     .build()
     ));
-    private final String route = "Mastercard/Billing/326_REPORTE_DETALLE_QMR";
+    private final String route = "Mastercard/Reports/326_REPORTE_DETALLE_QMR";
 
     private final String query = """
 USE [CONCILIACION]
