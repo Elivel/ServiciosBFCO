@@ -3,11 +3,14 @@ package tech.falabella.qa.report.ms_Token_Metris;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
-import tech.falabella.qa.report.detallado_evento_mcca.DetalladoEventoMCCAConfig;
+import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -17,7 +20,7 @@ import java.util.Optional;
 @NoArgsConstructor(staticName = "newInstance")
 public class TokenMetrisConfig implements ReportConfig<TokenMetrisTuple> {
     private final Parameters parameters = Parameters.of(Map.of(
-            "FechaInical", Parameters.Value.builder()
+            "FechaInicial", Parameters.Value.builder()
                     .position(1)
                     .sqlFormat(dVal -> {
                         if (null == dVal || dVal.isBlank())
@@ -52,19 +55,35 @@ public class TokenMetrisConfig implements ReportConfig<TokenMetrisTuple> {
             EXEC	@return_value = [nuevaconciliacion].[USP_Reporte_Metrics_Token]
             		@FechaInicial = ?,
             		@FechaFinal = ?,
-            		@IdWallet = ?'
-            SELECT	'Return Value' = @return_value
-            
+            		@IdWallet = ?
             """;
 
     @Override
-    public TokenMetrisTuple sqlMap(ResultSet resultSet) {
-        return null;
+    public TokenMetrisTuple sqlMap(ResultSet resultSet){
+        try {
+            return TokenMetrisTuple.builder()
+                    .descriptiontoken(resultSet.getString(2))
+                    .debit(Money.from(resultSet.getString(3)))
+                    .credit(Money.from(resultSet.getString(4)))
+                    .prepaid(Money.from(resultSet.getString(5)))
+                    .total(Money.from(resultSet.getString(6)))
+                    .build();
+        }
+        catch (SQLException e) {
+            throw new MalformedTupleException(e);
+        }
+
     }
 
     @Override
     public TokenMetrisTuple csvMap(String[] result) {
-        return null;
+        return TokenMetrisTuple.builder()
+                .descriptiontoken(result[0])
+                .debit(Money.from(result[1]))
+                .credit(Money.from(result[2]))
+                .prepaid(Money.from(result[3]))
+                .total(Money.from(result[4]))
+                .build();
     }
 
     @AllArgsConstructor

@@ -2,37 +2,39 @@ package tech.falabella.qa.report.ms_Detallado_QMR;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
-import tech.falabella.qa.report.detallado_evento_mcca.DetalladoEventoMCCAConfig;
+import tech.falabella.qa.type.DateTime;
+import tech.falabella.qa.type.Money;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor(staticName = "newInstance")
-public class DetalladoQMRConfig implements ReportConfig<DetalladoQMRTupla> {
+public class DetalladoQMRConfig implements ReportConfig<DetalladoQMRTuple> {
     private final Parameters parameters = Parameters.of(Map.of(
-            "FECHA_INICIAL", Parameters.Value.builder()
+            "FECHAINI", Parameters.Value.builder()
                     .position(1)
                     .sqlFormat(dVal -> {
                         if (null == dVal || dVal.isBlank())
                             return "";
-                        DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                         DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         LocalDate date = LocalDate.parse(dVal, formatterWeb);
                         return date.format(formatterSql);
                     })
                     .build(),
-            "FECHA_FINAL", Parameters.Value.builder()
+            "FECHAFIN", Parameters.Value.builder()
                     .position(2)
                     .sqlFormat(dVal -> {
                         if (null == dVal || dVal.isBlank())
                             return "";
-                        DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        DateTimeFormatter formatterWeb = DateTimeFormatter.ofPattern("yyyy/MM/dd");
                         DateTimeFormatter formatterSql = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         LocalDate date = LocalDate.parse(dVal, formatterWeb);
                         return date.format(formatterSql);
@@ -47,16 +49,59 @@ USE [CONCILIACION]
 DECLARE @return_value int
 EXEC	@return_value = [nuevaconciliacion].[USP_SELECT_REPORTE_326_QMR]
 		@FECHAINI =?,
-		@FECHAFIN = ?'
+		@FECHAFIN = ?
 """;
-
+    private final int headerRowSize = 4;
     @Override
-    public DetalladoQMRTupla sqlMap(ResultSet resultSet) {
-        return null;
+    public DetalladoQMRTuple sqlMap(ResultSet resultSet) {
+        try{
+            return DetalladoQMRTuple.builder()
+                    .codigomcc(resultSet.getString(1))
+                    .servidora(resultSet.getString(2))
+                    .comercio(resultSet.getString(3))
+                    .nombrecomercio(resultSet.getString(4))
+                    .funcion(resultSet.getString(5))
+                    .nombrefuncion(resultSet.getString(6))
+                    .fecha(DateTime.from(resultSet.getString(7)))
+                    .bin(resultSet.getString(8))
+                    .fuente(resultSet.getString(9))
+                    .mumtrx(resultSet.getString(10))
+                    .valortrx(Money.from(resultSet.getString(11)))
+                    .impuestoconsumo(Money.from(resultSet.getString(12)))
+                    .baseiva(Money.from(resultSet.getString(13)))
+                    .iva(Money.from(resultSet.getString(14)))
+                    .propina(Money.from(resultSet.getString(15)))
+                    .tipotransaccion(resultSet.getString(16))
+                    .tipobin(resultSet.getString(17))
+                    .build();
+
+        }catch (SQLException e) {
+            throw new MalformedTupleException(e);
+        }
     }
 
     @Override
-    public DetalladoQMRTupla csvMap(String[] result) {
-        return null;
+    public DetalladoQMRTuple csvMap(String[] result) {
+        return DetalladoQMRTuple.builder()
+                .codigomcc(result[0])
+                .servidora(result[1])
+                .comercio(result[2])
+                .nombrecomercio(result[3])
+                .funcion(result[4])
+                .nombrefuncion(result[5])
+                .fecha(DateTime.from(result[6]))
+                .bin(result[7])
+                .fuente(result[8])
+                .mumtrx(result[9])
+                .valortrx(Money.from(result[10]))
+                .impuestoconsumo(Money.from(result[11]))
+                .baseiva(Money.from(result[12]))
+                .iva(Money.from(result[13]))
+                .propina(Money.from(result[14]))
+                .tipotransaccion(result[15])
+                .tipobin(result[16])
+                .build();
+
+
     }
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
-public class PlantillaContrableTuple extends Tuple {
+public class PlantillaContableTuple extends Tuple {
     private String codigocuenta;
     private String nombretercero;
     private String nittercero;

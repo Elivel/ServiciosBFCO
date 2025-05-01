@@ -13,7 +13,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
-public class DetalladoQMRTupla extends Tuple {
+public class DetalladoQMRTuple extends Tuple {
     private String codigomcc;
     private String servidora;
     private String comercio;
@@ -35,8 +35,9 @@ public class DetalladoQMRTupla extends Tuple {
     @Override
     public JsonObject getId() {
         return toJsonIds.apply(
-                Map.of("Nombre Comercio", nombrecomercio,
-                        "Comercio", comercio)
+                Map.of("Nombre_Comercio", nombrecomercio,
+                        "Funcion", funcion
+                )
 
         );
     }
