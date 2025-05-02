@@ -15,9 +15,9 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public class DetalladoQMRTuple extends Tuple {
-    private Number codigomcc;
+    private String codigomcc;
     private String servidora;
-    private Number comercio;
+    private String comercio;
     private String nombrecomercio;
     private String funcion;
     private String nombrefuncion;
@@ -36,8 +36,12 @@ public class DetalladoQMRTuple extends Tuple {
     @Override
     public JsonObject getId() {
         return toJsonIds.apply(
-                Map.of("Nombre comercio",nombrecomercio
-                )
+                Map.of("comercio",comercio,
+                        "funcion",funcion,
+                        "bin",bin,
+                        "fecha",fecha.value().toString(),
+                        "codigo-mcc",codigomcc,
+                        "valor-trx",valortrx.value().toString())
 
         );
     }

@@ -52,14 +52,14 @@ EXEC	@return_value = [nuevaconciliacion].[USP_SELECT_REPORTE_326_QMR]
 		@FECHAINI =?,
 		@FECHAFIN = ?
 """;
-    private final int headerRowSize = 4;
+    private final int headerRowSize = 5;
     @Override
     public DetalladoQMRTuple sqlMap(ResultSet resultSet) {
         try{
             return DetalladoQMRTuple.builder()
-                    .codigomcc(Number.from(resultSet.getString(1)))
+                    .codigomcc(resultSet.getString(1))
                     .servidora(resultSet.getString(2))
-                    .comercio(Number.from(resultSet.getString(3)))
+                    .comercio(resultSet.getString(3))
                     .nombrecomercio(resultSet.getString(4))
                     .funcion(resultSet.getString(5))
                     .nombrefuncion(resultSet.getString(6))
@@ -84,9 +84,9 @@ EXEC	@return_value = [nuevaconciliacion].[USP_SELECT_REPORTE_326_QMR]
     @Override
     public DetalladoQMRTuple csvMap(String[] result) {
         return DetalladoQMRTuple.builder()
-                .codigomcc(Number.from(result[0]))
+                .codigomcc(result[0])
                 .servidora(result[1])
-                .comercio(Number.from(result[2]))
+                .comercio(result[2])
                 .nombrecomercio(result[3])
                 .funcion(result[4])
                 .nombrefuncion(result[5])

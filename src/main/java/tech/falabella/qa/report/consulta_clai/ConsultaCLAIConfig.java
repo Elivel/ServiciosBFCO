@@ -7,6 +7,7 @@ import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
 import tech.falabella.qa.type.DateTime;
 import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Toggle;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,7 +60,7 @@ public class ConsultaCLAIConfig implements ReportConfig<ConsultaCLAITuple> {
                     .propina(Money.from(resultSet.getString(18)))
                     .terminal(resultSet.getString(19))
                     .posEntryMode(resultSet.getString(20))
-                    .nalInternal(resultSet.getString(21))
+                    .nalInternal(Toggle.from(resultSet.getString(21)))
                     .numeroCuotas(resultSet.getString(22))
                     .comercio(resultSet.getString(23))
                     .build();
@@ -89,7 +90,7 @@ public class ConsultaCLAIConfig implements ReportConfig<ConsultaCLAITuple> {
                 .propina(Money.from(result[16]))
                 .terminal(result[17])
                 .posEntryMode(result[18])
-                .nalInternal(result[19])
+                .nalInternal(Toggle.from(result[19]))
                 .numeroCuotas(result[20])
                 .comercio(result[21])
                 .build();

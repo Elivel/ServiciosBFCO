@@ -62,6 +62,9 @@ public record DateTime(Temporal value) {
                 }
             }
 
+        if (null == parsedDateTime)
+            System.out.printf(unformatted);
+
         return new DateTime(parsedDateTime);
     }
 }

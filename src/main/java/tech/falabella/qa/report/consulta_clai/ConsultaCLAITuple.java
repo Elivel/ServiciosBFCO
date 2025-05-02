@@ -5,6 +5,7 @@ import lombok.*;
 import tech.falabella.qa.report.Tuple;
 import tech.falabella.qa.type.DateTime;
 import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Toggle;
 
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class ConsultaCLAITuple extends Tuple {
     private Money propina;
     private String terminal;
     private String posEntryMode;
-    private String nalInternal;
+    private Toggle nalInternal;
     private String numeroCuotas;
     private String comercio;
 
