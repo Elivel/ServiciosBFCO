@@ -63,10 +63,10 @@ public class TokenMetrisConfig implements ReportConfig<TokenMetrisTuple> {
         try {
             return TokenMetrisTuple.builder()
                     .descriptiontoken(resultSet.getString(2))
-                    .debit(Money.from(resultSet.getString(3)))
-                    .credit(Money.from(resultSet.getString(4)))
+                    .debit(Number.from(resultSet.getString(3)))
+                    .credit(Number.from(resultSet.getString(4)))
                     .prepaid(Money.from(resultSet.getString(5)))
-                    .total(Money.from(resultSet.getString(6)))
+                    .total(Number.from(resultSet.getString(6)))
                     .build();
         }
         catch (SQLException e) {
@@ -79,10 +79,10 @@ public class TokenMetrisConfig implements ReportConfig<TokenMetrisTuple> {
     public TokenMetrisTuple csvMap(String[] result) {
         return TokenMetrisTuple.builder()
                 .descriptiontoken(result[0])
-                .debit(Money.from(result[1]))
-                .credit(Money.from(result[2]))
+                .debit(Number.from(result[1]))
+                .credit(Number.from(result[2]))
                 .prepaid(Money.from(result[3]))
-                .total(Money.from(result[4]))
+                .total(Number.from(result[4]))
                 .build();
     }
 

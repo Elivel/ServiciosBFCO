@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.exception.MalformedTupleException;
 import tech.falabella.qa.report.Parameters;
 import tech.falabella.qa.report.ReportConfig;
+import tech.falabella.qa.type.DateTime;
 import tech.falabella.qa.type.Money;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -41,6 +41,7 @@ public class PlantillaContableConfig implements ReportConfig <PlantillaContableT
     public PlantillaContableTuple sqlMap(ResultSet resultSet) {
         try {
             return PlantillaContableTuple.builder()
+                    .compensacion(DateTime.from(resultSet.getString(1)))
                     .codigocuenta(resultSet.getString(6))
                     .nombretercero(resultSet.getString(7))
                     .nittercero(resultSet.getString(8))
@@ -56,8 +57,8 @@ public class PlantillaContableConfig implements ReportConfig <PlantillaContableT
 
     @Override
     public PlantillaContableTuple csvMap(String[] result) {
-
         return PlantillaContableTuple.builder()
+                .compensacion(DateTime.from(result[0]))
                 .codigocuenta(result[2])
                 .nombretercero(result[3])
                 .nittercero(result[4])

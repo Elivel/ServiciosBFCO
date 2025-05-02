@@ -13,6 +13,7 @@ import tech.falabella.qa.report.ms_Plantilla_Contable.PlantillaContableTuple;
 import tech.falabella.qa.report.ms_Settlement.SettlementConfig;
 import tech.falabella.qa.report.ms_Token_Metris.TokenMetrisConfig;
 import tech.falabella.qa.report.msbil_ControlFacturamci.ControlFacturaMciConfig;
+import tech.falabella.qa.report.ms_Plantilla_Contable.PlantillaContableConfig;
 
 import java.util.function.Supplier;
 
@@ -26,8 +27,8 @@ public enum Report {
     CONTROL_FACTURA_MCI(ControlFacturaMciConfig::newInstance,Boolean.TRUE),
     SETTLEMENT(SettlementConfig:: newInstance,Boolean.TRUE),
     TOKEN_METRICS(TokenMetrisConfig::newInstance,Boolean.TRUE),
-    DETALLADO_QMR(DetalladoQMRConfig::newInstance,Boolean.TRUE);
-    //PLANTILLA_CONTABLE(PlantillaContableTuple::newInstance,Boolean.TRUE);
+    DETALLADO_QMR(DetalladoQMRConfig::newInstance,Boolean.TRUE),
+    PLANTILLA_CONTABLE_PMD(PlantillaContableConfig::newInstance,Boolean.TRUE);
 
     public final Supplier<ReportConfig<? extends Tuple>> config;
     public final boolean enabled;

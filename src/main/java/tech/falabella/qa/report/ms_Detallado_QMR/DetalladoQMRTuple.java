@@ -5,6 +5,7 @@ import lombok.*;
 import tech.falabella.qa.report.Tuple;
 import tech.falabella.qa.type.DateTime;
 import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 import java.util.Map;
 
@@ -14,9 +15,9 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public class DetalladoQMRTuple extends Tuple {
-    private String codigomcc;
+    private Number codigomcc;
     private String servidora;
-    private String comercio;
+    private Number comercio;
     private String nombrecomercio;
     private String funcion;
     private String nombrefuncion;
@@ -24,7 +25,7 @@ public class DetalladoQMRTuple extends Tuple {
     private String bin;
     private String fuente;
     private String mumtrx;
-    private Money valortrx;
+    private Number valortrx;
     private Money impuestoconsumo;
     private Money baseiva;
     private Money iva;
@@ -35,8 +36,7 @@ public class DetalladoQMRTuple extends Tuple {
     @Override
     public JsonObject getId() {
         return toJsonIds.apply(
-                Map.of("Nombre_Comercio", nombrecomercio,
-                        "Funcion", funcion
+                Map.of("Nombre comercio",nombrecomercio
                 )
 
         );

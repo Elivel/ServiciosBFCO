@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import lombok.*;
 import tech.falabella.qa.report.Tuple;
 import tech.falabella.qa.type.Money;
+import tech.falabella.qa.type.Number;
 
 import java.util.Map;
 
@@ -14,10 +15,10 @@ import java.util.Map;
 @AllArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public class TokenMetrisTuple extends Tuple {
     private String descriptiontoken;
-    private Money debit;
-    private Money credit;
+    private Number debit;
+    private Number credit;
     private Money prepaid;
-    private Money total;
+    private Number total;
     @Override
     public JsonObject getId() {
         return toJsonIds.apply(
