@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import tech.falabella.qa.type.DateTime;
 import tech.falabella.qa.type.Money;
 import tech.falabella.qa.type.Number;
+import tech.falabella.qa.type.Toggle;
 
 import java.io.IOException;
 import java.io.Serial;
@@ -112,6 +113,25 @@ public abstract class Tuple implements Serializable {
                     return null;
                 }
                 return Number.from(jsonReader.nextString());
+            }
+        });
+        gsonBuilder.registerTypeAdapter(Toggle.class, new TypeAdapter<Toggle>() {
+            @Override
+            public void write(JsonWriter jsonWriter, Toggle toggle) throws IOException {
+                if (toggle == null || toggle.value() == null) {
+                    jsonWriter.nullValue();
+                } else {
+                    jsonWriter.value(toggle.value().toString());
+                }
+            }
+
+            @Override
+            public Toggle read(JsonReader jsonReader) throws IOException {
+                if (jsonReader.peek() == com.google.gson.stream.JsonToken.NULL) {
+                    jsonReader.nextNull();
+                    return null;
+                }
+                return Toggle.from(jsonReader.nextString());
             }
         });
 

@@ -21,6 +21,9 @@ class DateTimeTest {
         assertEquals(LocalDateTime.of(2023, 10, 26, 14, 45, 30), dt2.value());
         assertEquals(LocalDate.of(2024, 10, 15), dt3.value());
         assertEquals(LocalDate.of(2024, 10, 15), dt4.value());
+        assertEquals(LocalDate.of(2024, 10, 15), DateTime.from("20241015 ").value());
+        assertNull(DateTime.from(null).value());
+        assertNull(DateTime.from(" ").value());
         assertNull(dt5.value());
     }
 }

@@ -30,10 +30,15 @@ public record DateTime(Temporal value) {
             "yyyy-MM-dd",
             "dd-MM-yyyy",
             "yyyy/MM/dd",
+            "yyyyMMdd",
             "dd/MM/yyyy"
     };
 
     public static DateTime from(String unformatted) {
+        if (null == unformatted || unformatted.isBlank())
+            return new DateTime(null);
+
+        unformatted = unformatted.trim();
         Temporal parsedDateTime = null;
 
         for (String format : dateTimeFormats) {
