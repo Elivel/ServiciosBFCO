@@ -17,7 +17,7 @@ public class TokenMetrisTuple extends Tuple {
     private String descriptiontoken;
     private Number debit;
     private Number credit;
-    private Money prepaid;
+    private Number prepaid;
     private Number total;
     @Override
     public JsonObject getId() {

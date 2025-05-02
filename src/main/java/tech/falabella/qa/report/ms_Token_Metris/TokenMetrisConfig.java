@@ -65,7 +65,7 @@ public class TokenMetrisConfig implements ReportConfig<TokenMetrisTuple> {
                     .descriptiontoken(resultSet.getString(2))
                     .debit(Number.from(resultSet.getString(3)))
                     .credit(Number.from(resultSet.getString(4)))
-                    .prepaid(Money.from(resultSet.getString(5)))
+                    .prepaid(Number.from(resultSet.getString(5)))
                     .total(Number.from(resultSet.getString(6)))
                     .build();
         }
@@ -81,7 +81,7 @@ public class TokenMetrisConfig implements ReportConfig<TokenMetrisTuple> {
                 .descriptiontoken(result[0])
                 .debit(Number.from(result[1]))
                 .credit(Number.from(result[2]))
-                .prepaid(Money.from(result[3]))
+                .prepaid(Number.from(result[3]))
                 .total(Number.from(result[4]))
                 .build();
     }

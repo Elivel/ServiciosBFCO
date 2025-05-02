@@ -25,8 +25,9 @@ public class PlantillaContableTuple extends Tuple {
     @Override
     public JsonObject getId() {
         return toJsonIds.apply(
-                Map.of("Nombre Tercero a Afectar", nombretercero,
-                        "NIT Tercero", nittercero)
+                Map.of("codigo-cuenta", codigocuenta,
+                        "nit-tercero", nittercero,
+                        "nombre-tercero",nombretercero)
 
         );
     }

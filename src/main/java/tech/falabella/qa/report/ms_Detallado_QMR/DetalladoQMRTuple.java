@@ -39,9 +39,9 @@ public class DetalladoQMRTuple extends Tuple {
                 Map.of("comercio",comercio,
                         "funcion",funcion,
                         "bin",bin,
-                        "fecha",fecha.value().toString(),
+                        "fecha",(null != fecha && null != fecha.value()) ? fecha.value().toString() : "",
                         "codigo-mcc",codigomcc,
-                        "valor-trx",valortrx.value().toString())
+                        "valor-trx", (null != valortrx && null != valortrx.value()) ? valortrx.value().toString() : "")
 
         );
     }

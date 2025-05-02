@@ -27,7 +27,7 @@ public enum Report {
     CONTROL_FACTURA_MCI(ControlFacturaMciConfig::newInstance,Boolean.TRUE),
     SETTLEMENT(SettlementConfig:: newInstance,Boolean.TRUE),
     TOKEN_METRICS(TokenMetrisConfig::newInstance,Boolean.TRUE),
-    DETALLADO_QMR(DetalladoQMRConfig::newInstance,Boolean.TRUE),
+    DETALLADO_QMR(DetalladoQMRConfig::newInstance,Boolean.FALSE),
     PLANTILLA_CONTABLE_PMD(PlantillaContableConfig::newInstance,Boolean.TRUE);
 
     public final Supplier<ReportConfig<? extends Tuple>> config;

@@ -34,7 +34,7 @@ public class PlantillaContableConfig implements ReportConfig <PlantillaContableT
             USE [CONCILIACION]
             DECLARE	@return_value int
             EXEC	@return_value = [nuevaconciliacion].[USP_MC_ObtenerDatosCuentasCompensacion]
-          	@FechaProceso = ?
+          	@Fecha = ?
             """;
 
     @Override
@@ -57,14 +57,18 @@ public class PlantillaContableConfig implements ReportConfig <PlantillaContableT
 
     @Override
     public PlantillaContableTuple csvMap(String[] result) {
-        return PlantillaContableTuple.builder()
-                .compensacion(DateTime.from(result[0]))
-                .codigocuenta(result[2])
-                .nombretercero(result[3])
-                .nittercero(result[4])
-                .centrocosto(result[5])
-                .debito(Money.from(result[6]))
-                .credito(Money.from(result[7]))
-                .build();
+        try {
+            return PlantillaContableTuple.builder()
+                    .compensacion(DateTime.from(result[0]))
+                    .codigocuenta(result[2])
+                    .nombretercero(result[3])
+                    .nittercero(result[4])
+                    .centrocosto(result[5])
+                    .debito(Money.from(result[6]))
+                    .credito(Money.from(result[7]))
+                    .build();
+        } catch (Exception ignore) {
+            return null;
+        }
     }
 }
