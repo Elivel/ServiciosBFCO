@@ -30,11 +30,13 @@ public class ValidationServiceImpl implements ValidationService {
 
         var inconsistencies = persistenceData.parallelStream()
                 .map(persistenceElement -> {
+                    if (persistenceElement.getId() == null)
+                        return null;
+
                     Tuple matchingInput = inputMap.get(persistenceElement.getId());
                     if (matchingInput != null) {
-                        if (!persistenceElement.equals(matchingInput)) {
+                        if (!matchingInput.equals(persistenceElement))
                             return persistenceElement.diff(matchingInput);
-                        }
                     } else {
                         return Tuple.result(persistenceElement.getId(), persistenceElement, null);
                     }
