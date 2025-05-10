@@ -78,12 +78,15 @@ public class UIMain extends JDialog {
 
         autoBtn.addActionListener(e -> loadAutomationFile());
 
-        tableParameters.setModel(ParamsTableModel.newInstance());
+        for (var it : Report.values()) {
+            if (it.enabled)
+                reportsBox.addItem(it);
+        }
+        reportsBox.addActionListener(e -> printParameters());
 
-        Arrays.stream(Report.values()).filter(it -> it.enabled).forEach(reportsBox::addItem);
+        tableParameters.setModel(ParamsTableModel.newInstance());
         printParameters();
 
-        reportsBox.addActionListener(e -> printParameters());
         buttonOK.addActionListener(e -> onOK());
 
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
